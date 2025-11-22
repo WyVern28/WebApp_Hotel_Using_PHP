@@ -20,6 +20,7 @@ if (isset($_GET['logout'])) {
     <title>Admin Page - Hotel</title>
 </head>
 <body>
+    <?php include '../../component/adminSidebar.php'; ?>
     <h1>Halaman Admin</h1>
     <p>Selamat datang, <?php echo $_SESSION['username']; ?>!</p>
     <p>Role: <?php echo $_SESSION['role']; ?></p>

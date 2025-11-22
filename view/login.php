@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirect berdasarkan role
             if ($user['role'] == 'admin') {
-                header('Location: adminPage.php');
+                header('Location: admin/adminPage.php');
             } elseif ($user['role'] == 'kasir') {
-                header('Location: kasirPage.php');
+                header('Location: kasir/kasirPage.php');
             } else {
                 header('Location: index.php');
             }
