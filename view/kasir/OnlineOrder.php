@@ -12,6 +12,16 @@ if (isset($_GET['logout'])) {
     header('Location: ../login.php');
     exit();
 }
+$username = $_SESSION['username'];
+$id_kasir = 'KSR001';
+$nama_kasir = $username;
+
+$query_kasir = "SELECT id_kasir FROM kasir LIMIT 1";
+$result_kasir = $conn->query($query_kasir);
+if($result_kasir && $result_kasir->num_rows > 0){
+    $kasir = $result_kasir ->fetch_assoc();
+    $id_kasir = $kasir['id_kasir'];
+}
 
 $currentDateTime = date('H:i:s d/m/Y');
 ?>
@@ -53,7 +63,7 @@ $currentDateTime = date('H:i:s d/m/Y');
         <div class="section-title">TABEL ONLINE ORDER</div>
 
         <div class="info-box">
-            <p>ID KASIR: </p>
+            <p>ID KASIR: <?php echo $id_kasir; ?></p>
             <p>NAMA KASIR: <?php echo $_SESSION['username']; ?></p>
             <p>STATUS: Aktif</p>
         </div>
