@@ -18,14 +18,40 @@ if (isset($_GET['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page - Hotel</title>
+    <title>Kasir Page - Hotel</title>
+    <link rel="stylesheet" href="../../asset/css/kasir.css">
 </head>
 <body>
-    <?php include '../../component/adminSidebar.php'; ?>
-    <h1>Halaman Admin</h1>
-    <p>Selamat datang, <?php echo $_SESSION['username']; ?>!</p>
-    <p>Role: <?php echo $_SESSION['role']; ?></p>
+    <!-- INI SIDEBAR YE DAR -->
+    <sidebar>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Admin</h3>
+        </div>
+        <div class="sidebar-nav">
+            <p>NAVIGASI</p>
+            <ul class="sidebar-menu">
+                <li><a href="adminPage.php" class="active">DASHBOARD</a></li>
+                <li><a href="#">#</a></li>
+                <li><a href="#">#</a></li>
+                <li><a href="#">#</a></li>
+                <li><a href="kasirPage.php?logout=true">Logout</a></li>
+            </ul>
+        </div>
+        <!-- ini isinya-->
+            <div class="main-content">
+                
+            </div>
+        <div class="sidebar-footer">
+            <p>Logged in as:</p>
+            <span><?php echo $_SESSION['username']; ?></span>
+        </div>
+    </div>
+    </sidebar>
 
-    <a href="adminPage.php?logout=true">Logout</a>
+        <footer>
+            Copyright &copy; Hotel <?php echo date('Y'); ?>
+        </footer>
+    </div>
 </body>
 </html>
