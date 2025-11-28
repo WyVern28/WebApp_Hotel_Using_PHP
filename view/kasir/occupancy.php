@@ -1,31 +1,3 @@
-<?php
-session_start();
-include '../../config/koneksi.php';
-
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'kasir') {
-    header('Location: ../login.php');
-    exit();
-}
-
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header('Location: ../login.php');
-    exit();
-}
-$username = $_SESSION['username'];
-$id_kasir = 'KSR001';
-$nama_kasir = $username;
-
-$query_kasir = "SELECT id_kasir FROM kasir LIMIT 1";
-$result_kasir = $conn->query($query_kasir);
-if($result_kasir && $result_kasir->num_rows > 0){
-    $kasir = $result_kasir->fetch_assoc();
-    $id_kasir = $kasir['id_kasir'];
-}
-
-
-$currentDateTime = date('H:i:s d/m/Y');
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -44,17 +16,17 @@ $currentDateTime = date('H:i:s d/m/Y');
         <div class="sidebar-nav">
             <p>NAVIGASI</p>
             <ul class="sidebar-menu">
-                <li><a href="kasirPage.php">DASHBOARD</a></li>
-                <li><a href="OnlineOrder.php">ONLINE ORDER</a></li>
-                <li><a href="otsOrder.php">OTS ORDER</a></li>
-                <li><a href="occupancy.php" class="active">OCCUPANCY</a></li>
-                <li><a href="kasirPage.php?logout=true">Logout</a></li>
+                <li><a href="../../controller/kasir/DashboardController.php">DASHBOARD</a></li>
+                <li><a href="../../controller/kasir/OnlineOrderController.php">ONLINE ORDER</a></li>
+                <li><a href="../../controller/kasir/OtsOrderController.php">OTS ORDER</a></li>
+                <li><a href="../../controller/kasir/OccupancyController.php" class="active">OCCUPANCY</a></li>
+                <li><a href="../../controller/kasir/OccupancyController.php?logout=true">Logout</a></li>
             </ul>
         </div>
 
         <div class="sidebar-footer">
             <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
+            <span><?php echo $data['username']; ?></span>
         </div>
     </div>
     </sidebar>
@@ -65,8 +37,8 @@ $currentDateTime = date('H:i:s d/m/Y');
         <div class="section-title">TABEL OCCUPANCY KAMAR</div>
 
         <div class="info-box">
-            <p>ID KASIR: <?php echo $id_kasir; ?></p>
-            <p>NAMA KASIR: <?php echo $nama_kasir; ?></p>
+            <p>ID KASIR: <?php echo $data['id_kasir']; ?></p>
+            <p>NAMA KASIR: <?php echo $data['nama_kasir']; ?></p>
             <p>STATUS: Aktif</p>
         </div>
 
@@ -88,33 +60,23 @@ $currentDateTime = date('H:i:s d/m/Y');
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td class="status-occupied"></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td class="status-available"></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td class="status-occupied"></td>
-                </tr>
+                <?php if (!empty($data['occupiedRooms'])): ?>
+                    <?php foreach ($data['occupiedRooms'] as $index => $room): ?>
+                    <tr>
+                        <td><?php echo $index + 1; ?></td>
+                        <td><?php echo $room['nomor_kamar']; ?></td>
+                        <td><?php echo $room['nama_lengkap']; ?></td>
+                        <td><?php echo $room['nama_tipe']; ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($room['tgl_check_in'])); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($room['tgl_check_out'])); ?></td>
+                        <td class="status-occupied"><?php echo strtoupper($room['status']); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Tidak ada kamar yang terisi</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 

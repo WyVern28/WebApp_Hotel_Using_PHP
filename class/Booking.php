@@ -1,10 +1,5 @@
 <?php
 
-//  * Class Booking
-//  * Menangani CRUD untuk booking hotel
-//  * Menggunakan prepared statement untuk keamanan
-
-
 require_once 'Database.php';
 
 class Booking extends Database {
@@ -16,10 +11,11 @@ class Booking extends Database {
     public function getAllBookings() {
         try {
             $query = $this->db->prepare(
-                "SELECT b.*, t.nama_lengkap, k.nomor_kamar, p.jumlah_bayar, p.status_pembayaran
+                "SELECT b.*, t.nama_lengkap, k.nomor_kamar, tk.nama_tipe, p.jumlah_bayar, p.status_pembayaran
                  FROM booking b
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN kamar k ON b.id_kamar = k.id
+                 JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
                  LEFT JOIN pembayaran p ON b.id = p.id_booking
                  ORDER BY b.id DESC"
             );
@@ -40,10 +36,11 @@ class Booking extends Database {
     public function getBookingsByDate($date) {
         try {
             $query = $this->db->prepare(
-                "SELECT b.*, t.nama_lengkap, k.nomor_kamar, p.jumlah_bayar, p.status_pembayaran
+                "SELECT b.*, t.nama_lengkap, k.nomor_kamar, tk.nama_tipe, p.jumlah_bayar, p.status_pembayaran
                  FROM booking b
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN kamar k ON b.id_kamar = k.id
+                 JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
                  LEFT JOIN pembayaran p ON b.id = p.id_booking
                  WHERE DATE(b.tgl_check_in) = :date
                  ORDER BY b.id DESC"
@@ -200,6 +197,31 @@ class Booking extends Database {
 
         } catch (PDOException $e) {
             error_log("Get available rooms error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Ambil data occupancy - booking yang sedang aktif
+     * @return array
+     */
+    public function getOccupiedRooms() {
+        try {
+            $query = $this->db->prepare(
+                "SELECT b.id, k.nomor_kamar, t.nama_lengkap, tk.nama_tipe,
+                        b.tgl_check_in, b.tgl_check_out, b.status
+                 FROM booking b
+                 JOIN kamar k ON b.id_kamar = k.id
+                 JOIN tamu t ON b.id_tamu = t.id
+                 JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
+                 WHERE b.status = 'dibayar' OR b.status = 'checkin'
+                 ORDER BY k.nomor_kamar"
+            );
+            $query->execute();
+            return $query->fetchAll();
+
+        } catch (PDOException $e) {
+            error_log("Get occupied rooms error: " . $e->getMessage());
             return [];
         }
     }

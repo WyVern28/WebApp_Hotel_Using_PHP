@@ -1,30 +1,3 @@
-<?php
-session_start();
-include '../../config/koneksi.php';
-
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'kasir') {
-    header('Location: ../login.php');
-    exit();
-}
-
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header('Location: ../login.php');
-    exit();
-}
-$username = $_SESSION['username'];
-$id_kasir = 'KSR001';
-$nama_kasir = $username;
-
-$query_kasir = "SELECT id_kasir FROM kasir LIMIT 1";
-$result_kasir = $conn->query($query_kasir);
-if($result_kasir && $result_kasir->num_rows > 0){
-    $kasir = $result_kasir ->fetch_assoc();
-    $id_kasir = $kasir['id_kasir'];
-}
-
-$currentDateTime = date('H:i:s d/m/Y');
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -43,17 +16,17 @@ $currentDateTime = date('H:i:s d/m/Y');
         <div class="sidebar-nav">
             <p>NAVIGASI</p>
             <ul class="sidebar-menu">
-                <li><a href="kasirPage.php">DASHBOARD</a></li>
-                <li><a href="OnlineOrder.php" class="active">ONLINE ORDER</a></li>
-                <li><a href="otsOrder.php">OTS ORDER</a></li>
-                <li><a href="occupancy.php">OCCUPANCY</a></li>
-                <li><a href="kasirPage.php?logout=true">Logout</a></li>
+                <li><a href="../../controller/kasir/DashboardController.php">DASHBOARD</a></li>
+                <li><a href="../../controller/kasir/OnlineOrderController.php" class="active">ONLINE ORDER</a></li>
+                <li><a href="../../controller/kasir/OtsOrderController.php">OTS ORDER</a></li>
+                <li><a href="../../controller/kasir/OccupancyController.php">OCCUPANCY</a></li>
+                <li><a href="../../controller/kasir/OnlineOrderController.php?logout=true">Logout</a></li>
             </ul>
         </div>
 
         <div class="sidebar-footer">
             <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
+            <span><?php echo $data['username']; ?></span>
         </div>
     </div>
     </sidebar>
@@ -62,9 +35,15 @@ $currentDateTime = date('H:i:s d/m/Y');
 
         <div class="section-title">TABEL ONLINE ORDER</div>
 
+        <?php if ($data['message']): ?>
+        <div class="alert alert-<?php echo $data['message_type']; ?>">
+            <?php echo $data['message']; ?>
+        </div>
+        <?php endif; ?>
+
         <div class="info-box">
-            <p>ID KASIR: <?php echo $id_kasir; ?></p>
-            <p>NAMA KASIR: <?php echo $_SESSION['username']; ?></p>
+            <p>ID KASIR: <?php echo $data['id_kasir']; ?></p>
+            <p>NAMA KASIR: <?php echo $data['nama_kasir']; ?></p>
             <p>STATUS: Aktif</p>
         </div>
 
@@ -85,15 +64,30 @@ $currentDateTime = date('H:i:s d/m/Y');
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td><button class="icon-btn">📝</button></td>
-                    <td><button class="icon-btn">🗑️</button></td>
-                </tr>
+                <?php if (!empty($data['onlineOrders'])): ?>
+                    <?php $no = 1; ?>
+                    <?php foreach ($data['onlineOrders'] as $order): ?>
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
+                        <td><?php echo $order['nama_tipe'] ?? '-'; ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
+                        <td><button class="icon-btn">📝</button></td>
+                        <td>
+                            <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="id_booking" value="<?php echo $order['id']; ?>">
+                                <button type="submit" class="icon-btn">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Belum ada online order</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 

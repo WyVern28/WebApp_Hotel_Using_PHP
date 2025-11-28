@@ -1,20 +1,3 @@
-<?php
-session_start();
-include '../../config/koneksi.php';
-
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'kasir') {
-    header('Location: ../login.php');
-    exit();
-}
-
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header('Location: ../login.php');
-    exit();
-}
-
-$currentDateTime = date('d-m-y');
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -33,17 +16,17 @@ $currentDateTime = date('d-m-y');
         <div class="sidebar-nav">
             <p>NAVIGASI</p>
             <ul class="sidebar-menu">
-                <li><a href="kasirPage.php" class="active">DASHBOARD</a></li>
-                <li><a href="OnlineOrder.php">ONLINE ORDER</a></li>
-                <li><a href="otsOrder.php">OTS ORDER</a></li>
-                <li><a href="occupancy.php">OCCUPANCY</a></li>
-                <li><a href="kasirPage.php?logout=true">Logout</a></li>
+                <li><a href="../../controller/kasir/DashboardController.php" class="active">DASHBOARD</a></li>
+                <li><a href="../../controller/kasir/OnlineOrderController.php">ONLINE ORDER</a></li>
+                <li><a href="../../controller/kasir/OtsOrderController.php">OTS ORDER</a></li>
+                <li><a href="../../controller/kasir/OccupancyController.php">OCCUPANCY</a></li>
+                <li><a href="../../controller/kasir/DashboardController.php?logout=true">Logout</a></li>
             </ul>
         </div>
 
         <div class="sidebar-footer">
             <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
+            <span><?php echo $data['username']; ?></span>
         </div>
     </div>
     </sidebar>
@@ -51,28 +34,53 @@ $currentDateTime = date('d-m-y');
         <h1>Dashboard</h1>
 
         <div class="stats-container">
-            <div class="stat-box stat-blue">Total Booking</div>
-            <div class="stat-box stat-yellow">Total Kamar</div>
-            <div class="stat-box stat-green">Total Tamu</div>
-            <div class="stat-box stat-red">Total User</div>
+            <div class="stat-box stat-blue">Total Booking Hari Ini: <?php echo $data['totalBookingToday']; ?></div>
+            <div class="stat-box stat-yellow">Total Booking: <?php echo $data['totalBookingAll']; ?></div>
+            <div class="stat-box stat-green">Kamar Tersedia: <?php echo $data['availableRooms']; ?></div>
         </div>
 
         <div class="info-table">
             <table>
                 <tr>
                     <td>Nama</td>
-                    <td><?php echo $_SESSION['username']; ?></td>
+                    <td><?php echo $data['username']; ?></td>
                 </tr>
                 <tr>
-                    <td>Level User</td>
-                    <td><?php echo $_SESSION['role']; ?></td>
-                </tr>
-                <tr>
-                    <td>Tanggal Login</td>
-                    <td><?php echo $currentDateTime; ?></td>
+                    <td>Tanggal</td>
+                    <td><?php echo $data['currentDateTime']; ?></td>
                 </tr>
             </table>
         </div>
+
+        <h2>Booking Terbaru</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode Booking</th>
+                    <th>Nama Tamu</th>
+                    <th>No Kamar</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($data['recentBookings'])): ?>
+                    <?php foreach ($data['recentBookings'] as $index => $booking): ?>
+                        <tr>
+                            <td><?php echo $index + 1; ?></td>
+                            <td><?php echo $booking['kode_booking']; ?></td>
+                            <td><?php echo $booking['nama_lengkap']; ?></td>
+                            <td><?php echo $booking['nomor_kamar']; ?></td>
+                            <td><?php echo $booking['status']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">Belum ada booking</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
         <footer>
             Copyright &copy; Hotel <?php echo date('Y'); ?>
