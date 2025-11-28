@@ -1,3 +1,9 @@
+<?php
+// Proteksi: File ini hanya bisa diakses melalui controller
+if (!isset($data)) {
+    die('Akses ditolak! Halaman ini harus diakses melalui controller.');
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
