@@ -1,15 +1,17 @@
 <?php
 session_start();
-include '../config/koneksi.php';
+
+require_once '../class/Auth.php';
 
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // ini buat validasi
     if (strlen($username) < 3) {
         $error = 'Username minimal 3 karakter!';
     } elseif (strlen($password) < 6) {
@@ -17,20 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif ($password !== $confirm_password) {
         $error = 'Konfirmasi password tidak cocok!';
     } else {
-        $check = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
+        $auth = new Auth();
 
-        if (mysqli_num_rows($check) > 0) {
+        // ngecek username udah ada apa belum
+        if ($auth->usernameExists($username)) {
             $error = 'Username sudah digunakan!';
         } else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $query = "INSERT INTO user (username, password, role) VALUES ('$username', '$hashed_password', 'tamu')";
-
-            if (mysqli_query($conn, $query)) {
+            if ($auth->register($username, $password, 'tamu')) {
                 $_SESSION['success'] = 'REGISTRASI BERHASIL! Silahkan login.';
                 header('Location: login.php');
                 exit();
             } else {
-                $error = 'Registrasi gagal: ' . mysqli_error($conn);
+                $error = 'Registrasi gagal! Silakan coba lagi.';
             }
         }
     }

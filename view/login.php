@@ -1,44 +1,41 @@
 <?php
+
 session_start();
-include '../config/koneksi.php';
+
+require_once '../class/Auth.php';
 
 $error = '';
 $success = '';
-
 if (isset($_SESSION['success'])) {
     $success = $_SESSION['success'];
     unset($_SESSION['success']);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM user WHERE username = '$username'";
-    $result = mysqli_query($conn, $query);
 
-    if ($result && mysqli_num_rows($result) == 1) {
-        $user = mysqli_fetch_assoc($result);
+    $auth = new Auth();
 
-        if ($password === $user['password'] || password_verify($password, $user['password'])) {
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['logged_in'] = true;
+    $user = $auth->login($username, $password);
 
-            // Redirect berdasarkan role
-            if ($user['role'] == 'admin') {
-                header('Location: admin/adminPage.php');
-            } elseif ($user['role'] == 'kasir') {
-                header('Location: kasir/kasirPage.php');
-            } else {
-                header('Location: index.php');
-            }
-            exit();
+    // ini kalo loginnya berhasil
+    if ($user) {
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['logged_in'] = true;
+        // login berdasarkan role
+        if ($user['role'] == 'admin') {
+            header('Location: admin/adminPage.php');
+        } elseif ($user['role'] == 'kasir') {
+            header('Location: kasir/kasirPage.php');
         } else {
-            $error = 'Password salah!';
+            header('Location: user/index.php');
         }
+        exit();
     } else {
-        $error = 'Username tidak ditemukan!';
+        $error = 'Username atau password salah!';
     }
 }
 ?>
