@@ -1,20 +1,9 @@
 <?php
-/**
- * Class Auth
- * Menangani autentikasi user (login & register)
- * Menggunakan prepared statement untuk mencegah SQL Injection
- */
 
 require_once 'Database.php';
 
 class Auth extends Database {
 
-    /**
-     * Login user
-     * @param string $username - Username user
-     * @param string $password - Password user (plain text)
-     * @return array|false - Data user jika berhasil, false jika gagal
-     */
     public function login($username, $password) {
         try {
 
@@ -42,13 +31,6 @@ class Auth extends Database {
         }
     }
 
-    /**
-     * Register user baru
-     * @param string $username - Username
-     * @param string $password - Password (akan di-hash)
-     * @param string $role - Role user (tamu/kasir/admin)
-     * @return bool - True jika berhasil, false jika gagal
-     */
     public function register($username, $password, $role = 'tamu') {
         try {
             $checkQuery = $this->db->prepare("SELECT id_user FROM user WHERE username = :username");
@@ -81,11 +63,7 @@ class Auth extends Database {
         }
     }
 
-    /**
-     * Cek apakah username sudah ada
-     * @param string $username
-     * @return bool - True jika ada, false jika tidak
-     */
+
     public function usernameExists($username) {
         try {
             $query = $this->db->prepare("SELECT id_user FROM user WHERE username = :username");

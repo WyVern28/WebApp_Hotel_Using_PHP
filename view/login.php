@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['logged_in'] = true;
         // login berdasarkan role
         if ($user['role'] == 'admin') {
-            header('Location: admin/adminPage.php');
+            header('Location: ../controller/admin/adminPage.php');
         } elseif ($user['role'] == 'kasir') {
-            header('Location: kasir/kasirPage.php');
+            header('Location: ../controller/kasir/DashboardController.php');
         } else {
             header('Location: user/index.php');
         }

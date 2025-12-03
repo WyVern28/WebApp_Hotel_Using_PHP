@@ -4,10 +4,6 @@ require_once 'Database.php';
 
 class Booking extends Database {
 
-    /**
-     * Ambil semua booking
-     * @return array - Array of booking data
-     */
     public function getAllBookings() {
         try {
             $query = $this->db->prepare(
@@ -28,11 +24,7 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Ambil booking berdasarkan tanggal check-in
-     * @param string $date
-     * @return array
-     */
+
     public function getBookingsByDate($date) {
         try {
             $query = $this->db->prepare(
@@ -55,11 +47,7 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Ambil booking berdasarkan ID
-     * @param int $id
-     * @return array|false
-     */
+
     public function getBookingById($id) {
         try {
             $query = $this->db->prepare("SELECT * FROM booking WHERE id = :id");
@@ -73,13 +61,6 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Buat booking baru (untuk walk-in/OTS)
-     * @param array $tamuData
-     * @param array $bookingData
-     * @param array $pembayaranData
-     * @return bool|int
-     */
     public function createBooking($tamuData, $bookingData, $pembayaranData) {
         try {
             $this->db->beginTransaction();
@@ -140,11 +121,6 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Hapus booking
-     * @param int $id - ID booking
-     * @return bool
-     */
     public function deleteBooking($id) {
         try {
             $this->db->beginTransaction();
@@ -179,10 +155,6 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Ambil kamar yang tersedia
-     * @return array
-     */
     public function getAvailableRooms() {
         try {
             $query = $this->db->prepare(
@@ -201,10 +173,6 @@ class Booking extends Database {
         }
     }
 
-    /**
-     * Ambil data occupancy - booking yang sedang aktif
-     * @return array
-     */
     public function getOccupiedRooms() {
         try {
             $query = $this->db->prepare(

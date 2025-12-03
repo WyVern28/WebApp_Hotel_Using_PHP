@@ -1,7 +1,4 @@
 <?php
-/**
- * koneksinya udh dibenerin biar aman dari SQL Injection
- */
 
 class Database {
     private $host = "localhost";
@@ -10,10 +7,6 @@ class Database {
     private $password = "";
     public $db;
 
-    /**
-     * Constructor - otomatis dijalankan saat objek dibuat
-     * Membuat koneksi ke database menggunakan PDO
-     */
     public function __construct() {
         try {
             $this->db = new PDO(
@@ -28,10 +21,6 @@ class Database {
         }
     }
 
-    /**
-     * Mendapatkan koneksi database
-     * @return PDO
-     */
     public function getConnection() {
         return $this->db;
     }
