@@ -10,7 +10,7 @@ if (!isset($data)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTS Order - Hotel</title>
-    <!-- <link rel="stylesheet" href="../../asset/css/kasir.css"> -->
+    <link rel="stylesheet" href="../../asset/css/kasir.css">
 </head>
 <body>
     <sidebar>
