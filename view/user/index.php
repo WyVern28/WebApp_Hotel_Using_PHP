@@ -18,11 +18,38 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <!-- CSS temporarily removed per request ("tanpa css dlu") -->
 </head>
 <body>
-    <h1>Halo, <?php echo $_SESSION['username']; ?>!</h1>
-    <p>Role: <?php echo $_SESSION['role']; ?></p>
+    <!-- Navbar: username+role di kiri, navigasi di tengah, brand di kanan -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-left">
+            <span class="username">
+                Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                (<?php echo htmlspecialchars($_SESSION['role']); ?>)
+            </span>
+            <a href="index.php?logout=true" class="logout">Logout</a>
+        </div>
 
-    <a href="index.php?logout=true">Logout</a>
+        <div class="nav-center">
+            <a href="index.php">Home</a>
+            <a href="profile.php">Profile</a>
+        </div>
+
+        <div class="nav-right">
+            <a href="index.php" class="brand">Aplikasi Saya</a>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        <h1>Selamat Datang di Aplikasi Saya</h1>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <?php echo date('Y'); ?> Aplikasi Saya. Semua hak dilindungi.</p>
+    </footer>
 </body>
 </html>
