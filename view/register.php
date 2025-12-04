@@ -8,8 +8,10 @@ $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $name = trim($_POST['name']);
+    $telp = trim($_POST['telp']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
     // ini buat validasi
     if (strlen($username) < 3) {
@@ -25,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($auth->usernameExists($username)) {
             $error = 'Username sudah digunakan!';
         } else {
-            if ($auth->register($username, $password, 'tamu')) {
+            if ($auth->register($username, $name, $telp, $password, 'tamu')) {
                 $_SESSION['success'] = 'REGISTRASI BERHASIL! Silahkan login.';
                 header('Location: login.php');
                 exit();
@@ -61,13 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </p>
 
         <p>
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" required>
+        </p>
+
+        <p>
+            <label for="telp">Telp Number</label><br>
+            <input type="text" id="telp" name="telp" required>
+        </p>
+
+        <p>
             <label for="password">Password</label><br>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required minlength="6">
         </p>
 
         <p>
             <label for="confirm_password">Konfirmasi Password</label><br>
-            <input type="password" id="confirm_password" name="confirm_password" required>
+            <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
         </p>
 
         <button type="submit" href="register.php">Register</button>
