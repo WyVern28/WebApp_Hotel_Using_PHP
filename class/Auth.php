@@ -31,9 +31,9 @@ class Auth extends Database {
         }
     }
 
-    public function register($username, $password, $role = 'tamu') {
+    public function register($username, $name, $telp, $password, $role = 'tamu') {
         try {
-            $checkQuery = $this->db->prepare("SELECT id_user FROM user WHERE username = :username");
+            $checkQuery = $this->db->prepare("SELECT username FROM user WHERE username = :username");
             $checkQuery->bindParam(":username", $username);
             $checkQuery->execute();
 
@@ -42,16 +42,23 @@ class Auth extends Database {
             }
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $query = $this->db->prepare(
+            $queryUser = $this->db->prepare(
                 "INSERT INTO user (username, password, role, dibuat_pada)
                  VALUES (:username, :password, :role, NOW())"
             );
+            $queryUser->bindParam(":username", $username);
+            $queryUser->bindParam(":password", $hashedPassword);
+            $queryUser->bindParam(":role", $role);
 
-            $query->bindParam(":username", $username);
-            $query->bindParam(":password", $hashedPassword);
-            $query->bindParam(":role", $role);
+            $queryTamu = $this->db->prepare(
+                "INSERT INTO tamu (username, nama_lengkap, no_hp)
+                 VALUES (:username, :name, :telp)"
+            );
+            $queryTamu->bindParam(":username", $username);
+            $queryTamu->bindParam(":name", $name);
+            $queryTamu->bindParam(":telp", $telp);
 
-            if ($query->execute()) {
+            if ($queryUser->execute() && $queryTamu->execute()) {
                 return true;
             }
 
@@ -66,7 +73,7 @@ class Auth extends Database {
 
     public function usernameExists($username) {
         try {
-            $query = $this->db->prepare("SELECT id_user FROM user WHERE username = :username");
+            $query = $this->db->prepare("SELECT username FROM user WHERE username = :username");
             $query->bindParam(":username", $username);
             $query->execute();
 
