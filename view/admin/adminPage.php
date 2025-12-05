@@ -32,20 +32,31 @@ if (isset($_GET['logout'])) {
             <p>NAVIGASI</p>
             <ul class="sidebar-menu">
                 <li><a href="adminPage.php" class="active">DASHBOARD</a></li>
-                <li><a href="#">#</a></li>
-                <li><a href="#">#</a></li>
-                <li><a href="#">#</a></li>
-                <li><a href="kasirPage.php?logout=true">Logout</a></li>
+                <li><a href="#">TAMU</a></li>
+                <li><a href="#">KASIR</a></li>
+                <li><a href="#">KAMAR</a></li>
+                <li><a href="#">DISKON</a></li>
+                <li><a href="#">LAPORAN</a></li>
+                <li><a href="#">SETTING</a></li>
+                <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>
         <!-- ini isinya-->
-            <div class="main-content">
-                <h1>Dashboard</h1>
-
+            
+        <div class="sidebar-footer">
+            <p>Logged in as:</p>
+            <span><?php echo $_SESSION['username']; ?></span>
+        </div>
+    </div>
+    </sidebar>
+    <div class="main-content">
+        <h1>Dashboard</h1>
+        <h2><span style="color:white">WELCOME BACK, <?php echo $data['username'] ?>!</span></h2><br>
         <div class="stats-container">
-            <div class="stat-box stat-blue">Total Booking Hari Ini: <?php echo $data['totalBookingToday']; ?></div>
-            <div class="stat-box stat-yellow">Total Booking: <?php echo $data['totalBookingAll']; ?></div>
-            <div class="stat-box stat-green">Kamar Tersedia: <?php echo $data['availableRooms']; ?></div>
+            <div class="stat-box stat-blue">Total Booking Hari Ini: <?php echo count($data['bookingToday']); ?></div>
+            <div class="stat-box stat-yellow">Total Booking: <?php echo count($data['booking']); ?></div>
+            <div class="stat-box stat-green">Kamar Tersedia: <?php echo count($data['sisa']); ?></div>
+            <div class="stat-box stat-green">Kamar Terisi: <?php echo count($data['rooms']);?></div>
         </div>
 
         <div class="info-table">
@@ -56,55 +67,14 @@ if (isset($_GET['logout'])) {
                     </tr>
                     <tr>
                         <td>Tanggal</td>
-                        <td><?php echo $data['currentDateTime']; ?></td>
+                        <td><?php echo "sekarang"//$data['currentDateTime']; ?></td>
                     </tr>
                 </table>
             </div>
-
-            <h2>Booking Terbaru</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kode Booking</th>
-                        <th>Nama Tamu</th>
-                        <th>No Kamar</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($data['recentBookings'])): ?>
-                        <?php foreach ($data['recentBookings'] as $index => $booking): ?>
-                            <tr>
-                                <td><?php echo $index + 1; ?></td>
-                                <td><?php echo $booking['kode_booking']; ?></td>
-                                <td><?php echo $booking['nama_lengkap']; ?></td>
-                                <td><?php echo $booking['nomor_kamar']; ?></td>
-                                <td><?php echo $booking['status']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5">Belum ada booking</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-
             <footer>
                 Copyright &copy; Hotel <?php echo date('Y'); ?>
             </footer>
             </div>
-        <div class="sidebar-footer">
-            <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
-        </div>
-    </div>
-    </sidebar>
-
-        <footer>
-            Copyright &copy; Hotel <?php echo date('Y'); ?>
-        </footer>
     </div>
 </body>
 </html>
