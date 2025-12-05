@@ -182,7 +182,7 @@ class Booking extends Database {
                  JOIN kamar k ON b.id_kamar = k.id
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
-                 WHERE b.status = 'dibayar' OR b.status = 'checkin'
+                 WHERE b.status = 'dibayar' OR b.status = 'check_in'
                  ORDER BY k.nomor_kamar"
             );
             $query->execute();
