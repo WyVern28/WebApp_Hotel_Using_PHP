@@ -6,27 +6,38 @@ class Auth extends Database {
 
     public function login($username, $password) {
         try {
-
-            $query = $this->db->prepare("SELECT * FROM user WHERE username = :username");
-
-            $query->bindParam(":username", $username);
-
-            $query->execute();
-
-            $user = $query->fetch();
+            $query = "SELECT u.*, 
+                      CASE 
+                          WHEN u.role = 'kasir' THEN k.status
+                          WHEN u.role = 'tamu' THEN t.status
+                          ELSE 1
+                      END as user_status
+                      FROM user u
+                      LEFT JOIN kasir k ON u.username = k.username AND u.role = 'kasir'
+                      LEFT JOIN tamu t ON u.username = t.username AND u.role = 'tamu'
+                      WHERE u.username = ? ";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$username]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$user) {
                 return false;
             }
-
-            if ($password === $user['password'] || password_verify($password, $user['password'])) {
-                return $user;
+            
+            if (! password_verify($password, $user['password'])) {
+                return false;
             }
-
-            return false;
-
+            
+            if ($user['user_status'] == 0) {
+                $_SESSION['login_error'] = 'Akun Anda telah dinonaktifkan.  Hubungi admin. ';
+                return false;
+            }
+            
+            return $user;
+            
         } catch (PDOException $e) {
-            error_log("Login error: " . $e->getMessage());
+            $_SESSION['login_error'] = 'Terjadi kesalahan sistem';
             return false;
         }
     }

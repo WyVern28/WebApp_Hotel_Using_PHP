@@ -2,20 +2,43 @@
 require_once 'Database.php';
 
 class Kasir extends Database {
-    public function getAllKasir($search = null) {
-        $sql = "SELECT * FROM kasir";
-        if ($search) {
-            $sql .= " WHERE username LIKE :keyword OR nama LIKE :keyword";
+    public function toggleStatus($id_kasir) {
+        try {
+            $query = "UPDATE kasir 
+                      SET status = NOT status 
+                      WHERE id_kasir = ?";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$id_kasir]);
+            
+            return ['success' => true];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
         }
+    }
+    public function setStatus($id_kasir, $status) {
+        try {
+            $query = "UPDATE kasir 
+                      SET status = ? 
+                      WHERE id_kasir = ?";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$status, $id_kasir]);
+            
+            return ['success' => true];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+    public function getAllKasir() {
+        $query = "SELECT id_kasir, username, nama, status 
+                  FROM kasir 
+                  ORDER BY nama";
         
-        $sql .= " ORDER BY id_kasir DESC";
-        $query = $this->db->prepare($sql);
-        if ($search) {
-            $searchTerm = '%' . $search . '%';
-            $query->bindParam(':keyword', $searchTerm);
-        }
-        $query->execute();
-        return $query->fetchAll();
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getKasirById($id_kasir) {
