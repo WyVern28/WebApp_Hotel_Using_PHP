@@ -18,11 +18,10 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <!-- CSS temporarily removed per request ("tanpa css dlu") -->
+    
 </head>
 <body>
-    <!-- Navbar: username+role di kiri, navigasi di tengah, brand di kanan -->
+    <!-- Navbar -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-left">
             <span class="username">
