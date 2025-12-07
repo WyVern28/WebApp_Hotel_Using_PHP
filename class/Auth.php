@@ -3,7 +3,12 @@
 require_once 'Database.php';
 
 class Auth extends Database {
-
+    /**
+     * Login user
+     * @param string $username
+     * @param string $password
+     * @return array|false Returns user data array on success, false on failure
+     */
     public function login($username, $password) {
         try {
             $query = "SELECT u.*, 
