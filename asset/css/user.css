@@ -1,4 +1,3 @@
-/* --- 1. RESET & GLOBAL STYLE --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,27 +5,24 @@
 }
 
 body {
-    /* Font mirip Agoda (Segoe UI / Sans-serif modern) */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f9f9f9; /* Background halaman sedikit abu muda agar Navbar menonjol */
+    background-color: #f9f9f9;
     color: #333;
 }
 
-/* --- 2. NAVBAR CONTAINER (Agoda Style: Putih Bersih + Shadow Halus) --- */
 .navbar {
     display: flex;
-    justify-content: space-between; /* Memisah Kiri, Tengah, Kanan */
+    justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
-    height: 64px; /* Tinggi standar navbar modern */
-    padding: 0 50px; /* Padding kiri kanan luas */
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08); /* Shadow tipis di bawah */
+    height: 64px;
+    padding: 0 50px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-/* --- 3. BAGIAN KIRI (User Info) --- */
 .nav-left {
     display: flex;
     align-items: center;
@@ -39,10 +35,9 @@ body {
     font-weight: 500;
 }
 
-/* Tombol Logout: Dibuat Outline Style (Border tipis) */
 .logout {
     text-decoration: none;
-    color: #d32f2f; /* Merah agak gelap */
+    color: #d32f2f;
     border: 1px solid #d32f2f;
     padding: 5px 12px;
     border-radius: 4px;
@@ -56,11 +51,10 @@ body {
     color: white;
 }
 
-/* --- 4. BAGIAN TENGAH (Menu Navigasi Horizontal) --- */
 .nav-center {
-    display: flex;       /* Membuat menu berjejer ke samping (Horizontal) */
-    gap: 30px;           /* Jarak antar menu */
-    height: 100%;        /* Agar area klik menu penuh ke atas/bawah navbar */
+    display: flex;
+    gap: 30px;
+    height: 100%;
     align-items: center;
 }
 
@@ -70,16 +64,14 @@ body {
     font-weight: 500;
     font-size: 15px;
     position: relative;
-    padding: 20px 0; /* Area klik vertikal */
+    padding: 20px 0;
     transition: color 0.3s;
 }
 
-/* Efek Hover: Warna Biru Agoda + Garis bawah animasi */
 .nav-center a:hover {
-    color: #5392f9; /* Warna Biru Khas Agoda */
+    color: #5392f9;
 }
 
-/* Garis bawah muncul saat hover (opsional, untuk mempercantik) */
 .nav-center a::after {
     content: '';
     position: absolute;
@@ -95,88 +87,204 @@ body {
     width: 100%;
 }
 
-/* --- 5. BAGIAN KANAN (Brand / Logo) --- */
 .nav-right .brand {
     font-size: 22px;
     font-weight: 700;
-    color: #5392f9; /* Warna Biru Khas Agoda */
+    color: #5392f9;
     text-decoration: none;
     letter-spacing: -0.5px;
 }
 
-/* --- 6. MAIN CONTENT --- */
-main {
-    max-width: 1000px;
-    margin: 60px auto; /* Jarak dari navbar */
-    text-align: center;
-    padding: 0 20px;
-}
-
-main h1 {
-    font-size: 32px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-/* --- 7. FOOTER --- */
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #888;
-    font-size: 13px;
-    margin-top: auto; /* Mendorong footer ke bawah jika konten sedikit */
-}
-
-/* --- HOTEL CARD CONTAINER --- */
-.hotel-list-container {
-    max-width: 1200px;
+.booking-wrapper {
+    max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-.section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: left; /* Judul section rata kiri */
+.booking-form {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    gap: 15px;
 }
 
-/* Grid Layout: Otomatis menyesuaikan jumlah kolom */
+.date-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.date-group label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #888;
+    margin-bottom: 2px;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date-input {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 40px;
+    background-color: #e0e0e0;
+}
+
+.btn-cari {
+    background-color: #0071c2;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    white-space: nowrap;
+}
+
+.btn-cari:hover {
+    background-color: #005999;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .booking-form {
+        flex-direction: column;
+        border-radius: 15px;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .vertical-line {
+        width: 100%;
+        height: 1px;
+    }
+
+    .date-group {
+        width: 100%;
+    }
+
+    .btn-cari {
+        width: 100%;
+    }
+}
+
+.main-content {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    align-items: flex-start;
+}
+
+.sidebar-info {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    position: sticky;
+    top: 90px;
+}
+
+.sidebar-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.sidebar-info p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.benefit-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.benefit-list li {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.promo-box {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #2196f3;
+}
+
+.promo-box h4 {
+    margin: 0 0 5px 0;
+    color: #0d47a1;
+}
+
+.hotel-grid-wrapper {
+    flex: 3;
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
 .hotel-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
-/* --- STYLE KARTU HOTEL --- */
 .hotel-card {
-    background: #fff;
+    background: white;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    overflow: hidden; /* Agar gambar tidak keluar dari radius */
+    overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
 }
 
-/* Efek Hover: Kartu sedikit naik + bayangan */
 .hotel-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Gambar Hotel */
-.card-image {
+.card-img-wrap {
+    height: 160px;
+    overflow: hidden;
+}
+
+.card-img-wrap img {
     width: 100%;
-    height: 180px;
-    object-fit: cover; /* Gambar tetap proporsional */
-    background-color: #eee;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Isi Kartu */
 .card-content {
     padding: 15px;
     display: flex;
@@ -185,460 +293,52 @@ footer {
 }
 
 .hotel-name {
-    font-size: 1.1rem;
-    font-weight: 700;
+    margin: 0 0 5px 0;
+    font-size: 1rem;
     color: #333;
-    margin-bottom: 5px;
 }
 
-/* Bagian Harga & Tombol */
-.card-footer {
-    margin-top: auto; /* Mendorong ke bawah */
+.hotel-loc {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.card-bottom {
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 15px;
 }
 
-.price-tag {
-    display: flex;
-    flex-direction: column;
-}
-
-.price-label {
-    font-size: 0.75rem;
-    color: #888;
-}
-
-.price-value {
+.price {
+    font-weight: bold;
+    color: #d32f2f;
     font-size: 1.1rem;
-    font-weight: 700;
-    color: #d32f2f; /* Warna Merah Harga (Style Agoda) */
 }
 
 .btn-book {
-    background-color: #5392f9;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: background 0.2s;
-}
-
-.btn-book:hover {
-    background-color: #3a7bd5;
-}
-
-/* Container Utama: Membuat anak-anaknya sejajar */
-.card-container {
-    display: flex;             /* KUNCI: Mengubah susunan jadi horizontal */
-    flex-wrap: wrap;           /* Agar turun ke bawah jika layar tidak muat (Responsif) */
-    gap: 20px;                 /* Jarak antar card */
-    justify-content: center;   /* Posisi di tengah halaman */
-    margin: 40px auto;         /* Jarak atas/bawah */
-    padding: 0 20px;
-    max-width: 1200px;
-}
-
-/* Styling Card */
-.card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 18rem;              /* Lebar card (pengganti style="width: 18rem") */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.2s;
-}
-
-/* Efek Hover (Opsional) */
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-.card-img-top {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    background-color: #eee;
-}
-
-.card-body {
-    padding: 15px;
-}
-
-.card-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-/* Tombol */
-.btn-primary {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 8px 12px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-
-
-.hero-content {
-    max-width: 1100px;
-    margin: 0 auto 30px auto;
-}
-
-.hero-content h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    font-weight: 400;
-}
-
-/* --- SEARCH BAR CONTAINER --- */
-.search-container {
-    background-color: #febb02; /* Warna Kuning Khas Booking.com */
-    padding: 4px;
-    border-radius: 4px;
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    top: 20px; /* Membuat search bar sedikit menumpuk ke bawah */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.search-form {
-    display: flex; /* Membuat input berjejer horizontal */
-    gap: 4px;
-    background-color: #febb02;
-}
-
-/* --- STYLE INPUT --- */
-.input-group {
-    flex: 1; /* Semua input membagi rata lebar */
-    background-color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    border-radius: 2px;
-    height: 50px;
-}
-
-.input-group .icon {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    opacity: 0.7;
-}
-
-.form-control {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 0.95rem;
-    color: #333;
-    font-weight: 500;
-}
-
-/* --- TOMBOL SEARCH --- */
-.btn-search {
-    background-color: #0071c2; /* Biru Tombol */
-    color: white;
-    border: none;
-    padding: 0 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background-color 0.2s;
-}
-
-.btn-search:hover {
-    background-color: #005999;
-}
-
-/* --- RESPONSIVE (Agar rapi di HP) --- */
-@media (max-width: 768px) {
-    .search-form {
-        flex-direction: column; /* Jadi vertikal di HP */
-    }
-    
-    .input-group {
-        margin-bottom: 4px; /* Jarak antar input di HP */
-    }
-    
-    .btn-search {
-        padding: 15px;
-        width: 100%;
-    }
-    
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-}
-
-/* --- CSS UNTUK TANGGAL NATIVE --- */
-.date-box {
-    flex: 1.5; /* Lebar lebih besar dikit biar muat 2 tanggal */
-}
-
-.date-inputs {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.date-native {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 0.9rem;
-    color: #333;
-    padding: 0 5px;
-    cursor: pointer;
-}
-
-.separator {
-    color: #ccc;
-    margin: 0 5px;
-}
-
-/* --- CSS UNTUK POPUP ORANG (NO FLATPICKR) --- */
-.guest-popup {
-    display: none; /* Default sembunyi */
-    position: absolute;
-    top: 60px; /* Jarak dari atas */
-    left: 0;
-    width: 280px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* Bayangan */
-    padding: 20px;
-    z-index: 999;
-    border: 1px solid #ddd;
-}
-
-/* Segitiga kecil di atas popup */
-.guest-popup::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 30px;
-    width: 16px;
-    height: 16px;
-    background: white;
-    transform: rotate(45deg);
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-}
-
-.guest-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.guest-row span {
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-/* Style Tombol +/- */
-.counter {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 2px;
-}
-
-.counter button {
-    width: 30px;
-    height: 30px;
-    background: white;
-    border: none;
-    color: #0071c2; /* Biru Booking */
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.counter button:hover {
-    background-color: #f0f7fa;
-}
-
-.counter span {
-    width: 20px;
-    text-align: center;
-}
-
-.popup-footer {
-    text-align: right;
-    margin-top: 10px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-}
-
-#btn-selesai {
     background-color: #0071c2;
     color: white;
-    border: none;
     padding: 5px 15px;
     border-radius: 4px;
-    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
-/* --- SEARCH SECTION BARU --- */
-.search-section {
-    background-color: #f5f5f5; /* Background abu tipis agar kotak kuning terlihat kontras */
-    padding: 30px 20px;        /* Jarak atas bawah */
-    margin-bottom: 40px;       /* Jarak ke list hotel di bawahnya */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Bayangan tipis di bawah section */
-}
-
-/* Container Kuning Khas Booking */
-.search-container {
-    background-color: #febb02; /* Warna Kuning */
-    padding: 4px;
-    border-radius: 4px;
-    max-width: 1100px;
-    margin: 0 auto; /* Posisi Tengah */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Bayangan kotak */
-}
-
-/* Form Layout Horizontal */
-.search-form {
-    display: flex;
-    gap: 4px;
-    width: 100%;
-}
-
-/* Style Input Boxes */
-.input-group {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    height: 50px;
-    border-radius: 2px;
-}
-
-/* Mengatur Lebar Tiap Kolom */
-.location-box { flex: 2; } /* Lokasi lebih lebar */
-.date-box { flex: 2; }     /* Tanggal juga lebar */
-.guest-box { flex: 1.5; }  /* Tamu sedikit lebih kecil */
-
-.form-control {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 0.95rem;
-    color: #333;
-    font-weight: 500;
-}
-
-.input-group .icon {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    color: #666;
-}
-
-/* Input Tanggal Native */
-/* --- PERBAIKAN KOLOM TANGGAL AGAR RAPI DALAM FRAME --- */
-
-/* Container pembungkus dua input tanggal */
-.date-inputs {
-    display: flex;        /* Agar Check-in & Check-out sejajar */
-    align-items: center;  /* Vertikal rata tengah */
-    width: 100%;          /* Lebar mengikuti kotak induknya */
-    height: 100%;         /* Tinggi penuh agar tidak ada celah */
-}
-
-/* Input Check-in & Check-out */
-.date-native {
-    flex: 1;              /* KUNCI: Membagi ruang sama rata (50:50) */
-    min-width: 0;         /* Mencegah input melebar paksa keluar frame */
-    border: none;
-    background: transparent;
-    font-size: 0.95rem;
-    color: #333;
-    padding: 0 10px;      /* Jarak teks agar tidak mepet */
-    cursor: pointer;
-    text-align: center;   /* Teks di tengah biar rapi */
-    outline: none;        /* Hilangkan garis biru saat diklik */
-    height: 100%;         /* Klik area penuh */
-}
-
-/* Garis pemisah (-) */
-.separator {
-    color: #ccc;
-    font-weight: bold;
-    margin: 0 5px;
-    flex-shrink: 0;       /* Garis tidak boleh mengecil/gepeng */
-}
-
-/* Tombol Search */
-.btn-search {
-    background-color: #0071c2;
-    color: white;
-    border: none;
-    padding: 0 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background-color 0.2s;
-}
-
-.btn-search:hover {
-    background-color: #005999;
-}
-
-/* --- POPUP CSS (Tetap sama, pastikan ada) --- */
-.guest-popup {
-    display: none;
-    position: absolute;
-    top: 55px;
-    left: 0;
-    width: 280px;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    z-index: 100;
-    border: 1px solid #ddd;
-}
-
-@media (max-width: 768px) {
-    .search-form {
+@media (max-width: 900px) {
+    .main-content {
         flex-direction: column;
     }
-    .input-group {
-        margin-bottom: 4px;
+
+    .hotel-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-    .btn-search {
-        padding: 15px;
-        width: 100%;
+}
+
+@media (max-width: 600px) {
+    .hotel-grid {
+        grid-template-columns: 1fr;
     }
 }

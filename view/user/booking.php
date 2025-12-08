@@ -17,15 +17,12 @@ if (isset($_GET['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../asset/css/user.css">
+    <title>Home</title>
+    <link rel="stylesheet" href="../../asset/css/booking.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-
-    <!-- CSS temporarily removed per request ("tanpa css dlu") -->
 </head>
 <body>
-    <!-- Navbar: username+role di kiri, navigasi di tengah, brand di kanan -->
     <nav class="navbar" role="navigation" aria-label="Main navigation" >
         <div class="nav-left">
             <span class="username">
@@ -37,161 +34,110 @@ if (isset($_GET['logout'])) {
 
         <div class="nav-center">
             <a href="index.php">Home</a>
-            <a href="index.php">Booking</a>
+            <a href="booking.php">Booking</a>
             <a href="profile.php">Profile</a>
         </div>
 
         <div class="nav-right">
-            <a href="index.php" class="brand">Aplikasi Saya</a>
+            <a href="index.php" class="brand">Ivory Palace</a>
         </div>
     </nav>
 
-      <!-- Main content -->
-    <main>
-        <div class="card-container">
-
-        <div class="hero-header">
-    <div class="hero-content">
-        <h1>Find the perfect hotel on Ivory Palace</h1>
-        <p>From cheap hotels to luxury rooms and everything in between</p>
-    </div>
-
-  <div class="search-section">
-    <div class="search-container">
-        <form action="" method="GET" class="search-form">
+<div class="detail-container">
+        
+        <div class="detail-content">
             
-            <div class="input-group location-box">
-                <span class="icon">🛏️</span>
-                <input type="text" name="location" placeholder="Mau ke mana?" class="form-control">
-            </div>
-
-            <div class="input-group date-box">
-    <span class="icon">📅</span>
-    <div class="date-inputs">
-        <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Check-in" class="form-control date-native">
-        
-        <span class="separator">—</span>
-        
-        <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Check-out" class="form-control date-native">
-    </div>
-</div>
-
-            <div class="input-group guest-box" style="position: relative;">
-                <span class="icon">👤</span>
-                <input type="text" id="guest-display" value="2 Dewasa · 0 Anak · 1 Kamar" class="form-control" readonly style="cursor: pointer;">
-                
-                <div id="guest-popup" class="guest-popup">
-                    <div class="guest-row">
-                        <span>Dewasa</span>
-                        <div class="counter">
-                            <button type="button" onclick="updateGuest('adult', -1)">-</button>
-                            <span id="qty-adult">2</span>
-                            <button type="button" onclick="updateGuest('adult', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="guest-row">
-                        <span>Anak</span>
-                        <div class="counter">
-                            <button type="button" onclick="updateGuest('child', -1)">-</button>
-                            <span id="qty-child">0</span>
-                            <button type="button" onclick="updateGuest('child', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="guest-row">
-                        <span>Kamar</span>
-                        <div class="counter">
-                            <button type="button" onclick="updateGuest('room', -1)">-</button>
-                            <span id="qty-room">1</span>
-                            <button type="button" onclick="updateGuest('room', 1)">+</button>
-                        </div>
-                    </div>
-                    <div class="popup-footer">
-                        <button type="button" id="btn-selesai">Selesai</button>
-                    </div>
+            <h1 class="detail-title">Family Suite</h1>
+            <p class="detail-loc">Bali, Indonesia</p>
+            
+            <div class="gallery-container">
+                <div class="gallery-main">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80" alt="Main Image">
+                </div>
+                <div class="gallery-side">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500&q=80" alt="Kamar Mandi">
+                    <img src="../../asset/image/fam.jpg" alt="Interior">
                 </div>
             </div>
 
-            <button type="submit" class="btn-search">Search</button>
-            
-        </form>
-    </div>
-</div>
+            <hr class="divider">
 
-<script>
-    const guestInput = document.getElementById('guest-display');
-    const guestPopup = document.getElementById('guest-popup');
-    const btnSelesai = document.getElementById('btn-selesai');
-    let dataTamu = { adult: 2, child: 0, room: 1 };
+            <h3>Tentang Hotel Ini</h3>
+            <p class="detail-desc">
+                Nikmati pemandangan sunset pantai Kuta langsung dari balkon kamar. 
+                Suasana tropis yang menenangkan dengan pelayanan kelas dunia. 
+                Sangat cocok untuk liburan keluarga nii
+            </p>
 
-    guestInput.addEventListener('click', function(e) {
-        guestPopup.style.display = (guestPopup.style.display === 'block') ? 'none' : 'block';
-        e.stopPropagation();
-    });
+            <h3>Fasilitas Utama</h3>
+            <ul class="facility-list">
+                <li>✅ Pantai Privat</li>
+                <li>✅ Kolam Renang Infinity</li>
+                <li>✅ WiFi Gratis</li>
+                <li>✅ Sarapan Buffet</li>
+                <li>✅ Spa & Massage</li>
+                <li>✅ Layanan Kamar 24 Jam</li>
+            </ul>
 
-    btnSelesai.addEventListener('click', function() { guestPopup.style.display = 'none'; });
+            <hr class="divider">
 
-    window.addEventListener('click', function(e) {
-        if (!guestInput.contains(e.target) && !guestPopup.contains(e.target)) {
-            guestPopup.style.display = 'none';
-        }
-    });
-
-    function updateGuest(tipe, ubah) {
-        if (tipe === 'adult' && dataTamu.adult + ubah < 1) return;
-        if (tipe === 'room' && dataTamu.room + ubah < 1) return;
-        if (tipe === 'child' && dataTamu.child + ubah < 0) return;
-        
-        dataTamu[tipe] += ubah;
-        document.getElementById('qty-' + tipe).innerText = dataTamu[tipe];
-        guestInput.value = `${dataTamu.adult} Dewasa · ${dataTamu.child} Anak · ${dataTamu.room} Kamar`;
-    }
-</script>
-
-    <div class="card">
-        <img src="../../asset/image/hemat.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">STANDARD ROOM</h5>
-            <p class="card-text">Kamar Hemat</p>
-            <p class="card-text">Harga : Rp300.000/malam</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
+            <div class="review-section">
+                <h3>Ulasan Tamu</h3>
+                <div class="review-score">
+                    <span class="score-badge">4.8/5</span>
+                    <span class="score-text">Luar Biasa &middot; Dari 120 ulasan</span>
+                </div>
+                <div class="review-card">
+                    <div class="reviewer-info">
+                        <strong>Karrel Valenta</strong>
+                        <small>Januari 2025</small>
+                    </div>
+                    <p>"Tempatnya sangat bersih dan staf ramah. Lokasi strategis dekat pantai."</p>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <img src="../../asset/image/luas.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">DELUXE ROOM</h5>
-            <p class="card-text">Kamar Luas</p>
-            <p class="card-text">Harga : Rp500.000/malam</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-        </div>
-    </div>
+        <aside class="booking-sidebar">
+            <div class="booking-card">
+                <div class="price-header">
+                    <span>Harga per malam</span>
+                    <span class="big-price">Rp 1.200.000</span>
+                </div>
 
-    <div class="card">
-        <img src="../../asset/image/fam.jpg" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">FAMILY SUITE</h5>
-            <p class="card-text">Kamar Keluarga</p>
-            <p class="card-text">Harga : Rp1.200.000/malam</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-        </div>
+                <form action="#" method="POST">
+                    
+                    <div class="input-group-detail">
+                        <label>Nama Lengkap</label>
+                        <input type="text" name="nama" class="form-control-detail" placeholder="Nama Pemesan" required>
+                    </div>
+
+                    <div class="input-group-detail">
+                        <label>Nomor HP / WhatsApp</label>
+                        <input type="number" name="hp" class="form-control-detail" placeholder="08..." required>
+                    </div>
+
+                    <div class="input-group-detail">
+                        <label>Check-in</label>
+                        <input type="date" name="checkin" class="form-control-detail">
+                    </div>
+
+                    <div class="input-group-detail">
+                        <label>Check-out</label>
+                        <input type="date" name="checkout" class="form-control-detail">
+                    </div>
+
+                    <button type="button" class="btn-confirm">Lanjut ke Pembayaran</button>
+                    
+                    <p class="note-text">Anda belum akan dikenakan biaya.</p>
+                </form>
+
+            </div>
+        </aside>
+
     </div>
     
-</div>
-
-<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="../../asset/image/pict1.jpg" class="d-block w-100" alt="...">
-</div>
-  </div>
-</div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Aplikasi Saya. Semua hak dilindungi.</p>
+  <footer>
+        <p>&copy; <?php echo date('Y'); ?> Ivory Palace. Semua hak dilindungi.</p>
     </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
