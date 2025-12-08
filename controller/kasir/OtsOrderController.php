@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'kasir') {
-    header('Location: ../../view/login.php');
+    header('Location: ../../view/login. php');
     exit();
 }
 if (isset($_GET['logout'])) {
@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tanggal_checkout = $_POST['tanggal_checkout'];
             $metode_bayar = $_POST['metode_bayar'];
             $total_harga = (float)$_POST['total_harga'];
+            
             $tamuData = [
                 'nama_lengkap' => $nama,
                 'no_ktp' => $no_ktp,
@@ -56,18 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pembayaranData = [
                 'metode_bayar' => $metode_bayar
             ];
+            
             $result = $booking->createBooking($tamuData, $bookingData, $pembayaranData);
 
             if ($result) {
-                $message = "Booking berhasil dibuat!";
+                $message = "Booking berhasil dibuat! ID Booking: " . $result;
                 $message_type = "success";
             } else {
-                $message = "Gagal membuat booking!";
+                // Tampilkan error detail jika ada
+                $errorDetail = isset($_SESSION['booking_error_detail']) ? $_SESSION['booking_error_detail'] : '';
+                unset($_SESSION['booking_error_detail']);
+                
+                $message = "Gagal membuat booking!  " . $errorDetail;
                 $message_type = "error";
             }
         }
     }
 }
+
 $data = [
     'username' => $_SESSION['username'],
     'id_kasir' => 'KSR001',
@@ -77,5 +84,12 @@ $data = [
     'availableRooms' => $booking->getAvailableRooms(),
     'todayOrders' => $booking->getBookingsByDate(date('Y-m-d'))
 ];
+
+// DEBUG: Cek apakah ada kamar tersedia
+if (empty($data['availableRooms'])) {
+    $data['message'] = 'Tidak ada kamar tersedia!  Silakan hubungi admin.';
+    $data['message_type'] = 'error';
+}
+
 include '../../view/kasir/otsOrder.php';
 ?>

@@ -160,6 +160,7 @@ if (!isset($data)) {
                     <th>NO</th>
                     <th>ID BOOKING</th>
                     <th>NAMA TAMU</th>
+                    <th>NO KTP</th>
                     <th>NO KAMAR</th>
                     <th>CHECK-IN</th>
                     <th>CHECK-OUT</th>
@@ -176,6 +177,7 @@ if (!isset($data)) {
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $order['kode_booking']; ?></td>
                         <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
+                        <td><?php echo $order['no_ktp'] ?? '-'; ?></td>
                         <td><?php echo $order['nomor_kamar']; ?></td>
                         <td><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
                         <td><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>

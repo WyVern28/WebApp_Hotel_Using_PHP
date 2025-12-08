@@ -18,6 +18,7 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="../../asset/css/user.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
@@ -27,6 +28,13 @@ if (isset($_GET['logout'])) {
 <body>
     <!-- Navbar: username+role di kiri, navigasi di tengah, brand di kanan -->
     <nav class="navbar" role="navigation" aria-label="Main navigation" >
+=======
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+>>>>>>> refs/remotes/origin/main
         <div class="nav-left">
             <span class="username">
                 Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>

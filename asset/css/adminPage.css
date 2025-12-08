@@ -1,0 +1,99 @@
+:root {
+            --primary-color: #0f172a;    /* Midnight Blue */
+            --secondary-color: #1e293b;  /* Darker Blue for Hover */
+            --accent-color: #d4af37;     /* Luxury Gold */
+            --text-light: #f8fafc;       /* White-ish */
+            --text-dark: #334155;        /* Slate */
+            --bg-body: #f1f5f9;          /* Very Light Blue-Grey */
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- 2. SIDEBAR (LUXURY BLUE) --- */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #020617 100%);
+            color: var(--text-light);
+            position: fixed;
+            height: 100vh;
+            padding: 20px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .brand i {
+            color: var(--accent-color);
+            font-size: 28px;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: #cbd5e1;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        /* Hover Effect Mewah */
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(212, 175, 55, 0.15); /* Gold transparan */
+            color: var(--accent-color);
+            border-right: 3px solid var(--accent-color);
+        }
+
+        .sidebar-menu a i {
+            width: 20px;
+        }
+
+        /* --- 3. MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: 260px; /* Lebar sidebar */
+            padding: 30px;
+            color: var(--text-dark);
+        }

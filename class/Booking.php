@@ -10,8 +10,8 @@ class Booking extends Database {
                 "SELECT b.*, t.nama_lengkap, k.nomor_kamar, tk.nama_tipe, p.jumlah_bayar, p.status_pembayaran
                  FROM booking b
                  JOIN tamu t ON b.id_tamu = t.id
-                 JOIN kamar k ON b.id_kamar = k.id
-                 JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
+                 JOIN kamar k ON b.id_kamar = k. id
+                 JOIN tipe_kamar tk ON k.id_tipe_kamar = tk. id
                  LEFT JOIN pembayaran p ON b.id = p.id_booking
                  ORDER BY b.id DESC"
             );
@@ -28,7 +28,7 @@ class Booking extends Database {
     public function getBookingsByDate($date) {
         try {
             $query = $this->db->prepare(
-                "SELECT b.*, t.nama_lengkap, k.nomor_kamar, tk.nama_tipe, p.jumlah_bayar, p.status_pembayaran
+                "SELECT b. *, t.nama_lengkap, t.no_ktp, k. nomor_kamar, tk. nama_tipe, p.jumlah_bayar, p. status_pembayaran
                  FROM booking b
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN kamar k ON b.id_kamar = k.id
@@ -65,35 +65,58 @@ class Booking extends Database {
         try {
             $this->db->beginTransaction();
 
+            // Insert Tamu dengan no_ktp (untuk walk-in guest)
             $queryTamu = $this->db->prepare(
-                "INSERT INTO tamu (username, nama_lengkap, no_hp, status)
-                 VALUES (:username, :nama_lengkap, :no_hp, 1)"
+                "INSERT INTO tamu (username, nama_lengkap, no_ktp, no_hp, status)
+                 VALUES (NULL, :nama_lengkap, :no_ktp, :no_hp, 1)"
             );
-            $queryTamu->bindParam(":username", $tamuData['no_ktp']);
             $queryTamu->bindParam(":nama_lengkap", $tamuData['nama_lengkap']);
+            $queryTamu->bindParam(":no_ktp", $tamuData['no_ktp']);
             $queryTamu->bindParam(":no_hp", $tamuData['no_hp']);
-            $queryTamu->execute();
+            
+            if (!$queryTamu->execute()) {
+                throw new Exception("Gagal insert tamu: " . print_r($queryTamu->errorInfo(), true));
+            }
 
             $idTamu = $this->db->lastInsertId();
 
+            // Generate kode booking
             $kodeBooking = 'BKG' . date('YmdHis');
             $status = 'dibayar';
 
+            // Dapatkan id_tipe_kamar dari kamar yang dipilih
+            $queryGetTipe = $this->db->prepare("SELECT id_tipe_kamar FROM kamar WHERE id = :id_kamar");
+            $queryGetTipe->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
+            $queryGetTipe->execute();
+            $kamarInfo = $queryGetTipe->fetch();
+            
+            if (!$kamarInfo) {
+                throw new Exception("Kamar tidak ditemukan (ID: " . $bookingData['id_kamar'] . ")");
+            }
+            
+            $id_tipe_kamar = $kamarInfo['id_tipe_kamar'];
+
+            // Insert Booking (DENGAN id_tipe_kamar)
             $queryBooking = $this->db->prepare(
-                "INSERT INTO booking (kode_booking, id_tamu, id_kamar, tgl_check_in, tgl_check_out, total_harga, status)
-                 VALUES (:kode_booking, :id_tamu, :id_kamar, :tgl_check_in, :tgl_check_out, :total_harga, :status)"
+                "INSERT INTO booking (kode_booking, id_tamu, id_tipe_kamar, id_kamar, tgl_check_in, tgl_check_out, total_harga, status)
+                 VALUES (:kode_booking, :id_tamu, :id_tipe_kamar, :id_kamar, :tgl_check_in, :tgl_check_out, :total_harga, :status)"
             );
             $queryBooking->bindParam(":kode_booking", $kodeBooking);
             $queryBooking->bindParam(":id_tamu", $idTamu, PDO::PARAM_INT);
+            $queryBooking->bindParam(":id_tipe_kamar", $id_tipe_kamar, PDO::PARAM_INT);
             $queryBooking->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
             $queryBooking->bindParam(":tgl_check_in", $bookingData['tgl_check_in']);
             $queryBooking->bindParam(":tgl_check_out", $bookingData['tgl_check_out']);
             $queryBooking->bindParam(":total_harga", $bookingData['total_harga']);
             $queryBooking->bindParam(":status", $status);
-            $queryBooking->execute();
+            
+            if (!$queryBooking->execute()) {
+                throw new Exception("Gagal insert booking: " .  print_r($queryBooking->errorInfo(), true));
+            }
 
             $idBooking = $this->db->lastInsertId();
 
+            // Insert Pembayaran
             $statusPembayaran = 'berhasil';
 
             $queryPembayaran = $this->db->prepare(
@@ -104,19 +127,27 @@ class Booking extends Database {
             $queryPembayaran->bindParam(":metode_bayar", $pembayaranData['metode_bayar']);
             $queryPembayaran->bindParam(":jumlah_bayar", $bookingData['total_harga']);
             $queryPembayaran->bindParam(":status_pembayaran", $statusPembayaran);
-            $queryPembayaran->execute();
+            
+            if (! $queryPembayaran->execute()) {
+                throw new Exception("Gagal insert pembayaran: " . print_r($queryPembayaran->errorInfo(), true));
+            }
 
+            // Update status kamar
             $queryKamar = $this->db->prepare("UPDATE kamar SET status = 'terisi' WHERE id = :id_kamar");
             $queryKamar->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
-            $queryKamar->execute();
+            
+            if (!$queryKamar->execute()) {
+                throw new Exception("Gagal update kamar: " . print_r($queryKamar->errorInfo(), true));
+            }
 
             $this->db->commit();
 
             return $idBooking;
 
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             $this->db->rollBack();
-            error_log("Create booking error: " . $e->getMessage());
+            // Simpan error message di session untuk ditampilkan
+            $_SESSION['booking_error_detail'] = $e->getMessage();
             return false;
         }
     }
@@ -179,7 +210,7 @@ class Booking extends Database {
                 "SELECT b.id, k.nomor_kamar, t.nama_lengkap, tk.nama_tipe,
                         b.tgl_check_in, b.tgl_check_out, b.status
                  FROM booking b
-                 JOIN kamar k ON b.id_kamar = k.id
+                 JOIN kamar k ON b. id_kamar = k.id
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
                  WHERE b.status = 'dibayar' OR b.status = 'check_in'

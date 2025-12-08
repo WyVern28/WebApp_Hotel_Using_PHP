@@ -11,6 +11,11 @@ if (isset($_SESSION['success'])) {
     unset($_SESSION['success']);
 }
 
+if (isset($_SESSION['login_error'])) {
+    $error = $_SESSION['login_error'];
+    unset($_SESSION['login_error']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
@@ -20,12 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $user = $auth->login($username, $password);
 
-    // ini kalo loginnya berhasil
     if ($user) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['logged_in'] = true;
-        // login berdasarkan role
         if ($user['role'] == 'admin') {
             header('Location: ../controller/admin/adminPage.php');
         } elseif ($user['role'] == 'kasir') {
@@ -35,7 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         exit();
     } else {
-        $error = 'Username atau password salah!';
+        if (! isset($_SESSION['login_error'])) {
+            $error = 'Username atau password salah!';
+        }
     }
 }
 ?>
@@ -45,8 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hotel</title>
+    <link rel="stylesheet" href="../asset/css/login.css">
 </head>
 <body>
+    <div class="container">
     <h2>Login</h2>
 
     <?php if ($success): ?>
@@ -68,9 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" id="password" name="password" required>
         </p>
 
-        <button type="index.php">Login</button>
+        <button type="submit">Login</button>
     </form>
 
     <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+    </div>
 </body>
 </html>

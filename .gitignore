@@ -25,3 +25,5 @@ Thumbs.db
 # PHP
 vendor/
 composer.lock
+
+db_hotel.sql
