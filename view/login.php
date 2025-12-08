@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         if (! isset($_SESSION['login_error'])) {
             $error = 'Username atau password salah!';
+        }else{
+            $error = $_SESSION['login_error'];
         }
     }
 }
