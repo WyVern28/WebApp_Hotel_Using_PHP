@@ -1,5 +1,4 @@
 <?php
-
 require_once 'Database.php';
 
 class Auth extends Database {
@@ -38,6 +37,9 @@ class Auth extends Database {
             
             return $user;
             }
+
+            $_SESSION['login_error'] = 'Username atau password salah!';
+            return false;
             
         } catch (PDOException $e) {
             $_SESSION['login_error'] = 'Terjadi kesalahan sistem';
