@@ -50,8 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hotel</title>
+    <link rel="stylesheet" href="../asset/css/login.css">
 </head>
 <body>
+    <div class="container">
     <h2>Login</h2>
 
     <?php if ($success): ?>
@@ -77,5 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <p>Belum punya akun? <a href="register. php">Daftar di sini</a></p>
+    </div>
 </body>
 </html>
