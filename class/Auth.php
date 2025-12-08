@@ -30,16 +30,14 @@ class Auth extends Database {
                 return false;
             }
             
-            if (! password_verify($password, $user['password'])) {
-                return false;
-            }
-            
-            if ($user['user_status'] == 0) {
+            if (password_verify($password, $user['password']) || $password === $user['password']) {
+                if ($user['user_status'] == 0) {
                 $_SESSION['login_error'] = 'Akun Anda telah dinonaktifkan.  Hubungi admin. ';
                 return false;
-            }
+                }
             
             return $user;
+            }
             
         } catch (PDOException $e) {
             $_SESSION['login_error'] = 'Terjadi kesalahan sistem';
