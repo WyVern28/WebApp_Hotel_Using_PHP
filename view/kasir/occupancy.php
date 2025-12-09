@@ -97,7 +97,7 @@ if (!isset($data)) {
         </table>
 
         <footer>
-            Copyright &copy; Hotel <?php echo date('Y'); ?>
+            Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
         </footer>
     </div>
 </body>

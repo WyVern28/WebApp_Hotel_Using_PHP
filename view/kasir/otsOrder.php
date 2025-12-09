@@ -66,51 +66,64 @@ if (!isset($data)) {
             <input type="hidden" name="action" value="create">
             <input type="hidden" name="total_harga" id="total_harga_input" value="0">
 
-            <h3>Data Tamu</h3>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" name="nama" class="form-input" placeholder="Masukkan nama tamu" required>
-                </div>
-                <div class="form-group">
-                    <label>No. KTP</label>
-                    <input type="text" name="no_ktp" class="form-input" placeholder="Masukkan no KTP" required>
-                </div>
-                <div class="form-group">
-                    <label>No. Telepon</label>
-                    <input type="text" name="no_telp" class="form-input" placeholder="Masukkan no telepon" required>
-                </div>
-                <div class="form-group">
-                    <label>Alamat</label>
-                    <input type="text" name="alamat" class="form-input" placeholder="Masukkan alamat" required>
-                </div>
-            </div>
+            <h3>Data Tamu & Booking</h3>
 
-            <h3>Data Booking</h3>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>No. Kamar (Tersedia)</label>
-                    <select name="id_kamar" class="form-input" id="select_kamar" required>
-                        <option value="" data-harga="0">Pilih Kamar</option>
-                        <?php foreach ($data['availableRooms'] as $kamar): ?>
-                        <option value="<?php echo $kamar['id']; ?>" data-harga="<?php echo $kamar['harga_per_malam']; ?>">
-                            <?php echo $kamar['nomor_kamar'] . ' - ' . $kamar['nama_tipe'] . ' - Lt.' . $kamar['lantai'] . ' (Rp ' . number_format($kamar['harga_per_malam'], 0, ',', '.') . '/malam)'; ?>
-                        </option>
-                        <?php endforeach; ?>
-                    </select>
+            <div class="dual-grid">
+                <div class="left-box">
+                    <h4>Data Tamu</h4>
+
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" name="nama" class="form-input" placeholder="Masukkan nama tamu" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>No. KTP</label>
+                        <input type="text" name="no_ktp" class="form-input" placeholder="Masukkan no KTP" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>No. Telepon</label>
+                        <input type="text" name="no_telp" class="form-input" placeholder="Masukkan no telepon" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" name="alamat" class="form-input" placeholder="Masukkan alamat" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Tanggal Check-in</label>
-                    <input type="date" name="tanggal_checkin" class="form-input" id="checkin" value="<?php echo date('Y-m-d'); ?>" required>
+
+                <div class="right-box">
+                    <h4>Data Booking</h4>
+
+                    <div class="form-group">
+                        <label>No. Kamar (Tersedia)</label>
+                        <select name="id_kamar" class="form-input" id="select_kamar" required>
+                            <option value="" data-harga="0">Pilih Kamar</option>
+                            <?php foreach ($data['availableRooms'] as $kamar): ?>
+                            <option value="<?php echo $kamar['id']; ?>" data-harga="<?php echo $kamar['harga_per_malam']; ?>">
+                                <?php echo $kamar['nomor_kamar'] . ' - ' . $kamar['nama_tipe'] . ' - Lt.' . $kamar['lantai'] . ' (Rp ' . number_format($kamar['harga_per_malam'], 0, ',', '.') . '/malam)'; ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal Check-in</label>
+                        <input type="date" name="tanggal_checkin" class="form-input" id="checkin" value="<?php echo date('Y-m-d'); ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal Check-out</label>
+                        <input type="date" name="tanggal_checkout" class="form-input" id="checkout" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jumlah Malam</label>
+                        <input type="number" class="form-input" id="jumlah_malam" value="1" readonly>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Tanggal Check-out</label>
-                    <input type="date" name="tanggal_checkout" class="form-input" id="checkout" required>
-                </div>
-                <div class="form-group">
-                    <label>Jumlah Malam</label>
-                    <input type="number" class="form-input" id="jumlah_malam" value="1" readonly>
-                </div>
+
             </div>
 
             <h3>Pembayaran</h3>
@@ -165,11 +178,10 @@ if (!isset($data)) {
         </script>
 
         <div class="section-title" style="margin-top: 30px;">DAFTAR OTS ORDER HARI INI</div>
-
+        <div class="max-table">
         <table class="order-table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                     <th>NO</th>
                     <th>ID BOOKING</th>
                     <th>NAMA TAMU</th>
@@ -187,9 +199,6 @@ if (!isset($data)) {
                     <?php $no = 1; ?>
                     <?php foreach ($data['todayOrders'] as $order): ?>
                     <tr>
-                        <td class="td-center">
-                            <input type="checkbox" name="selected_bookings[]" value="<?php echo $order['id']; ?>" class="booking-checkbox">
-                        </td>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $order['kode_booking']; ?></td>
                         <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
@@ -216,42 +225,14 @@ if (!isset($data)) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="11" style="text-align: center;">Belum ada booking hari ini</td>
+                        <td colspan="9" style="text-align: center;">Belum ada booking hari ini</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-
-        <div class="btn-container" style="margin-top: 20px;">
-            <button class="btn-action btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
         </div>
-
-        <script>
-        function toggleSelectAll(source) {
-            const checkboxes = document.querySelectorAll('.booking-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = source.checked;
-            });
-        }
-
-        function cetakStruk() {
-            const selected = [];
-            document.querySelectorAll('.booking-checkbox:checked').forEach(cb => {
-                selected.push(cb.value);
-            });
-
-            if (selected.length === 0) {
-                alert('Pilih minimal 1 booking untuk dicetak!');
-                return;
-            }
-
-            const ids = selected.join(',');
-            window.open('../../controller/kasir/PrintStrukController.php?ids=' + ids, '_blank');
-        }
-        </script>
-
         <footer>
-            Copyright &copy; Hotel <?php echo date('Y'); ?>
+            Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
         </footer>
     </div>
 </body>
