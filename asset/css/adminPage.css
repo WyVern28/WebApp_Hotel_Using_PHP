@@ -1,99 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-            --primary-color: #0f172a;    /* Midnight Blue */
-            --secondary-color: #1e293b;  /* Darker Blue for Hover */
-            --accent-color: #d4af37;     /* Luxury Gold */
-            --text-light: #f8fafc;       /* White-ish */
-            --text-dark: #334155;        /* Slate */
-            --bg-body: #f1f5f9;          /* Very Light Blue-Grey */
-            --white: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --transition: all 0.3s ease;
-        }
+    /* --- COLOR PALETTE --- */
+    --primary-color: #221FA0;      /* Warna Utama (Sidebar) */
+    --primary-light: #4b48d6;      /* Warna Hover */
+    --accent-color: #1a87e7;       /* Warna Aktif/Link */
+    
+    --bg-body: #ffffff;            /* Background Utama Putih */
+    --bg-card: #ffffff;            /* Background Elemen (Tabel/Form) */
+    
+    --text-main: #333333;
+    --text-muted: #777777;
+    --border-color: #e0e0e0;
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            list-style: none;
-        }
+    /* --- STATISTIC COLORS (Soft Gradients) --- */
+    --stat-blue: linear-gradient(135deg, #4a90e2, #007bff);
+    --stat-yellow: linear-gradient(135deg, #f5a623, #d48806);
+    --stat-green: linear-gradient(135deg, #7ed321, #5cae0d);
+    
+    /* --- SHADOWS --- */
+    --shadow-soft: 0 5px 15px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
 
-        body {
-            background-color: var(--bg-body);
-            display: flex;
-            min-height: 100vh;
-        }
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-        /* --- 2. SIDEBAR (LUXURY BLUE) --- */
-        .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #020617 100%);
-            color: var(--text-light);
-            position: fixed;
-            height: 100vh;
-            padding: 20px;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
-            z-index: 100;
-        }
+body {
+    margin: 0;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    display: flex;
+    min-height: 100vh;
+}
 
-        .brand {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+/* ============================
+   TYPOGRAPHY
+   ============================ */
+h1, h2, h3 {
+    color: var(--text-main);
+    margin-top: 0;
+}
 
-        .brand i {
-            color: var(--accent-color);
-            font-size: 28px;
-        }
+h1 { font-size: 28px; margin-bottom: 10px; }
+h2 { font-size: 22px; font-weight: 500; margin-bottom: 20px; color: var(--text-muted); }
 
-        .menu-title {
-            font-size: 12px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            margin-top: 20px;
-            font-weight: 600;
-        }
+a { text-decoration: none; }
 
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
+/* ============================
+   SIDEBAR
+   ============================ */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: var(--primary-color);
+    color: #ffffff;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
 
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            color: #cbd5e1;
-            border-radius: 10px;
-            transition: var(--transition);
-            font-size: 14px;
-        }
+/* Header */
+.sidebar-header {
+    text-align: center;
+    padding-bottom: 25px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
 
-        /* Hover Effect Mewah */
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background: rgba(212, 175, 55, 0.15); /* Gold transparan */
-            color: var(--accent-color);
-            border-right: 3px solid var(--accent-color);
-        }
+.sidebar-header h3 {
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
 
-        .sidebar-menu a i {
-            width: 20px;
-        }
+/* Navigasi */
+.sidebar-nav {
+    flex-grow: 1;
+    overflow-y: auto; /* Agar bisa discroll jika menu panjang */
+}
 
-        /* --- 3. MAIN CONTENT --- */
-        .main-content {
-            flex: 1;
-            margin-left: 260px; /* Lebar sidebar */
-            padding: 30px;
-            color: var(--text-dark);
-        }
+.sidebar-nav p {
+    margin: 10px 0 10px 5px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 8px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(5px); /* Efek geser dikit saat hover */
+}
+
+.sidebar-menu a.active {
+    background: var(--accent-color);
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Footer Sidebar */
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-footer span {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+/* ============================
+   MAIN CONTENT
+   ============================ */
+.main-content {
+    margin-left: 260px;
+    padding: 30px 40px;
+    width: calc(100% - 260px);
+    background: var(--bg-body);
+}
+
+/* ============================
+   STATS CONTAINER (DASHBOARD)
+   ============================ */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsif otomatis */
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.stat-box {
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 70px;
+    transition: transform 0.3s;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-blue { background: var(--stat-blue); }
+.stat-yellow { background: var(--stat-yellow); color: white; }
+.stat-green { background: var(--stat-green); }
+
+/* ============================
+   TABLE STYLING (MODERN)
+   ============================ */
+/* Container Table agar bisa scroll di layar kecil */
+.table-responsive {
+    overflow-x: auto;
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap; /* Mencegah teks turun baris */
+}
+
+thead {
+    background: var(--primary-color); /* Header tabel ikut warna sidebar biar senada */
+    color: white;
+}
+
+thead th {
+    padding: 15px 20px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+tbody td {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+/* Zebra Striping (Baris selang seling) */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f3f5; /* Hover baris tabel */
+}
+
+/* Info Table Khusus (Profil Admin) */
+.info-table table {
+    width: 100%;
+    max-width: 600px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.info-table td {
+    padding: 15px 20px;
+}
+
+.info-table td:first-child {
+    font-weight: 600;
+    width: 30%;
+    background: #f8f9fa;
+    color: var(--text-muted);
+}
+
+/* ============================
+   FORM ELEMENTS (INPUT, SELECT, BUTTON)
+   ============================ */
+/* Wrapper untuk form */
+.form-container {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    max-width: 800px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    color: var(--text-main);
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(26, 135, 231, 0.1);
+}
+
+/* Tombol */
+button, .btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(34, 31, 160, 0.3);
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+/* ============================
+   FOOTER
+   ============================ */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border-color);
+}

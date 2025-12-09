@@ -19,56 +19,9 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kasir Page - Hotel</title>
-    <link rel="stylesheet" href="../../asset/css/admin.css">
+    <link rel="stylesheet" href="../../asset/css/adminPage.css">
 </head>
-<style>
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-        
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: #334155; }
-        .form-control {
-            width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px;
-        }
-        
-        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; color: white; display: inline-block; text-decoration: none;}
-        .btn-primary { background-color: #0f172a; } 
-        .btn-danger { background-color: #ef4444; font-size: 12px; padding: 5px 10px; text-decoration: none;}
-        .btn-success { background-color: #22c55e; font-size: 12px; padding: 5px 10px; text-decoration: none;}
 
-        .btn-edit { background-color: #0b59f5ff; font-size: 12px; padding: 5px 10px; color: white; }
-        .btn-warning:hover { background-color: #d97706; }
-
-        .table-custom { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .table-custom th { background: #f1f5f9; padding: 12px; text-align: left; font-weight: 600; color: #475569; }
-        .table-custom td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
-
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-        .bg-active { background: #dcfce7; color: #166534; }
-        .bg-inactive { background: #fee2e2; color: #991b1b; }
-
-        .header-tools {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-        }
-        .search-input {
-            padding: 8px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            width: 250px;
-        }
-    </style>
 <body>
     <sidebar>
     <div class="sidebar">

@@ -19,7 +19,7 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kasir Page - Hotel</title>
-    <link rel="stylesheet" href="../../asset/css/admin.css">
+    <link rel="stylesheet" href="../../asset/css/adminPage.css">
 </head>
 <body>
     <!-- INI SIDEBAR YE DAR -->
@@ -51,7 +51,7 @@ if (isset($_GET['logout'])) {
     </sidebar>
     <div class="main-content">
         <h1>Dashboard</h1>
-        <h2><span style="color:white">WELCOME BACK, <?php echo $data['username'] ?>!</span></h2><br>
+        <h2><span style="color:black">WELCOME BACK, <?php echo $data['username'] ?>!</span></h2><br>
         <div class="stats-container">
             <a href="../../controller/admin/adminKasir.php"><div class="stat-box stat-blue">Total Kasir: <?php echo count($data['allKasir']); ?></div></a>
             <a href="../../controller/admin/adminTamu.php"><div class="stat-box stat-yellow">Total Tamu: <?php echo count($data['allTamu']); ?></div></a>
@@ -67,12 +67,12 @@ if (isset($_GET['logout'])) {
                     </tr>
                     <tr>
                         <td>Tanggal</td>
-                        <td><?php echo "sekarang"//$data['currentDateTime']; ?></td>
+                        <td><?php echo date('d F Y'); ?></td>                    
                     </tr>
                 </table>
             </div>
             <footer>
-                Copyright &copy; Hotel <?php echo date('Y'); ?>
+                Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
             </footer>
             </div>
     </div>
