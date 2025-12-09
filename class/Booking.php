@@ -162,37 +162,57 @@ class Booking extends Database {
         try{
             $this->db->beginTransaction();
             $kodeBooking = 'BKG' . date('YmdHis');
-            $status = 'penting';
-            $queryBooking = $this->db->prepare("INSERT INTO booking (kode_booking, id_tamu, id_tipe_kamar, id_kamar, tgl_check_in, tgl_check_out, dengan_sarapan, total_harga, `status`) VALUES (:kode_booking, :id_tamu, :id_tipe_kamar, :id_kamar, :tgl_check_in, :tgl_check_out, :dengan_sarapan, :total_harga, :status)");
+            $status = 'pending';
+            
+            $queryBooking = $this->db->prepare(
+                "INSERT INTO booking (kode_booking, id_tamu, id_tipe_kamar, id_kamar, 
+                 tgl_check_in, tgl_check_out, dengan_sarapan, preferensi, id_diskon, 
+                 total_harga, `status`) 
+                 VALUES (:kode_booking, :id_tamu, :id_tipe_kamar, :id_kamar, 
+                 :tgl_check_in, :tgl_check_out, :dengan_sarapan, :preferensi, :id_diskon, 
+                 :total_harga, :status)"
+            );
+            
             $queryBooking->execute([
-            ':kode_booking' => $kodeBooking,
-            ':id_tamu' => $bookingData['id_tamu'],
-            ':id_tipe_kamar' => $bookingData['id_tipe_kamar'],
-            ':id_kamar' => $bookingData['id_kamar'],
-            ':tgl_check_in' => $bookingData['tgl_check_in'],
-            ':tgl_check_out' => $bookingData['tgl_check_out'],
-            ':dengan_sarapan' => $bookingData['dengan_sarapan'],
-            ':total_harga' => $bookingData['total_harga'],
-            ':status' => $status
-        ]);
-        $idBooking = $this->db->lastInsertId();
-        if ($bookingData['id_kamar']) {
-            $queryUpdateKamar = $this->db->prepare("UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar");
-            $queryUpdateKamar->execute([':id_kamar' => $bookingData['id_kamar']]);
-        }
-        $queryPembayaran = $this->db->prepare(
-            "INSERT INTO pembayaran (id_booking, metode_bayar, jumlah_bayar, status_pembayaran)
-             VALUES (:id_booking, 'transfer', :jumlah_bayar, 'pending')"
-        );
-        $queryPembayaran->execute([
-            ':id_booking' => $idBooking,
-            ':jumlah_bayar' => $bookingData['total_harga']
-        ]);
-        $this->db->commit();
-        return $kodeBooking;
-        }catch(PDOException $e){
+                ':kode_booking' => $kodeBooking,
+                ':id_tamu' => $bookingData['id_tamu'],
+                ':id_tipe_kamar' => $bookingData['id_tipe_kamar'],
+                ':id_kamar' => $bookingData['id_kamar'],
+                ':tgl_check_in' => $bookingData['tgl_check_in'],
+                ':tgl_check_out' => $bookingData['tgl_check_out'],
+                ':dengan_sarapan' => $bookingData['dengan_sarapan'],
+                ':preferensi' => $bookingData['preferensi'] ?? null,
+                ':id_diskon' => $bookingData['id_diskon'] ?? null,
+                ':total_harga' => $bookingData['total_harga'],
+                ':status' => $status
+            ]);
+            
+            $idBooking = $this->db->lastInsertId();
+            
+            // Update status kamar jika dipilih
+            if ($bookingData['id_kamar']) {
+                $queryUpdateKamar = $this->db->prepare(
+                    "UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar"
+                );
+                $queryUpdateKamar->execute([':id_kamar' => $bookingData['id_kamar']]);
+            }
+            
+            // Insert pembayaran dengan status pending
+            $queryPembayaran = $this->db->prepare(
+                "INSERT INTO pembayaran (id_booking, metode_bayar, jumlah_bayar, status_pembayaran)
+                 VALUES (:id_booking, '', :jumlah_bayar, 'pending')"
+            );
+            $queryPembayaran->execute([
+                ':id_booking' => $idBooking,
+                ':jumlah_bayar' => $bookingData['total_harga']
+            ]);
+            
+            $this->db->commit();
+            return $kodeBooking;
+            
+        } catch(PDOException $e){
             $this->db->rollBack();
-            error_log("Gagal menambakan booking: ". $e->getMessage());
+            error_log("Gagal menambahkan booking: ". $e->getMessage());
             return false;
         }
     }

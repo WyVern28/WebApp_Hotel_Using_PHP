@@ -13,5 +13,24 @@ class Rating extends Database {
             return [];
         }
     }
+
+    public function getRatingsByTipeKamar($id_tipe_kamar) {
+        try {
+            $query = $this->db->prepare(
+                "SELECT r.*, t.nama_lengkap 
+                 FROM rating r
+                 JOIN tamu t ON r.id_tamu = t.id
+                 WHERE r.id_tipe_kamar = :id_tipe_kamar
+                 ORDER BY r.dibuat_pada DESC"
+            );
+            $query->bindParam(":id_tipe_kamar", $id_tipe_kamar, PDO::PARAM_INT);
+            $query->execute();
+            return $query->fetchAll();
+
+        } catch (PDOException $e) {
+            error_log("Get ratings by tipe kamar error: " . $e->getMessage());
+            return [];
+        }
+    }
 }
 ?>
