@@ -31,11 +31,11 @@ if (isset($_GET['logout'])) {
             <p>NAVIGASI</p>
             <ul class="sidebar-menu">
                 <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
-                <li><a href="../../controller/admin/adminTamu.php" >TAMU</a></li>
-                <li><a href="../../controller/admin/adminKasir.php"class="active" >KASIR</a></li>
+                <li><a href="../../controller/admin/adminTamu.php">TAMU</a></li>
+                <li><a href="../../controller/admin/adminKasir.php" class="active">KASIR</a></li>
                 <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="#">LAPORAN</a></li>
-                <li><a href="#">SETTING</a></li>
+                <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
+                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>
