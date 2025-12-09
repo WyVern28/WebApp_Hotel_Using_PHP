@@ -48,7 +48,7 @@ if (isset($_GET['logout'])) {
     <div class="main-content">
         
         <header style="margin-bottom: 30px;">
-            <h1>Manajemen Kasir</h1>
+            <h1>Manajemen Akun Tamu</h1>
         </header>
         <div class="stats-container">
             <a href="../../controller/admin/adminKasir.php"><div class="stat-box stat-blue">Total Tamu: <?php echo count($data['allTamu']); ?></div></a>
@@ -106,10 +106,10 @@ if (isset($_GET['logout'])) {
                         <th width="20%">Aksi</th> </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($data['allTamu'])): ?>
+                    <?php if (empty($data['allAkun'])): ?>
                         <tr><td colspan="5" style="text-align:center; padding: 20px;">Data tamu tidak ditemukan.</td></tr>
                     <?php else: ?>
-                        <?php foreach ($data['allTamu'] as $row){ ?>
+                        <?php foreach ($data['allAkun'] as $row){ ?>
                         <tr>
                             <td>#<?= $row['id']; ?></td>
                             <td><b><?= htmlspecialchars($row['username']); ?></b></td>

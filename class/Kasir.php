@@ -93,9 +93,9 @@ class Kasir extends Database {
             $qUpdateKasir->bindParam(':id', $id_kasir);
             $qUpdateKasir->execute();
 
-            //buat reset pake bawaan (1234) yh wil
+            //buat reset pake username yh wil
             if ($reset_password) { 
-                $password_default = '1234'; 
+                $password_default = password_hash($new_username, PASSWORD_DEFAULT); 
                 $qReset = $this->db->prepare("UPDATE user SET password = :p WHERE username = :u");
                 $qReset->bindParam(':u', $target_username);
                 $qReset->bindParam(':p', $password_default);

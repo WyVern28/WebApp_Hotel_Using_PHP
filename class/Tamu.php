@@ -2,18 +2,9 @@
 require_once 'Database.php';
 
 class Tamu extends Database {
-    public function getAllTamu($search = null) {
-        $sql = "SELECT * FROM tamu";
-        if ($search) {
-            $sql .= " WHERE username LIKE :keyword OR nama_lengkap LIKE :keyword OR id LIKE :keyword";
-        }
-        
-        $sql .= " ORDER BY id DESC";
+    public function getAllTamu() {
+        $sql = "SELECT * FROM tamu ORDER BY id DESC";
         $query = $this->db->prepare($sql);
-        if ($search) {
-            $searchTerm = '%' . $search . '%';
-            $query->bindParam(':keyword', $searchTerm);
-        }
         $query->execute();
         return $query->fetchAll();
     }
@@ -25,16 +16,20 @@ class Tamu extends Database {
         return $query->fetch();
     }
 
-    public function getAllAkun(){
-        try {
-            $query = $this->db->prepare("SELECT * FROM tamu where username is not null ORDER BY id DESC");
-            $query->execute();
-            return $query->fetchAll();
-
-        } catch (PDOException $e) {
-            error_log("Get all akun error: " . $e->getMessage());
-            return [];
+    public function getAllAkun($search = null) {
+        $sql = "SELECT * FROM tamu where username is not null";
+        if ($search) {
+            $sql .= " AND (username LIKE :keyword OR nama_lengkap LIKE :keyword OR id LIKE :keyword)";
         }
+        
+        $sql .= " ORDER BY id DESC";
+        $query = $this->db->prepare($sql);
+        if ($search) {
+            $searchTerm = '%' . $search . '%';
+            $query->bindParam(':keyword', $searchTerm);
+        }
+        $query->execute();
+        return $query->fetchAll();
     }
     public function getSTamu($status) {
         try {
@@ -195,9 +190,9 @@ class Tamu extends Database {
             $qUpdateKasir->bindParam(':id', $id_tamu);
             $qUpdateKasir->execute();
 
-            //buat reset pake bawaan (1234) yh wil
+            //buat reset pake username yh wil
             if ($reset_password) { 
-                $password_default = '1234'; 
+                $password_default = password_hash($new_username, PASSWORD_DEFAULT); 
                 $qReset = $this->db->prepare("UPDATE user SET password = :p WHERE username = :u");
                 $qReset->bindParam(':u', $target_username);
                 $qReset->bindParam(':p', $password_default);
@@ -211,6 +206,21 @@ class Tamu extends Database {
             $this->db->rollBack();
             error_log("Update Kasir Error: " . $e->getMessage());
             return -3;
+        }
+    }
+
+    public function setStatus($id_kasir, $status) {
+        try {
+            $query = "UPDATE kasir 
+                      SET status = ? 
+                      WHERE id_kasir = ?";
+            
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$status, $id_kasir]);
+            
+            return ['success' => true];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
         }
     }
 }

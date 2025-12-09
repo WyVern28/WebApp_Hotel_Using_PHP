@@ -80,7 +80,7 @@ if (isset($_GET['logout'])) {
 
                 <div class="checkbox-group">
                     <input type="checkbox" name="reset_password" id="resetCheck" value="yes">
-                    <label for="resetCheck">Reset Password (<b>1234</b>)</label>
+                    <label for="resetCheck">Reset Password (<b>username</b>)</label>
                 </div>
                 <br>
 
