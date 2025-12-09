@@ -15,13 +15,9 @@ if (!isset($data)) {
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-        <div class="nav-left">
-            <span class="username">
-                Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
-                (<?php echo htmlspecialchars($_SESSION['role']); ?>)
-            </span>
-            <a href="../../controller/user/ProfileController.php?logout=true" class="logout">Logout</a>
+    <nav class="navbar" role="navigation" aria-label="Main navigation" >
+        <div class="nav-right">
+            <a href="index.php" class="brand">Ivory Palace</a>
         </div>
 
         <div class="nav-center">
@@ -30,9 +26,14 @@ if (!isset($data)) {
             <a href="../../controller/user/ProfileController.php">Profile</a>
         </div>
 
-        <div class="nav-right">
-            <a href="index.php" class="brand">Hotel Management</a>
+         <div class="nav-left">
+            <span class="username">
+                Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                (<?php echo htmlspecialchars($_SESSION['role']); ?>)
+            </span>
+            <a href="index.php?logout=true" class="logout">Logout</a>
         </div>
+
     </nav>
 
     <div class="profile-container">
@@ -43,7 +44,6 @@ if (!isset($data)) {
             </div>
         <?php endif; ?>
 
-        <!-- Profile Header -->
         <div class="profile-card">
             <div class="profile-header">
                 <div class="profile-avatar">
@@ -55,14 +55,12 @@ if (!isset($data)) {
                 </div>
             </div>
 
-            <!-- Tabs -->
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('profile')">Data Profile</button>
                 <button class="tab" onclick="switchTab('password')">Ubah Password</button>
                 <button class="tab" onclick="switchTab('history')">Riwayat Booking</button>
             </div>
 
-            <!-- Tab: Profile -->
             <div id="tab-profile" class="tab-content active">
                 <h3>Update Profile</h3>
                 <form method="POST" action="">
@@ -89,7 +87,6 @@ if (!isset($data)) {
                 </form>
             </div>
 
-            <!-- Tab: Password -->
             <div id="tab-password" class="tab-content">
                 <h3>Ubah Password</h3>
                 <form method="POST" action="">
@@ -114,7 +111,6 @@ if (!isset($data)) {
                 </form>
             </div>
 
-            <!-- Tab: Booking History -->
             <div id="tab-history" class="tab-content">
                 <h3>Riwayat Booking</h3>
                 <?php if (empty($data['bookingHistory'])): ?>
@@ -165,7 +161,6 @@ if (!isset($data)) {
 
     <script>
         function switchTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -173,7 +168,6 @@ if (!isset($data)) {
                 tab.classList.remove('active');
             });
 
-            // Show selected tab
             document.getElementById('tab-' + tabName).classList.add('active');
             event.target.classList.add('active');
         }

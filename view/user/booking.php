@@ -53,11 +53,7 @@ if (isset($_GET['logout'])) {
             
             <div class="gallery-container">
                 <div class="gallery-main">
-                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80" alt="Main Image">
-                </div>
-                <div class="gallery-side">
-                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500&q=80" alt="Kamar Mandi">
-                    <img src="../../asset/image/fam.jpg" alt="Interior">
+                    <img src="../../asset/image/col.jpg" alt="Main Image">
                 </div>
             </div>
 
