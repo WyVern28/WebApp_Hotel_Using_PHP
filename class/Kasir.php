@@ -30,15 +30,20 @@ class Kasir extends Database {
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
-    public function getAllKasir() {
-        $query = "SELECT id_kasir, username, nama, status 
-                  FROM kasir 
-                  ORDER BY nama";
+    public function getAllKasir($search = null) {
+        $sql = "SELECT * FROM kasir";
+        if ($search) {
+            $sql .= " WHERE username LIKE :keyword OR nama LIKE :keyword OR id_kasir LIKE :keyword";
+        }
         
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sql .= " ORDER BY id_kasir DESC";
+        $query = $this->db->prepare($sql);
+        if ($search) {
+            $searchTerm = '%' . $search . '%';
+            $query->bindParam(':keyword', $searchTerm);
+        }
+        $query->execute();
+        return $query->fetchAll();
     }
 
     public function getKasirById($id_kasir) {
