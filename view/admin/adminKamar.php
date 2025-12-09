@@ -95,6 +95,18 @@ if (isset($_GET['logout'])) {
             </div>
         </div>
 
+        <form method="GET" action="">
+            <input type="text" name="q" placeholder="Cari 101, Deluxe, dll..." 
+                value="<?= isset($data['search']) ? htmlspecialchars($data['search']) : '' ?>" 
+                class="search-input" style="padding:8px; border:1px solid #ccc; border-radius:5px;">
+            
+            <button type="submit" class="btn btn-primary" style="padding:8px 15px;">Cari</button>
+            
+            <?php if(!empty($data['search'])): ?>
+                <a href="adminKamar.php" class="btn btn-danger" style="padding:8px 15px; text-decoration:none;">Reset</a>
+            <?php endif; ?>
+        </form>
+
         <div class="card">
             <h3>Daftar Kamar Hotel</h3>
             <table class="table-custom">
