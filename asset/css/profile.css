@@ -103,7 +103,7 @@ body {
 }
 
 .profile-card {
-    background: rgba(60, 97, 161, 0.808); 
+    background: rgba(56, 112, 209, 0.808); 
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
@@ -164,7 +164,7 @@ body {
 }
 
 .form-group label {
-    color: #f1f5f9;
+    color: #777676;
     font-weight: 600;
 }
 
@@ -172,7 +172,7 @@ body {
 .form-group select {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255,255,255,0.3);
-    color: #d5d7db;
+    color: #65676b;
 }
 
 .form-group input:focus,
@@ -201,7 +201,7 @@ body {
 }
 
 .booking-table td {
-    color: #f1f5f9;
+    color: #65676b;
 }
 
 .badge-success,
