@@ -37,7 +37,7 @@ if (!isset($data)) {
     </sidebar>
     <div class="main-content">
         <h1>OTS Order</h1>
-        <div class="section-title">BUAT BOOKING BARU (WALK-IN)</div>
+        <div class="section-title">WALK-IN BOOKING</div>
 
         <?php if ($data['message']): ?>
         <div class="alert alert-<?php echo $data['message_type']; ?>">
@@ -46,9 +46,20 @@ if (!isset($data)) {
         <?php endif; ?>
 
         <div class="info-box">
-            <p>ID KASIR: <?php echo $data['id_kasir']; ?></p>
-            <p>NAMA KASIR: <?php echo $data['nama_kasir']; ?></p>
-            <p>TANGGAL: <?php echo date('d/m/Y'); ?></p>
+            <table class="info-box-child">
+                <tr>
+                    <th>ID KASIR</th>
+                    <td><?php echo $data['id_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>NAMA KASIR</th>
+                    <td><?php echo $data['nama_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>STATUS</th>
+                    <td>Aktif</td>
+                </tr>
+            </table>
         </div>
 
         <form method="POST" class="form-container" id="bookingForm">
@@ -121,8 +132,8 @@ if (!isset($data)) {
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-action">PROSES BOOKING</button>
-                <button type="reset" class="btn-action secondary">RESET</button>
+                <button type="submit" class="btn-action btn-blue">PROSES BOOKING</button>
+                <button type="reset" class="btn-action secondary btn-blue">RESET</button>
             </div>
         </form>
 

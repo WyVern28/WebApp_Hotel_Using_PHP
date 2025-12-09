@@ -74,11 +74,11 @@ if (!isset($data)) {
                 <?php if (!empty($data['recentBookings'])): ?>
                     <?php foreach ($data['recentBookings'] as $index => $booking): ?>
                         <tr>
-                            <td><?php echo $index + 1; ?></td>
+                            <td class="td-center"><?php echo $index + 1; ?></td>
                             <td><?php echo $booking['kode_booking']; ?></td>
                             <td><?php echo $booking['nama_lengkap']; ?></td>
-                            <td><?php echo $booking['nomor_kamar']; ?></td>
-                            <td><?php echo $booking['status']; ?></td>
+                            <td class="td-center"><?php echo $booking['nomor_kamar']; ?></td>
+                            <td class="td-center"><?php echo $booking['status']; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

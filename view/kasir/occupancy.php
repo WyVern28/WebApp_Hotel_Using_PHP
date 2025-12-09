@@ -43,14 +43,24 @@ if (!isset($data)) {
         <div class="section-title">TABEL OCCUPANCY KAMAR</div>
 
         <div class="info-box">
-            <p>ID KASIR: <?php echo $data['id_kasir']; ?></p>
-            <p>NAMA KASIR: <?php echo $data['nama_kasir']; ?></p>
-            <p>STATUS: Aktif</p>
+            <table class="info-box-child">
+                <tr>
+                    <th>ID KASIR</th>
+                    <td><?php echo $data['id_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>NAMA KASIR</th>
+                    <td><?php echo $data['nama_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>STATUS</th>
+                    <td>Aktif</td>
+                </tr>
+            </table>
         </div>
-
         <div class="filter-container">
-            <button class="btn-filter">FILTER</button>
-            <button class="btn-filter">SEARCH</button>
+            <button class="btn-filter btn-blue">FILTER</button>
+            <button class="btn-filter btn-blue">SEARCH</button>
         </div>
 
         <table class="order-table">
@@ -69,13 +79,13 @@ if (!isset($data)) {
                 <?php if (!empty($data['occupiedRooms'])): ?>
                     <?php foreach ($data['occupiedRooms'] as $index => $room): ?>
                     <tr>
-                        <td><?php echo $index + 1; ?></td>
-                        <td><?php echo $room['nomor_kamar']; ?></td>
+                        <td class="td-center"><?php echo $index + 1; ?></td>
+                        <td class="td-center"><?php echo $room['nomor_kamar']; ?></td>
                         <td><?php echo $room['nama_lengkap']; ?></td>
                         <td><?php echo $room['nama_tipe']; ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($room['tgl_check_in'])); ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($room['tgl_check_out'])); ?></td>
-                        <td class="status-occupied"><?php echo strtoupper($room['status']); ?></td>
+                        <td class="td-center"><?php echo date('d/m/Y', strtotime($room['tgl_check_in'])); ?></td>
+                        <td class="td-center"><?php echo date('d/m/Y', strtotime($room['tgl_check_out'])); ?></td>
+                        <td class="status-occupied td-center"><?php echo strtoupper($room['status']); ?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

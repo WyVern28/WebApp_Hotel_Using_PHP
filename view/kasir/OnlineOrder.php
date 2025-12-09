@@ -48,13 +48,24 @@ if (!isset($data)) {
         <?php endif; ?>
 
         <div class="info-box">
-            <p>ID KASIR: <?php echo $data['id_kasir']; ?></p>
-            <p>NAMA KASIR: <?php echo $data['nama_kasir']; ?></p>
-            <p>STATUS: Aktif</p>
+            <table class="info-box-child">
+                <tr>
+                    <th>ID KASIR</th>
+                    <td><?php echo $data['id_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>NAMA KASIR</th>
+                    <td><?php echo $data['nama_kasir']; ?></td>
+                </tr>
+                <tr>
+                    <th>STATUS</th>
+                    <td>Aktif</td>
+                </tr>
+            </table>
         </div>
 
         <div class="info-kamar">
-            INFORMASI JENIS KAMAR
+            Informasi Jenis Kamar
         </div>
 
         <table class="order-table">
@@ -74,17 +85,17 @@ if (!isset($data)) {
                     <?php $no = 1; ?>
                     <?php foreach ($data['onlineOrders'] as $order): ?>
                     <tr>
-                        <td><?php echo $no++; ?></td>
+                        <td class="td-center"><?php echo $no++; ?></td>
                         <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
                         <td><?php echo $order['nama_tipe'] ?? '-'; ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
-                        <td><button class="icon-btn">📝</button></td>
-                        <td>
+                        <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
+                        <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
+                        <td class="td-center"><button class="icon-btn">Edit</button></td>
+                        <td class="td-center">
                             <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id_booking" value="<?php echo $order['id']; ?>">
-                                <button type="submit" class="icon-btn">🗑️</button>
+                                <button type="submit" class="btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -100,8 +111,8 @@ if (!isset($data)) {
         <!-- <button class="btn-tambah">+ TAMBAH ORDER</button> -->
 
         <div class="btn-container">
-            <button class="btn-action secondary">CETAK STRUK</button>
-            <button class="btn-action">SIMPAN</button>
+            <button class="btn-action secondary btn-blue">CETAK STRUK</button>
+            <button class="btn-action btn-blue">SIMPAN</button>
         </div>
 
         <footer>
