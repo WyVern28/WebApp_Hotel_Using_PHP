@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'tamu') {
     header('Location: login.php');
@@ -29,9 +29,9 @@ if (isset($_GET['logout'])) {
         </div>
 
         <div class="nav-center">
-            <a href="index.php">Home</a>
-            <a href="booking.php">Booking</a>
-            <a href="profile.php">Profile</a>
+            <a href="../../controller/user/IndexController.php">Home</a>
+            <a href="../../controller/user/BookingController.php">Booking</a>
+            <a href="../../controller/user/ProfileController.php">Profile</a>
         </div>
 
          <div class="nav-left">
