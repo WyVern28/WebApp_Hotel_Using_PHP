@@ -16,8 +16,8 @@
     --stat-yellow: linear-gradient(135deg, #f5a623, #d48806);
     --stat-green: linear-gradient(135deg, #7ed321, #5cae0d);
 
-    --shadow-soft: 0 3px 20px rgba(0,0,0,0.045);
-    --shadow-hover: 0 8px 25px rgba(0,0,0,0.1);
+    --shadow-soft: 0 3px 20px rgba(0, 0, 0, 0.045);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -64,7 +64,7 @@ h2 {
 .sidebar-header {
     text-align: center;
     padding-bottom: 25px;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .sidebar-header h3 {
@@ -81,7 +81,7 @@ h2 {
 .sidebar-nav p {
     margin: 15px 0 5px;
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -99,20 +99,20 @@ h2 {
     align-items: center;
     padding: 12px 15px;
     text-decoration: none;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255, 255, 255, 0.85);
     border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 .sidebar-menu a:hover {
-    background: rgba(255,255,255,0.12);
+    background: rgba(255, 255, 255, 0.12);
     transform: translateX(4px);
     color: white;
 }
 
 .sidebar-menu a.active {
     background: var(--accent-color);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     font-weight: 600;
 }
 
@@ -120,9 +120,9 @@ h2 {
 .sidebar-footer {
     margin-top: auto;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     font-size: 13px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-footer span {
@@ -167,9 +167,17 @@ h2 {
     box-shadow: var(--shadow-hover);
 }
 
-.stat-blue { background: var(--stat-blue); }
-.stat-yellow { background: var(--stat-yellow); }
-.stat-green { background: var(--stat-green); }
+.stat-blue {
+    background: var(--stat-blue);
+}
+
+.stat-yellow {
+    background: var(--stat-yellow);
+}
+
+.stat-green {
+    background: var(--stat-green);
+}
 
 /* ------------------------------------------------
    TABEL GLOBAL
@@ -225,7 +233,8 @@ tbody tr:hover {
 --------------------------------------------------- */
 .info-table {
     border-radius: 12px;
-    overflow: hidden;   /* WAJIB supaya border radius muncul */
+    overflow: hidden;
+    /* WAJIB supaya border radius muncul */
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-soft);
     width: fit-content;
@@ -264,19 +273,19 @@ tbody tr:hover {
     background: #ffffff;
     padding: 14px;
     border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     margin: 20px 0;
     width: 100%;
     max-width: 300px;
     font-size: 16px;
 }
 
-.info-box-child { 
+.info-box-child {
     width: 100%;
     border-collapse: collapse;
 }
 
-.info-box-child th { 
+.info-box-child th {
     text-align: left;
     background: #ffffff;
     color: #0d47a1;
@@ -286,7 +295,7 @@ tbody tr:hover {
     border-radius: 8px 0 0 8px;
 }
 
-.info-box-child td { 
+.info-box-child td {
     padding: 10px 16px;
     background: #ffffff;
     border-radius: 0 8px 8px 0;
@@ -296,12 +305,12 @@ tbody tr:hover {
 }
 
 /* jarak antar baris */
-.info-box-child tr + tr th, 
-.info-box-child tr + tr td { 
+.info-box-child tr+tr th,
+.info-box-child tr+tr td {
     padding-top: 2px;
 }
 
-.order-table{
+.order-table {
     margin-top: 20px;
 }
 
@@ -326,7 +335,9 @@ label {
     font-size: 14px;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
     padding: 12px 15px;
     border-radius: 8px;
@@ -336,16 +347,19 @@ input, select, textarea {
     transition: 0.3s;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(26,135,231,0.2);
+    box-shadow: 0 0 0 3px rgba(26, 135, 231, 0.2);
     outline: none;
 }
 
 /* ------------------------------------------------
    BUTTONS
 --------------------------------------------------- */
-button, .btn {
+button,
+.btn {
     padding: 12px 25px;
     border-radius: 8px;
     border: none;
@@ -398,4 +412,85 @@ footer {
     padding: 20px;
     color: var(--text-muted);
     border-top: 1px solid var(--border-color);
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'update_profile') {
         $data = [
             'nama_lengkap' => trim($_POST['nama_lengkap']),
-            'no_ktp' => trim($_POST['no_ktp']),
+            // 'no_ktp' => trim($_POST['no_ktp']),
             'no_hp' => trim($_POST['no_hp'])
         ];
 
