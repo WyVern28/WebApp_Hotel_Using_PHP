@@ -24,22 +24,22 @@ if (isset($_GET['logout'])) {
     </head>
 <body>
     <nav class="navbar" role="navigation" aria-label="Main navigation" >
-        <div class="nav-left">
-            <span class="username">
-                Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
-                (<?php echo htmlspecialchars($_SESSION['role']); ?>)
-            </span>
-            <a href="index.php?logout=true" class="logout">Logout</a>
+        <div class="nav-right">
+            <a href="index.php" class="brand">Ivory Palace</a>
         </div>
-
+       
         <div class="nav-center">
             <a href="index.php">Home</a>
             <a href="booking.php">Booking</a>
             <a href="profile.php">Profile</a>
         </div>
 
-        <div class="nav-right">
-            <a href="index.php" class="brand">Ivory Palace</a>
+         <div class="nav-left">
+            <span class="username">
+                Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                (<?php echo htmlspecialchars($_SESSION['role']); ?>)
+            </span>
+            <a href="index.php?logout=true" class="logout">Logout</a>
         </div>
     </nav>
 
