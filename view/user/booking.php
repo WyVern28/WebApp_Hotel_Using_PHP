@@ -71,12 +71,12 @@ if (isset($_GET['logout'])) {
 
             <h3>Fasilitas Utama</h3>
             <ul class="facility-list">
-                <li>✅ Pantai Privat</li>
-                <li>✅ Kolam Renang Infinity</li>
-                <li>✅ WiFi Gratis</li>
-                <li>✅ Sarapan Buffet</li>
-                <li>✅ Spa & Massage</li>
-                <li>✅ Layanan Kamar 24 Jam</li>
+                <li> Pantai Privat</li>
+                <li> Kolam Renang Infinity</li>
+                <li> WiFi Gratis</li>
+                <li> Sarapan Buffet</li>
+                <li> Spa & Massage</li>
+                <li> Layanan Kamar 24 Jam</li>
             </ul>
 
             <hr class="divider">
@@ -89,7 +89,7 @@ if (isset($_GET['logout'])) {
                 </div>
                 <div class="review-card">
                     <div class="reviewer-info">
-                        <strong>Karrel Valenta</strong>
+                        <strong>Valenta</strong>
                         <small>Januari 2025</small>
                     </div>
                     <p>"Tempatnya sangat bersih dan staf ramah. Lokasi strategis dekat pantai."</p>

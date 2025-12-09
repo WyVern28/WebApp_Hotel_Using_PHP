@@ -33,7 +33,6 @@ if (isset($_GET['logout'])) {
                 <li><a href="../../controller/admin/adminTamu.php">TAMU</a></li>
                 <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
                 <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="#">DISKON</a></li>
                 <li><a href="#">LAPORAN</a></li>
                 <li><a href="#">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
@@ -67,7 +66,10 @@ if (isset($_GET['logout'])) {
                         <td><?php echo date('d F Y'); ?></td>                    
                     </tr>
                 </table>
+
+                
             </div>
+            
             <footer>
                 Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
             </footer>

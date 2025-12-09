@@ -33,7 +33,6 @@ if (isset($_GET['logout'])) {
                 <li><a href="#">TAMU</a></li>
                 <li><a href="#">KASIR</a></li>
                 <li><a href="#">KAMAR</a></li>
-                <li><a href="#">DISKON</a></li>
                 <li><a href="#">LAPORAN</a></li>
                 <li><a href="#">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
