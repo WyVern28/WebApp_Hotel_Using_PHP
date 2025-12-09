@@ -165,9 +165,11 @@ if (!isset($data)) {
         </script>
 
         <div class="section-title" style="margin-top: 30px;">DAFTAR OTS ORDER HARI INI</div>
+
         <table class="order-table">
             <thead>
                 <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                     <th>NO</th>
                     <th>ID BOOKING</th>
                     <th>NAMA TAMU</th>
@@ -185,6 +187,9 @@ if (!isset($data)) {
                     <?php $no = 1; ?>
                     <?php foreach ($data['todayOrders'] as $order): ?>
                     <tr>
+                        <td class="td-center">
+                            <input type="checkbox" name="selected_bookings[]" value="<?php echo $order['id']; ?>" class="booking-checkbox">
+                        </td>
                         <td><?php echo $no++; ?></td>
                         <td><?php echo $order['kode_booking']; ?></td>
                         <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
@@ -211,11 +216,40 @@ if (!isset($data)) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="9" style="text-align: center;">Belum ada booking hari ini</td>
+                        <td colspan="11" style="text-align: center;">Belum ada booking hari ini</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
+
+        <div class="btn-container" style="margin-top: 20px;">
+            <button class="btn-action btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
+        </div>
+
+        <script>
+        function toggleSelectAll(source) {
+            const checkboxes = document.querySelectorAll('.booking-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = source.checked;
+            });
+        }
+
+        function cetakStruk() {
+            const selected = [];
+            document.querySelectorAll('.booking-checkbox:checked').forEach(cb => {
+                selected.push(cb.value);
+            });
+
+            if (selected.length === 0) {
+                alert('Pilih minimal 1 booking untuk dicetak!');
+                return;
+            }
+
+            const ids = selected.join(',');
+            window.open('../../controller/kasir/PrintStrukController.php?ids=' + ids, '_blank');
+        }
+        </script>
+
         <footer>
             Copyright &copy; Hotel <?php echo date('Y'); ?>
         </footer>

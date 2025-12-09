@@ -94,7 +94,8 @@ if (!isset($data)) {
                             <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
                             <td class="td-center">
                                 <a href="../../controller/kasir/OnlineOrderEditController.php?id=<?php echo $order['id']; ?>">
-                                    <button type="submit" class="btn-primary">Edit</button></a>
+                                    <button type="button" class="btn-primary">Edit</button>
+                                </a>
                             </td>
                             <td class="td-center">
                                 <form method="POST" style="display: inline;"
@@ -114,17 +115,9 @@ if (!isset($data)) {
             </tbody>
         </table>
 
-        <!-- <button class="btn-tambah">+ TAMBAH ORDER</button> -->
-
-        <div class="btn-container">
-            <button class="btn-action secondary btn-blue">CETAK STRUK</button>
-            <button class="btn-action btn-blue">SIMPAN</button>
-        </div>
-
         <footer>
             Copyright &copy; Hotel <?php echo date('Y'); ?>
         </footer>
     </div>
 </body>
-
 </html>
