@@ -8,7 +8,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
-    background-image: url(../../asset/image/background-login.jpg);
+    background-image: url(../../asset/image/bg.jpg);
 }
 
 .navbar {
@@ -39,7 +39,6 @@ body {
 .logout {
     text-decoration: none;
     color: #d32f2f;
-    /* Merah agak gelap */
     border: 1px solid #d32f2f;
     padding: 5px 12px;
     border-radius: 4px;
@@ -104,11 +103,12 @@ body {
 }
 
 .profile-card {
-    background: rgba(247, 250, 252, 0.65);
+    background: rgba(60, 97, 161, 0.808); 
     border-radius: 20px;
     padding: 32px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #f1f5f9; 
 }
 
 .profile-header {
@@ -116,30 +116,100 @@ body {
     align-items: center;
     gap: 22px;
     padding-bottom: 25px;
-    border-bottom: 1px solid #e6eaf1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .profile-avatar {
     width: 75px;
     height: 75px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9ec5ff, #4f8bff);
+    background: linear-gradient(135deg, #a8caff, #4f82ff);
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 32px;
-    font-weight: 50px;
+    font-weight: bold;
 }
 
 .profile-info h2 {
     font-size: 24px;
     margin-bottom: 5px;
+    color: #ffffff;
 }
 
 .profile-info p {
-    color: #666;
+    color: rgba(255, 255, 255, 0.8);
 }
+
+.tabs .tab {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.tabs .tab.active {
+    background: rgba(255,255,255,0.4);
+    font-weight: bold;
+}
+
+.tab-content h3 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.form-group label {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #d5d7db;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #dbeafe;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+}
+
+.btn-primary {
+    background: #ffffff;
+    color: #122e7a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #e2e8f0;
+}
+
+.booking-table th {
+    background: rgba(255,255,255,0.3);
+    color: #fff;
+}
+
+.booking-table td {
+    color: #f1f5f9;
+}
+
+.badge-success,
+.badge-warning,
+.badge-danger {
+    color: white !important;
+}
+
 
 .tabs {
     display: flex;
@@ -184,7 +254,7 @@ body {
     display: block;
     font-size: 14px;
     margin-bottom: 6px;
-    color: #444;
+    color: #f5ecec;
 }
 
 .form-group input {

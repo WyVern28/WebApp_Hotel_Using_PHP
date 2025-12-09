@@ -8,6 +8,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
+    background-image: url(../../asset/image/bg.jpg);
 }
 
 .navbar {
