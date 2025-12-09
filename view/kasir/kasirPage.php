@@ -49,11 +49,11 @@ if (!isset($data)) {
         <div class="info-table">
             <table>
                 <tr>
-                    <td>Nama</td>
+                    <td>NAMA</td>
                     <td><?php echo $data['username']; ?></td>
                 </tr>
                 <tr>
-                    <td>Tanggal</td>
+                    <td>TANGGAL</td>
                     <td><?php echo $data['currentDateTime']; ?></td>
                 </tr>
             </table>

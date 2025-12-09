@@ -94,7 +94,7 @@ if (!isset($data)) {
                             <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
                             <td class="td-center">
                                 <a href="../../controller/kasir/OnlineOrderEditController.php?id=<?php echo $order['id']; ?>">
-                                    <button type="button" class="btn-primary">Edit</button>
+                                    <button type="button" class="btn-primary">EDIT</button>
                                 </a>
                             </td>
                             <td class="td-center">
@@ -102,7 +102,7 @@ if (!isset($data)) {
                                     onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id_booking" value="<?php echo $order['id']; ?>">
-                                    <button type="submit" class="btn-danger">Delete</button>
+                                    <button type="submit" class="btn-danger">DELETE</button>
                                 </form>
                             </td>
                         </tr>
