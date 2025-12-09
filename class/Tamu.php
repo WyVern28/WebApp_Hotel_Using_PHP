@@ -13,6 +13,29 @@ class Tamu extends Database {
             return [];
         }
     }
+    public function getAllAkun(){
+        try {
+            $query = $this->db->prepare("SELECT * FROM tamu where username is not null ORDER BY id DESC");
+            $query->execute();
+            return $query->fetchAll();
+
+        } catch (PDOException $e) {
+            error_log("Get all akun error: " . $e->getMessage());
+            return [];
+        }
+    }
+    public function getSTamu($status) {
+        try {
+            $query = $this->db->prepare("SELECT * FROM tamu WHERE status = :status and username is not null ORDER BY id DESC");
+            $query->bindParam(":status", $status);
+            $query->execute();
+            return $query->fetchAll();
+
+        } catch (PDOException $e) {
+            error_log("Get tamu by status error: " . $e->getMessage());
+            return [];
+        }
+    }
     public function getProfileByUsername($username){
         try{
             $query = $this->db->prepare("SELECT t.*, u.username, u.dibuat_pada 
