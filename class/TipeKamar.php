@@ -24,7 +24,7 @@ class TipeKamar extends Database {
             return false;
         }
     }
-    public function getAvailableRoomsCount(){
+    public function getAvailableRoomsCount($id_tipe_kamar){
         try{
             $query = $this->db->prepare("SELECT COUNT(*) as total FROM kamar WHERE id_tipe_kamar = :id_tipe_kamar AND status_kamar = 'tersedia'");
             $query ->bindParam(":id_tipe_kamar", $id_tipe_kamar, PDO::PARAM_INT);

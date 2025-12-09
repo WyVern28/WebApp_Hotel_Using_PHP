@@ -52,9 +52,9 @@ if (isset($_GET['logout'])) {
         </header>
         <div class="stats-container">
             <a href="../../controller/admin/adminKasir.php"><div class="stat-box stat-blue">Total Tamu: <?php echo count($data['allTamu']); ?></div></a>
-            <a href="../../controller/admin/adminTamu.php"><div class="stat-box stat-yellow">Total Akun: <?php //echo count($data['allTamu']); ?></div></a>
-            <a href="../../controller/admin/adminKamar.php"><div class="stat-box stat-green">Akun Aktif: <?php //echo count($data['allKamar']); ?></div></a>
-            <div class="stat-box stat-green">Akun Non-Aktif: <?php //echo count($data['rooms']);?></div>
+            <a href="../../controller/admin/adminTamu.php"><div class="stat-box stat-yellow">Total Akun: <?php echo count($data['allAkun']); ?></div></a>
+            <a href="../../controller/admin/adminTamu.php"><div class="stat-box stat-green">Akun Aktif: <?php echo count($data['activeAkun']); ?></div></a>
+            <div class="stat-box stat-green">Akun Non-Aktif: <?php echo count($data['inactiveAkun']); ?></div>
         </div>
 
         <?php if (!empty($data['pesan'])): ?>
@@ -65,7 +65,7 @@ if (isset($_GET['logout'])) {
 
         <div class="card">
             <h3 style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
-                + Tambah Kasir Baru
+                + Tambah Akun Baru
             </h3>
             <form method="POST" action="">
                 <div style="display: flex; gap: 20px;">
@@ -78,21 +78,21 @@ if (isset($_GET['logout'])) {
                         <input type="text" name="nama" class="form-control" required placeholder="Contoh: Siti Aminah">
                     </div>
                     <div class="form-group" style="flex: 1;">
-                        <label>Password</label>
-                        <input type="text" name="password" class="form-control" required placeholder="Password">
+                        <label>No HP</label>
+                        <input type="text" name="hp" class="form-control" required placeholder="08...">
                     </div>
                 </div>
-                <button type="submit" name="add_kasir" class="btn btn-primary">Simpan Data</button>
+                <button type="submit" name="add_akun" class="btn btn-primary">Simpan Data</button>
             </form>
         </div>
         <br>
         <div class="card">
-            <h2>Daftar Pegawai Kasir</h2>
+            <h2>Daftar Tamu</h2>
             <form method="GET" action="" class="search-box">
                 <input type="text" name="q" class="search-input" placeholder="Cari nama atau username" value="<?= isset($data['search']) ? htmlspecialchars($data['search']) : '' ?>">
                 <button type="submit" class="btn btn-primary" style="padding: 8px 15px;">Cari</button>
                 <?php if(isset($data['search']) && $data['search'] != ''){ ?>
-                    <a href="adminKasir.php" class="btn btn-danger" style="padding: 8px 15px;">Reset</a>
+                    <a href="adminTamu.php" class="btn btn-danger" style="padding: 8px 15px;">Reset</a>
                 <?php } ?>
             </form>
             <br>
@@ -106,8 +106,8 @@ if (isset($_GET['logout'])) {
                         <th width="20%">Aksi</th> </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($data['allKasir'])): ?>
-                        <tr><td colspan="5" style="text-align:center; padding: 20px;">Data kasir tidak ditemukan.</td></tr>
+                    <?php if (empty($data['allTamu'])): ?>
+                        <tr><td colspan="5" style="text-align:center; padding: 20px;">Data tamu tidak ditemukan.</td></tr>
                     <?php else: ?>
                         <?php foreach ($data['allTamu'] as $row){ ?>
                         <tr>

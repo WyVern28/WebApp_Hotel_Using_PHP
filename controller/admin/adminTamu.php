@@ -18,13 +18,13 @@ $kasir = new Kasir();
 $tamu = new Tamu();
 $pesan = "";
 
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_kasir'])) {
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_akun'])) {
     $username = $_POST['username'];
     $nama = $_POST['nama'];
-    $password = $_POST['password'];
+    $hp = $_POST['hp'];
 
-    if ($kasir->addKasir($username, $nama, $password)) {
-        $pesan = "Berhasil menambah kasir baru!";
+    if ($tamu->addAkunTamu($username, $nama, $hp)) {
+        $pesan = "Berhasil menambah tamu baru!";
     } else {
         $pesan = "Gagal! Username sudah digunakan.";
     }
@@ -34,30 +34,31 @@ if(isset($_GET['aksi']) && $_GET['aksi'] == 'status' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $status_baru = $_GET['val'];
     $kasirStatus = $kasir->rubahStatus($id, $status_baru);
-    header('Location: adminKasir.php');
+    header('Location: adminTamu.php');
     exit();
 }
 
-// update kasir dibagian edit
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_kasir'])) {
-    $id_kasir       = $_POST['id_kasir'];
+// update tamu dibagian edit
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_tamu'])) {
+    $id_tamu       = $_POST['id'];
     $username       = trim($_POST['username']); 
     $nama           = trim($_POST['nama']);
+    $hp             = trim($_POST['hp']);
     $status         = $_POST['status'];
     $reset_pass     = isset($_POST['reset_password']) ? true : false;
 
     if(empty($username) || empty($nama)){
         $pesan = "Gagal: Username dan Nama tidak boleh kosong!";
     } else {
-        $resultCode = $kasir->updateKasir($id_kasir, $username, $nama, $status, $reset_pass);
+        $resultCode = $tamu->updateTamu($id_tamu, $username, $nama, $hp, $status, $reset_pass);
 
         if ($resultCode === 1) {
-            header("Location: adminKasir.php?msg=updated");
+            header("Location: adminTamu.php?msg=updated");
             exit();
         } elseif ($resultCode === -1) {
             $pesan = "Gagal Update: Username '$username' sudah digunakan user lain.";
         } elseif ($resultCode === -2) {
-            $pesan = "Gagal Update: Data kasir tidak ditemukan.";
+            $pesan = "Gagal Update: Data tamu tidak ditemukan.";
         } else {
             $pesan = "Gagal Update: Terjadi kesalahan sistem database.";
         }
@@ -66,13 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_kasir'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['trigger_edit'])) {
     $id = $_POST['id'];
-    $dataKasir = $kasir->getKasirById($id);
-    include __DIR__ .'/../../view/admin/adminKasirEdit.php';
+    $dataTamu = $tamu->getTamuById($id);
+    include __DIR__ .'/../../view/admin/adminTamuEdit.php';
     exit(); 
 }
 
 if (isset($_GET['msg']) && $_GET['msg'] == 'updated' && empty($pesan)) {
-    $pesan = "Data kasir berhasil diperbarui!";
+    $pesan = "Data tamu berhasil diperbarui!";
 }
 
 $search = isset($_GET['q']) ? $_GET['q'] : null;
@@ -82,7 +83,10 @@ $data = [
     'allKasir' => $kasir->getAllKasir($search),
     'search' => $search,
     'pesan' => $pesan,
-    'allTamu' => $tamu->getAllTamu(),
+    'allTamu' => $tamu->getAllTamu($search),
+    'allAkun' => $tamu->getAllAkun(),
+    'activeAkun' => $tamu->getSTamu(1),
+    'inactiveAkun' => $tamu->getSTamu(0)
 ];
 
 include '../../view/admin/adminTamu.php';
