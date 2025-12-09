@@ -5,7 +5,9 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
 
-    background: #221fa0;
+    background: url('../image/background-login.jpg');
+    background-size: cover; 
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +29,7 @@ h2 {
     margin-bottom: 20px;
     color: #1565c0;
     font-weight: 600;
+    font-size: 30px;
 }
 
 label {
@@ -41,7 +44,7 @@ input[type="password"] {
     margin-top: 5px;
     margin-bottom: 15px;
     border: 1px solid #aaa;
-    border-radius: 6px;
+    border-radius: 10px;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -51,7 +54,7 @@ button {
     background: #1976d2;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -59,7 +62,15 @@ button {
 }
 
 button:hover {
-    background: #0d47a1;
+    background: #0b469f;
+}
+
+p {
+    font-size: 16px;
+}
+
+.foot {
+    font-size: 14px;
 }
 
 p a {
