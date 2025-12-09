@@ -90,7 +90,9 @@ if (!isset($data)) {
                         <td><?php echo $order['nama_tipe'] ?? '-'; ?></td>
                         <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
                         <td class="td-center"><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
-                        <td class="td-center"><button class="icon-btn">Edit</button></td>
+                        <td class="td-center">
+                            <a href="../../controller/kasir/OnlineOrderEditController.php?id=<?php echo $order['id']; ?>" class="icon-btn" style="text-decoration: none;">Edit</a>
+                        </td>
                         <td class="td-center">
                             <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
                                 <input type="hidden" name="action" value="delete">

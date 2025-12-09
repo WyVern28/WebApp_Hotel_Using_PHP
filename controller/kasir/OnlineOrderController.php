@@ -14,8 +14,14 @@ if (isset($_GET['logout'])) {
 require_once '../../class/Booking.php';
 
 $booking = new Booking();
-$message = '';
-$message_type = '';
+$message = "";
+$message_type = "";
+
+if (isset($_GET['msg']) && $_GET['msg'] == 'updated') {
+    $message = "Data booking berhasil diperbarui!";
+    $message_type = "success";
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         if ($_POST['action'] === 'delete' && isset($_POST['id_booking'])) {
