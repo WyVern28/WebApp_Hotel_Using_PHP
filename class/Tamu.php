@@ -29,7 +29,7 @@ class Tamu extends Database {
     }
     public function updateProfile($username,$data){
         try{
-            $query = $this->db->prepare("UPDATE tamu SET nama_lengkap = :nama_lengkap, no_hp = :no_hpWHERE username = :username");
+            $query = $this->db->prepare("UPDATE tamu SET nama_lengkap = :nama_lengkap, no_hp = :no_hp WHERE username = :username");
             $query ->bindParam(":nama_lengkap", $data['nama_lengkap']);
             $query ->bindParam(":no_hp", $data['no_hp']);
             $query ->bindParam(":username", $username);
