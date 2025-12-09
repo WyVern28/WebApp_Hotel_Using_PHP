@@ -6,13 +6,15 @@ body {
     font-family: 'Poppins', sans-serif;
 
     background: url('../image/background-login.jpg');
-    background-size: cover; 
+    background-size: cover;
+    background-position: center; 
 
     display: flex;
-    justify-content: center; /* Elemen mulai dari atas */
-    align-items: center;    
-    height: 100vh;
-    color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: auto;
+    color: #fffff0;
 }
 
 h1 {
@@ -27,27 +29,26 @@ h1 {
     animation: h1Slide 0.9s ease-out forwards;
 }
 
+.container {
+    background: #ffffff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 320px;
+    color: #000;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards 0.3s;
+}
+
 .wrap{
     display: flex;
     flex-direction: column;
     align-items: center;   /* h1 dan container ke tengah */
     gap: 20px;             /* jarak antara h1 dan container */
     width: 100%;
-    padding-top: 0px;
-    margin-top: -40px;
-}
-
-.container {
-    background: #fffff0; 
-    backdrop-filter: blur(10px); 
-    padding: 25px 30px;
-    border-radius: 12px;
-    width: 320px;
-    color: #000;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.25);
-
-    opacity: 0;
-    animation: fadeIn 0.5s ease-out forwards 0.3s;
+    padding-top: 50px;
+    padding-bottom: 70px;
 }
 
 h2 {

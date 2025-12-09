@@ -55,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../asset/css/login.css">
 </head>
 <body>
+    <div class="wrap">
+    <h1>Welcome to <b>Ivory Palace!</b></h1>
     <div class="container">
     <h2>Login</h2>
 
@@ -81,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <p class="foot">Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+    </div>
     </div>
 </body>
 </html>

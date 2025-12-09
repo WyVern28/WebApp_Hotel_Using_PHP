@@ -44,8 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Hotel</title>
+    <link rel="stylesheet" href="../asset/css/register.css">
 </head>
 <body>
+    <div class="wrap">
+    <h1>Join <b>Ivory Palace</b> family!</h1>
+    <div class="container">
     <h2>Register</h2>
 
     <?php if ($error): ?>
@@ -85,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit" href="register.php">Register</button>
     </form>
 
-    <p>Sudah punya akun? <a href="login.php">Login di sini</a></p>
+    <p class="foot">Sudah punya akun? <a href="login.php">Login di sini</a></p>
+    </div>
+    </div>
 </body>
 </html>
