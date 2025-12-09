@@ -230,30 +230,30 @@ tbody tr:hover {
    INFO TABLE
 --------------------------------------------------- */
 .info-table {
-    border-radius: 12px;
-    overflow: hidden;
-    /* WAJIB supaya border radius muncul */
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-soft);
-    width: fit-content;
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 300px;
+    font-size: 16px;
 }
 
 .info-table table {
     width: 100%;
     max-width: 600px;
-    border-collapse: collapse;
     overflow: hidden;
-    border: 1px solid var(--border-color);
+    border: none;
 }
 
 .info-table td {
-    padding: 15px 20px;
+    padding: 10px 20px;
 }
 
 .info-table td:first-child {
     background: #f8f9fa;
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--primary-color);
 }
 
 .icon-delete {
