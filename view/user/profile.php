@@ -25,8 +25,8 @@ if (!isset($data)) {
         </div>
 
         <div class="nav-center">
-            <a href="index.php">Home</a>
-            <a href="booking.php">Booking</a>
+            <a href="../../controller/user/IndexController.php">Home</a>
+            <a href="../../controller/user/BookingController.php">Booking</a>
             <a href="../../controller/user/ProfileController.php">Profile</a>
         </div>
 

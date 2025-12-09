@@ -133,7 +133,7 @@ class Booking extends Database {
             }
 
             // Update status kamar
-            $queryKamar = $this->db->prepare("UPDATE kamar SET status = 'terisi' WHERE id = :id_kamar");
+            $queryKamar = $this->db->prepare("UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar");
             $queryKamar->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
             
             if (!$queryKamar->execute()) {
@@ -148,6 +148,18 @@ class Booking extends Database {
             $this->db->rollBack();
             // Simpan error message di session untuk ditampilkan
             $_SESSION['booking_error_detail'] = $e->getMessage();
+            return false;
+        }
+    }
+    public function createBookingForRegisteredUser($bookingData){
+        try{
+            $this->db->beginTransaction();
+            $kodeBooking = 'BKG' . date('YmdHis');
+            $status = 'penting';
+            $queryBooking = $this->db->prepare("INSERT INTO booking (kode_booking, id_tamu, id_kamar, tgl_check_in, tgl_check_out, dengan_sarapan, total_harga, `status`) VALUES (:kode_booking, :id_tamu, :id_kamar, :tgl_check_in, :tgl_check_out, :dengan_sarapan, :total_harga, :status)");
+        }catch(PDOException $e){
+            $this->db->rollBack();
+            error_log("Gagal menambakan booking: ". $e->getMessage());
             return false;
         }
     }
@@ -170,7 +182,7 @@ class Booking extends Database {
             $queryDelBooking->execute();
 
             if ($kamarData) {
-                $queryKamar = $this->db->prepare("UPDATE kamar SET status = 'tersedia' WHERE id = :id_kamar");
+                $queryKamar = $this->db->prepare("UPDATE kamar SET `status` = 'tersedia' WHERE id = :id_kamar");
                 $queryKamar->bindParam(":id_kamar", $kamarData['id_kamar'], PDO::PARAM_INT);
                 $queryKamar->execute();
             }
@@ -193,7 +205,7 @@ class Booking extends Database {
                         tk.nama_tipe, tk.harga_per_malam
                  FROM kamar k
                  JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
-                 WHERE k.status = 'tersedia'"
+                 WHERE k.`status` = 'tersedia'"
             );
             $query->execute();
             return $query->fetchAll();
@@ -208,12 +220,12 @@ class Booking extends Database {
         try {
             $query = $this->db->prepare(
                 "SELECT b.id, k.nomor_kamar, t.nama_lengkap, tk.nama_tipe,
-                        b.tgl_check_in, b.tgl_check_out, b.status
+                        b.tgl_check_in, b.tgl_check_out, b.`status`
                  FROM booking b
                  JOIN kamar k ON b. id_kamar = k.id
                  JOIN tamu t ON b.id_tamu = t.id
                  JOIN tipe_kamar tk ON k.id_tipe_kamar = tk.id
-                 WHERE b.status = 'dibayar' OR b.status = 'check_in'
+                 WHERE b.`status` = 'dibayar' OR b.`status` = 'check_in'
                  ORDER BY k.nomor_kamar"
             );
             $query->execute();

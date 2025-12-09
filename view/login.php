@@ -29,12 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['logged_in'] = true;
+        // echo "Role: " . $user['role']; 
+        // echo "<br>Username: " . $user['username'];
+        // exit();
         if ($user['role'] == 'admin') {
             header('Location: ../controller/admin/adminPage.php');
         } elseif ($user['role'] == 'kasir') {
             header('Location: ../controller/kasir/DashboardController.php');
         } else {
-            header('Location: user/index.php');
+            header('Location: ../controller/user/IndexController.php');
         }
         exit();
     } else {
