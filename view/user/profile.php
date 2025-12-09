@@ -87,7 +87,7 @@ if (!isset($data)) {
                             value="<?php echo htmlspecialchars($data['profile']['no_hp']); ?>" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
                 </form>
             </div>
 
@@ -111,7 +111,7 @@ if (!isset($data)) {
                         <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Ubah Password</button>
+                    <button type="submit" class="btn btn-warning">Ubah Password</button>
                 </form>
             </div>
 

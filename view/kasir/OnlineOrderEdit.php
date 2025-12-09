@@ -187,7 +187,7 @@ if (!isset($data)) {
                             <div class="form-group">
                                 <label>Status</label>
                                 <input type="text" value="<?= ucfirst($data['bookingData']['status']); ?>"
-                                    class="form-control" readonly style="background-color: #e2e8f0;">
+                                    class="form-control" readonly style="background-color: #ffffffff;">
                             </div>
                         </td>
                     </tr>
@@ -205,7 +205,7 @@ if (!isset($data)) {
         </div>
 
         <footer>
-            Copyright &copy; Hotel <?php echo date('Y'); ?>
+            Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
         </footer>
     </div>
 </body>
