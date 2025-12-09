@@ -178,10 +178,10 @@ if (!isset($data)) {
         </script>
 
         <div class="section-title" style="margin-top: 30px;">DAFTAR OTS ORDER HARI INI</div>
-        <div class="max-table">
-        <table class="order-table">
+        <table class="order-table max-table">
             <thead>
                 <tr>
+                    <th class="small-check"><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                     <th>NO</th>
                     <th>ID BOOKING</th>
                     <th>NAMA TAMU</th>
@@ -194,43 +194,80 @@ if (!isset($data)) {
                     <th>AKSI</th>
                 </tr>
             </thead>
+
             <tbody>
                 <?php if (!empty($data['todayOrders'])): ?>
                     <?php $no = 1; ?>
                     <?php foreach ($data['todayOrders'] as $order): ?>
-                    <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo $order['kode_booking']; ?></td>
-                        <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
-                        <td><?php echo $order['no_ktp'] ?? '-'; ?></td>
-                        <td><?php echo $order['nomor_kamar']; ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
-                        <td><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
-                        <td>Rp <?php echo number_format($order['total_harga'] ?? 0, 0, ',', '.'); ?></td>
-                        <td>
-                            <?php if ($order['status'] === 'dibayar' || $order['status_pembayaran'] === 'berhasil'): ?>
-                                <span class="status-paid">PAID</span>
-                            <?php else: ?>
-                                <span class="status-pending">PENDING</span>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="id_booking" value="<?php echo $order['id']; ?>">
-                                <button type="submit" class="btn-delete">DELETE</button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="td-center">
+                                <input type="checkbox" name="selected_bookings[]" value="<?php echo $order['id']; ?>" class="booking-checkbox">
+                            </td>
+
+                            <td><?php echo $no++; ?></td>
+                            <td><?php echo $order['kode_booking']; ?></td>
+                            <td><?php echo $order['nama_lengkap'] ?? '-'; ?></td>
+                            <td><?php echo $order['no_ktp'] ?? '-'; ?></td>
+                            <td><?php echo $order['nomor_kamar']; ?></td>
+
+                            <td><?php echo date('d/m/Y', strtotime($order['tgl_check_in'])); ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($order['tgl_check_out'])); ?></td>
+
+                            <td>Rp <?php echo number_format($order['total_harga'] ?? 0, 0, ',', '.'); ?></td>
+
+                            <td>
+                                <?php if ($order['status'] === 'dibayar' || $order['status_pembayaran'] === 'berhasil'): ?>
+                                    <span class="status-paid">PAID</span>
+                                <?php else: ?>
+                                    <span class="status-pending">PENDING</span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td>
+                                <form method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus booking ini?');">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id_booking" value="<?php echo $order['id']; ?>">
+                                    <button type="submit" class="btn-delete btn-danger">DELETE</button>
+                                </form>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
+
                 <?php else: ?>
                     <tr>
-                        <td colspan="9" style="text-align: center;">Belum ada booking hari ini</td>
+                        <td colspan="11" style="text-align: center;">Belum ada booking hari ini</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
+
+        <div class="btn-container" style="margin-top: 20px;">
+            <button class="btn-action btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
         </div>
+
+        <script>
+        function toggleSelectAll(source) {
+            const checkboxes = document.querySelectorAll('.booking-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = source.checked;
+            });
+        }
+
+        function cetakStruk() {
+            const selected = [];
+            document.querySelectorAll('.booking-checkbox:checked').forEach(cb => {
+                selected.push(cb.value);
+            });
+
+            if (selected.length === 0) {
+                alert('Pilih minimal 1 booking untuk dicetak!');
+                return;
+            }
+
+            const ids = selected.join(',');
+            window.open('../../controller/kasir/PrintStrukController.php?ids=' + ids, '_blank');
+        }
+        </script>
         <footer>
             Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
         </footer>
