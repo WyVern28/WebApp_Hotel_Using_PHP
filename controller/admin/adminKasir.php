@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_kasir'])) {
 if(isset($_GET['aksi']) && $_GET['aksi'] == 'status' && isset($_GET['id'])) {
     $id = $_GET['id'];
     $status_baru = $_GET['val'];
-    $kasirStatus = $kasir->rubahStatus($id, $status_baru);
+    $kasir->rubahStatus($id, $status_baru);
     header('Location: adminKasir.php');
     exit();
 }

@@ -32,10 +32,10 @@ if (isset($_GET['logout'])) {
             <ul class="sidebar-menu">
                 <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
                 <li><a href="../../controller/admin/adminTamu.php" class="active">TAMU</a></li>
-                <li><a href="../../controller/admin/adminKasir.php"" >KASIR</a></li>
+                <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
                 <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="#">LAPORAN</a></li>
-                <li><a href="#">SETTING</a></li>
+                <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
+                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>

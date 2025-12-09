@@ -18,7 +18,7 @@ if (isset($_GET['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasir Page - Hotel</title>
+    <title>Kamar page - Hotel</title>
     <link rel="stylesheet" href="../../asset/css/adminPage.css">
 </head>
 <body>
@@ -32,10 +32,10 @@ if (isset($_GET['logout'])) {
             <ul class="sidebar-menu">
                 <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
                 <li><a href="../../controller/admin/adminTamu.php">TAMU</a></li>
-                <li><a href="../../controller/admin/adminKasir.php"class="active" >KASIR</a></li>
-                <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="#">LAPORAN</a></li>
-                <li><a href="#">SETTING</a></li>
+                <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
+                <li><a href="../../controller/admin/adminKamar.php" class="active">KAMAR</a></li>
+                <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
+                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>
@@ -46,9 +46,8 @@ if (isset($_GET['logout'])) {
     </div>
     </sidebar>
     <div class="main-content">
-        
-        <header style="margin-bottom: 30px;">
-            <h1>Manajemen Kasir</h1>
+        <header style="margin-bottom: 20px;">
+            <h1>Manajemen Kamar</h1>
         </header>
 
         <?php if (!empty($data['pesan'])): ?>
@@ -58,87 +57,79 @@ if (isset($_GET['logout'])) {
         <?php endif; ?>
 
         <div class="card">
-            <h3 style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
-                + Tambah Kasir Baru
-            </h3>
+            <h3>+ Tambah Kamar Fisik</h3>
             <form method="POST" action="">
-                <div style="display: flex; gap: 20px;">
-                    <div class="form-group" style="flex: 1;">
-                        <label>Username (Login)</label>
-                        <input type="text" name="username" class="form-control" required placeholder="Contoh: kasir01">
+                <div style="display: flex; gap: 15px; align-items: flex-end;">
+                    <div style="flex: 1;">
+                        <label>Nomor Kamar</label>
+                        <input type="text" name="nomor_kamar" class="form-control" required placeholder="101">
                     </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Nama Lengkap</label>
-                        <input type="text" name="nama" class="form-control" required placeholder="Contoh: Siti Aminah">
+                    <div style="flex: 1;">
+                        <label>Tipe Kamar</label>
+                        <select name="id_tipe" class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <?php foreach ($data['listTipe'] as $tipe): ?>
+                                <option value="<?= $tipe['id']; ?>"><?= $tipe['nama_tipe']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Password</label>
-                        <input type="text" name="password" class="form-control" required placeholder="Password">
+                    <div style="flex: 1;">
+                        <label>Lantai</label>
+                        <input type="number" name="lantai" class="form-control" required placeholder="1">
                     </div>
+                    <button type="submit" name="add_kamar" class="btn btn-primary" style="height: 42px;">Simpan</button>
                 </div>
-                    <button type="submit" name="add_kasir" class="btn btn-primary">Simpan Data</button>
             </form>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
+
+            <p style="font-weight: 500; color: #64748b; margin-bottom: 10px;">Menu Data Master:</p>
+            <div class="action-buttons">
+                <a href="adminKamar.php?view=tambah_fasilitas" class="btn btn-info">
+                    + Tambah Fasilitas Baru
+                </a>
+                
+                <a href="adminKamar.php?view=tambah_tk" class="btn btn-info">
+                    + Tambah Tipe Kamar
+                </a>
+            </div>
         </div>
-        <div class="card"><br>
-            <h2>Daftar Pegawai Kasir</h2>
-            <form method="GET" action="" class="search-box">
-                <input type="text" name="q" class="search-input" placeholder="Cari nama atau username" value="<?= isset($data['search']) ? htmlspecialchars($data['search']) : '' ?>">
-                <button type="submit" class="btn btn-primary" style="padding: 8px 15px;">Cari</button>
-                <?php if(isset($data['search']) && $data['search'] != ''){ ?>
-                    <a href="adminKasir.php" class="btn btn-danger" style="padding: 8px 15px;">Reset</a>
-                <?php } ?>
-            </form>
-            <br>
+
+        <div class="card">
+            <h3>Daftar Kamar Hotel</h3>
             <table class="table-custom">
                 <thead>
                     <tr>
-                        <th width="5%">ID</th>
-                        <th>Username</th>
-                        <th>Nama Lengkap</th>
-                        <th>Status Akun</th>
-                        <th width="20%">Aksi</th> </tr>
+                        <th>No. Kamar</th>
+                        <th>Tipe</th>
+                        <th>Lantai</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($data['allKasir'])): ?>
-                        <tr><td colspan="5" style="text-align:center; padding: 20px;">Data kasir tidak ditemukan.</td></tr>
+                    <?php if (empty($data['allKamar'])): ?>
+                        <tr><td colspan="5" align="center">Belum ada data kamar.</td></tr>
                     <?php else: ?>
-                        <?php foreach ($data['allKasir'] as $row){ ?>
+                        <?php foreach ($data['allKamar'] as $row): ?>
                         <tr>
-                            <td>#<?= $row['id_kasir']; ?></td>
-                            <td><b><?= htmlspecialchars($row['username']); ?></b></td>
-                            <td><?= htmlspecialchars($row['nama']); ?></td>
+                            <td><b><?= $row['nomor_kamar']; ?></b></td>
+                            <td><?= $row['nama_tipe']; ?></td>
+                            <td><?= $row['lantai']; ?></td>
+                            <td><?= $row['status_kamar']; ?></td>
                             <td>
-                                <?php if ($row['status'] == 1){ ?>
-                                    <span class="badge bg-active">Aktif</span>
-                                <?php } else { ?>
-                                    <span class="badge bg-inactive">Non-Aktif</span>
-                                <?php } ?>
-                            </td>
-                            <td>
-                                <form method="POST" action="" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $row['id_kasir']; ?>">
-                                    <button type="submit" name="trigger_edit" class="btn btn-edit">Edit</button>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="id" value="<?= $row['id']; ?>">
+                                    <button type="submit" name="trigger_edit" class="btn" style="background:#eab308; padding:5px 10px;">Edit</button>
                                 </form>
-
-                                <?php if ($row['status'] == 1){ ?>
-                                    <a href="?aksi=status&id=<?= $row['id_kasir']; ?>&val=0" 
-                                    class="btn btn-danger"
-                                    onclick="return confirm('Non-aktifkan kasir ini?')">Non-aktifkan</a>
-                                <?php } else { ?>
-                                    <a href="?aksi=status&id=<?= $row['id_kasir']; ?>&val=1" 
-                                    class="btn btn-success">Aktifkan</a>
-                                <?php } ?>
+                                <a href="?aksi=hapus&id=<?= $row['id']; ?>" class="btn" style="background:#ef4444; padding:5px 10px;" onclick="return confirm('Hapus?')">Hapus</a>
                             </td>
                         </tr>
-                        <?php } ?>
+                        <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
-            <footer>
-                Copyright &copy; Hotel <?php echo date('Y'); ?>
-            </footer>
-            </div>
     </div>
 </body>
 </html>
