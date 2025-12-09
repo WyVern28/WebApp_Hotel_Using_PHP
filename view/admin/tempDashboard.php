@@ -1,5 +1,4 @@
 <?php
-// session_start();
 include '../../config/koneksi.php';
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'admin') {
@@ -22,7 +21,6 @@ if (isset($_GET['logout'])) {
     <link rel="stylesheet" href="../../asset/css/adminPage.css">
 </head>
 <body>
-    <!-- INI SIDEBAR YE DAR -->
     <sidebar>
     <div class="sidebar">
         <div class="sidebar-header">
@@ -41,7 +39,6 @@ if (isset($_GET['logout'])) {
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>
-        <!-- ini isinya-->
             
         <div class="sidebar-footer">
             <p>Logged in as:</p>
