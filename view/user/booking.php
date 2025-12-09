@@ -14,16 +14,19 @@ if (isset($_GET['logout'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="../../asset/css/booking.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 </head>
+
 <body>
-    <nav class="navbar" role="navigation" aria-label="Main navigation" >
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-right">
             <a href="index.php" class="brand">Ivory Palace</a>
         </div>
@@ -34,7 +37,7 @@ if (isset($_GET['logout'])) {
             <a href="../../controller/user/ProfileController.php">Profile</a>
         </div>
 
-         <div class="nav-left">
+        <div class="nav-left">
             <span class="username">
                 Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
                 (<?php echo htmlspecialchars($_SESSION['role']); ?>)
@@ -44,13 +47,13 @@ if (isset($_GET['logout'])) {
 
     </nav>
 
-<div class="detail-container">
-        
+    <div class="detail-container">
+
         <div class="detail-content">
-            
+
             <h1 class="detail-title">Family Suite</h1>
             <p class="detail-loc">Bali, Indonesia</p>
-            
+
             <div class="gallery-container">
                 <div class="gallery-main">
                     <img src="../../asset/image/col.jpg" alt="Main Image">
@@ -61,8 +64,8 @@ if (isset($_GET['logout'])) {
 
             <h3>Tentang Hotel Ini</h3>
             <p class="detail-desc">
-                Nikmati pemandangan sunset pantai Kuta langsung dari balkon kamar. 
-                Suasana tropis yang menenangkan dengan pelayanan kelas dunia. 
+                Nikmati pemandangan sunset pantai Kuta langsung dari balkon kamar.
+                Suasana tropis yang menenangkan dengan pelayanan kelas dunia.
                 Sangat cocok untuk liburan keluarga nii
             </p>
 
@@ -102,7 +105,7 @@ if (isset($_GET['logout'])) {
                 </div>
 
                 <form action="#" method="POST">
-                    
+
                     <div class="input-group-detail">
                         <label>Nama Lengkap</label>
                         <input type="text" name="nama" class="form-control-detail" placeholder="Nama Pemesan" required>
@@ -124,7 +127,7 @@ if (isset($_GET['logout'])) {
                     </div>
 
                     <button type="button" class="btn-confirm">Lanjut ke Pembayaran</button>
-                    
+
                     <p class="note-text">Anda belum akan dikenakan biaya.</p>
                 </form>
 
@@ -132,11 +135,14 @@ if (isset($_GET['logout'])) {
         </aside>
 
     </div>
-    
-  <footer>
+
+    <footer>
         <p>&copy; <?php echo date('Y'); ?> Ivory Palace. Semua hak dilindungi.</p>
     </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>
