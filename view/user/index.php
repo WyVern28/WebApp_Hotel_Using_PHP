@@ -140,7 +140,7 @@ if (isset($_GET['logout'])) {
                         <h4 class="hotel-name"><?php echo $hotel['nama']; ?></h4>
                         <div class="card-bottom">
                             <span class="price"><?php echo $hotel['harga']; ?></span>
-                            <a href="booking.php" class="btn-book">Pilih</a>
+                            <a href="../../controller/user/BookingController.php" class="btn-book">Booking</a>
                         </div>
                     </div>
                 </div>
