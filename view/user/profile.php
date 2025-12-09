@@ -33,7 +33,7 @@ if (!isset($data)) {
                 Halo, <?php echo htmlspecialchars($_SESSION['username']); ?>
                 (<?php echo htmlspecialchars($_SESSION['role']); ?>)
             </span>
-            <a href="index.php?logout=true" class="logout">Logout</a>
+            <a href="../../controller/user/IndexController.php?logout=true" class="logout">Logout</a>
         </div>
 
     </nav>
