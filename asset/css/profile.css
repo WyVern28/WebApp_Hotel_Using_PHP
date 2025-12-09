@@ -103,7 +103,7 @@ body {
 }
 
 .profile-card {
-    background: rgba(56, 112, 209, 0.808); 
+    background: #221FA0; 
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
@@ -181,9 +181,9 @@ body {
     box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
 }
 
-.btn-primary {
+.btn1 {
     background: #ffffff;
-    color: #122e7a;
+    color: #d7ecff;
     border: none;
     padding: 10px 20px;
     border-radius: 10px;
@@ -192,7 +192,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #e2e8f0;
+    background: #5e7da7;
 }
 
 .booking-table th {
@@ -272,9 +272,9 @@ body {
     outline: none;
 }
 
-.btn-primary {
-    background: #3f7bfa;
-    color: white;
+.btn-white {
+    background: #b8d9ff;
+    color: #221FA0;
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -284,7 +284,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #366fe0;
+    background: #dde5f5;
 }
 
 .booking-table {
