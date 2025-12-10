@@ -13,7 +13,6 @@ $bookingClass = new Booking();
 $message = '';
 $message_type = '';
 
-// Ambil ID booking dari URL
 $id_booking = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if (!$id_booking) {
@@ -21,14 +20,12 @@ if (!$id_booking) {
     exit();
 }
 
-// Ambil data booking
 $bookingData = $bookingClass->getBookingById($id_booking);
 
 if (!$bookingData) {
     die('Data booking tidak ditemukan!');
 }
 
-// Proses UPDATE booking
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_booking'])) {
     $updateData = [
         'id_kamar' => (int)$_POST['id_kamar'],
@@ -46,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_booking'])) {
     }
 }
 
-// Ambil kamar tersedia
 $availableRooms = $bookingClass->getAvailableRooms();
 
 $data = [
