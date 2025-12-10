@@ -16,7 +16,6 @@ if (!isset($data)) {
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-right">
             <a href="index.php" class="brand">Ivory Palace</a>
@@ -39,7 +38,6 @@ if (!isset($data)) {
     </nav>
 
     <div class="profile-container">
-        <!-- Alert Messages -->
         <?php if ($data['message']): ?>
             <div class="alert alert-<?php echo $data['message_type']; ?>">
                 <?php echo htmlspecialchars($data['message']); ?>
@@ -54,7 +52,8 @@ if (!isset($data)) {
                 <div class="profile-info">
                     <h2><?php echo htmlspecialchars($data['profile']['nama_lengkap']); ?></h2>
                     <p>@<?php echo htmlspecialchars($data['username']); ?> • Member sejak
-                        <?php echo date('d M Y', strtotime($data['profile']['dibuat_pada'])); ?></p>
+                        <?php echo date('d M Y', strtotime($data['profile']['dibuat_pada'])); ?>
+                    </p>
                 </div>
             </div>
 

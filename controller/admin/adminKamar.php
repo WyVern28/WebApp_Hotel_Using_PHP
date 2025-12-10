@@ -19,7 +19,6 @@ $kamar = new Kamar();
 $fasilitas = new Fasilitas();
 $pesan = "";
 
-//tipe kamar
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_tipe'])) {
    
     $fotoName = null;
@@ -60,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_tipe'])) {
     }
 }
 
-//fasilitas
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_fasilitas'])) {
     $foto = "default_icon.png";
     

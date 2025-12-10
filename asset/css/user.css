@@ -328,7 +328,6 @@ body {
     font-weight: 600;
 }
 
-/* Badge untuk ketersediaan kamar */
 .badge-available {
     position: absolute;
     top: 10px;
@@ -389,7 +388,6 @@ body {
     margin-top: 2px;
 }
 
-/* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
 }

@@ -14,6 +14,7 @@ if (isset($_GET['logout'])) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,48 +24,51 @@ if (isset($_GET['logout'])) {
 
 <body>
     <sidebar>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Admin</h3>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Admin</h3>
+            </div>
+            <div class="sidebar-nav">
+                <p>NAVIGASI</p>
+                <ul class="sidebar-menu">
+                    <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
+                    <li><a href="../../controller/admin/adminTamu.php" class="active">TAMU</a></li>
+                    <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
+                    <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
+                    <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
+                    <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
+                    <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <p>Logged in as:</p>
+                <span><?php echo $_SESSION['username']; ?></span>
+            </div>
         </div>
-        <div class="sidebar-nav">
-            <p>NAVIGASI</p>
-            <ul class="sidebar-menu">
-                <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
-                <li><a href="../../controller/admin/adminTamu.php" class="active">TAMU</a></li>
-                <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
-                <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
-                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
-                <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
-            </ul>
-        </div>
-        <div class="sidebar-footer">
-            <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
-        </div>
-    </div>
     </sidebar>
     <div class="main-content">
         <h1>Edit Data Tamu</h1>
-        
+
         <div class="card" style="max-width: 600px;">
             <form method="POST" action="">
                 <div class="form-group">
                     <label>ID Tamu</label>
-                    <input type="text" name="id" value="<?= $dataTamu['id']; ?>" class="form-control" readonly style="background-color: #e2e8f0;">
+                    <input type="text" name="id" value="<?= $dataTamu['id']; ?>" class="form-control" readonly
+                        style="background-color: #e2e8f0;">
                 </div>
 
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" value="<?= $dataTamu['username']; ?>" class="form-control" required>
+                    <input type="text" name="username" value="<?= $dataTamu['username']; ?>" class="form-control"
+                        required>
                 </div>
 
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama" value="<?= $dataTamu['nama_lengkap']; ?>" class="form-control" required>
+                    <input type="text" name="nama" value="<?= $dataTamu['nama_lengkap']; ?>" class="form-control"
+                        required>
                 </div>
-    
+
                 <div class="form-group">
                     <label>No. HP</label>
                     <input type="text" name="hp" value="<?= $dataTamu['no_hp']; ?>" class="form-control" required>
@@ -85,11 +89,12 @@ if (isset($_GET['logout'])) {
                 <br>
 
                 <button type="submit" name="update_tamu" class="btn btn-primary">Simpan Perubahan</button>
-                
+
                 <a href="adminTamu.php" class="btn btn-secondary">Batal</a>
-                
+
             </form>
         </div>
     </div>
 </body>
+
 </html>
