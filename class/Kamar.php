@@ -30,6 +30,12 @@ class Kamar extends Database {
         return $query->fetch();
     }
 
+    public function getAvailableRooms() {
+        $query = $this->db->prepare("SELECT * FROM kamar WHERE status_kamar = 'tersedia' ORDER BY lantai ASC, nomor_kamar ASC");
+        $query->execute();
+        return $query->fetchAll();
+    }
+
     public function addKamar($no_kamar, $id_tipe, $lantai) {
         try {
             $cek = $this->db->prepare("SELECT id FROM kamar WHERE nomor_kamar = :no");
@@ -55,7 +61,9 @@ class Kamar extends Database {
             $cek->bindParam(':nomor', $no_kamar);
             $cek->bindParam(':id', $id);
             $cek->execute();
-            if ($cek->rowCount() > 0) return -1;
+            if ($cek->rowCount() > 0){
+                return -1;
+            }
 
             $q = $this->db->prepare("UPDATE kamar SET id_tipe_kamar=:tipe, nomor_kamar=:nomor, lantai=:lantai, status_kamar=:st WHERE id=:id");
             $q->bindParam(':tipe', $id_tipe);

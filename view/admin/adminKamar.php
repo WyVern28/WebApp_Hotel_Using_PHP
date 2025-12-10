@@ -35,7 +35,6 @@ if (isset($_GET['logout'])) {
                 <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
                 <li><a href="../../controller/admin/adminKamar.php" class="active">KAMAR</a></li>
                 <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
-                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
                 <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
             </ul>
         </div>
@@ -102,9 +101,9 @@ if (isset($_GET['logout'])) {
             
             <button type="submit" class="btn btn-primary" style="padding:8px 15px;">Cari</button>
             
-            <?php if(!empty($data['search'])): ?>
+            <?php if(!empty($data['search'])){ ?>
                 <a href="adminKamar.php" class="btn btn-danger" style="padding:8px 15px; text-decoration:none;">Reset</a>
-            <?php endif; ?>
+            <?php } ?>
         </form>
 
         <div class="card">
@@ -120,10 +119,10 @@ if (isset($_GET['logout'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($data['allKamar'])): ?>
+                    <?php if (empty($data['allKamar'])){ ?>
                         <tr><td colspan="5" align="center">Belum ada data kamar.</td></tr>
-                    <?php else: ?>
-                        <?php foreach ($data['allKamar'] as $row): ?>
+                    <?php }else { ?>
+                        <?php foreach ($data['allKamar'] as $row) { ?>
                         <tr>
                             <td><b><?= $row['nomor_kamar']; ?></b></td>
                             <td><?= $row['nama_tipe']; ?></td>
@@ -137,8 +136,8 @@ if (isset($_GET['logout'])) {
                                 <a href="?aksi=hapus&id=<?= $row['id']; ?>" class="btn" style="background:#ef4444; padding:5px 10px;" onclick="return confirm('Hapus?')">Hapus</a>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                        <?php } ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

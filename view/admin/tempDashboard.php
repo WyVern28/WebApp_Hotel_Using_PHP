@@ -36,7 +36,6 @@ if (isset($_GET['logout'])) {
                     <li><a href="../../controller/admin/adminKasir.php">KASIR</a></li>
                     <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
                     <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
-                    <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
                     <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
                 </ul>
             </div>
