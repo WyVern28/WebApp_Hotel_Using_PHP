@@ -45,11 +45,6 @@ if (isset($_GET['logout'])) {
     </div>
     </sidebar>
    <div class="main-content">
-        <header style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-            <h1>Laporan Pendapatan</h1>
-            <button onclick="window.print()" class="btn btn-print"><i class="fa fa-print"></i> Cetak PDF</button>
-        </header>
-
         <div class="total-box">
             <p>Total Pendapatan (Periode Ini)</p>
             <h2>Rp <?= number_format($data['total'], 0, ',', '.'); ?></h2>
