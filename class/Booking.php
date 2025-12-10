@@ -336,7 +336,7 @@ class Booking extends Database {
                 $queryPembayaran->bindParam(":id_booking", $id, PDO::PARAM_INT);
                 $queryPembayaran->execute();
             }
-
+            
             $this->db->commit();
             return true;
 

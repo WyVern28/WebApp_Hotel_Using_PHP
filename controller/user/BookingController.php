@@ -25,27 +25,23 @@ $diskonClass = new Diskon();
 $message = '';
 $message_type = '';
 
-// Ambil id_tipe dari URL
+
 $id_tipe = isset($_GET['id_tipe']) ? intval($_GET['id_tipe']) : null;
 
-// Jika tidak ada id_tipe, redirect ke index
 if (!$id_tipe) {
     header('Location: IndexController.php');
     exit();
 }
 
-// Ambil data tipe kamar
 $tipeKamar = $tipeKamarClass->getTipeKamarById($id_tipe);
 if (!$tipeKamar) {
     die('Tipe kamar tidak ditemukan.');
 }
 
-// Ambil kamar tersedia, fasilitas, dan rating
 $availableRooms = $tipeKamarClass->getAvailableRoomsByTipe($id_tipe);
 $fasilitas = $tipeKamarClass->getFasilitasByTipe($id_tipe);
 $ratings = $ratingClass->getRatingsByTipeKamar($id_tipe);
 
-// Hitung rata-rata rating
 $avgRating = 0;
 $totalReviews = count($ratings);
 if ($totalReviews > 0) {
@@ -53,7 +49,6 @@ if ($totalReviews > 0) {
     $avgRating = round($sumRating / $totalReviews, 1);
 }
 
-// Proses booking
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     
@@ -64,8 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_kamar = isset($_POST['id_kamar']) ? (int)$_POST['id_kamar'] : null;
         $preferensi = trim($_POST['preferensi'] ?? '');
         $kode_diskon = strtoupper(trim($_POST['kode_diskon'] ?? ''));
-        
-        // Validasi tanggal
         $date1 = new DateTime($tgl_check_in);
         $date2 = new DateTime($tgl_check_out);
         $today = new DateTime();
@@ -84,12 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $interval = $date1->diff($date2);
             $jumlah_malam = $interval->days;
             
-            // Hitung total harga
             $harga_kamar = $tipeKamar['harga_per_malam'] * $jumlah_malam;
             $harga_sarapan = $dengan_sarapan ? ($tipeKamar['harga_sarapan'] * $jumlah_malam) : 0;
             $total_harga = $harga_kamar + $harga_sarapan;
             
-            // Cek diskon jika ada
             $id_diskon = null;
             $diskon_info = '';
             if (!empty($kode_diskon)) {
@@ -105,9 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             
-            // Jika tidak ada error diskon, lanjutkan booking
             if (empty($message)) {
-                // Ambil profile tamu
                 $profileTamu = $tamuClass->getProfileByUsername($_SESSION['username']);
                 
                 if (!$profileTamu) {
@@ -145,7 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Data untuk view
 $data = [
     'username' => $_SESSION['username'],
     'role' => $_SESSION['role'],

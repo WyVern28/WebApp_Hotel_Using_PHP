@@ -156,7 +156,6 @@ if (!isset($data)) {
                         </td>
                     </tr>
                     
-                    <!-- Modal Konfirmasi Bayar -->
                     <div class="modal fade" id="modalBayar<?php echo $booking['id']; ?>" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">

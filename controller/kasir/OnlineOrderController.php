@@ -18,11 +18,9 @@ require_once '../../class/Kasir.php';
 $booking = new Booking();
 $kasirClass = new Kasir();
 
-// ⭐ Inisialisasi variabel message
 $message = "";
 $message_type = "";
 
-// Ambil data kasir dari database
 $kasirData = $kasirClass->getKasirByUsername($_SESSION['username']);
 
 if (isset($_GET['msg']) && $_GET['msg'] == 'updated') {
@@ -30,11 +28,9 @@ if (isset($_GET['msg']) && $_GET['msg'] == 'updated') {
     $message_type = "success";
 }
 
-// Proses POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     
-    // Delete booking
     if ($action === 'delete' && isset($_POST['id_booking'])) {
         $id_booking = (int)$_POST['id_booking'];
 
@@ -47,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // Konfirmasi pembayaran
     if ($action === 'konfirmasi_bayar' && isset($_POST['id_booking'])) {
         $id_booking = (int)$_POST['id_booking'];
         $metode_bayar = $_POST['metode_bayar'];
@@ -62,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Load data untuk view
 $data = [
     'username' => $_SESSION['username'],
     'id_kasir' => $kasirData['id_kasir'] ?? 'N/A',

@@ -1,8 +1,4 @@
 <?php
-/**
- * Occupancy Controller untuk Kasir
- * Menangani semua logic untuk Occupancy (status kamar yang terisi)
- */
 
 session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'kasir') {
@@ -26,7 +22,6 @@ $message_type = '';
 
 $kasirData = $kasirClass->getKasirByUsername($_SESSION['username']);
 
-// Proses POST request (Check-in / Check-out)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     
@@ -53,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Load data untuk view
 $data = [
     'username' => $_SESSION['username'],
     'id_kasir' => $kasirData['id_kasir'] ?? 'N/A',           

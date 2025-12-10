@@ -14,7 +14,6 @@ $bookingClass = new Booking();
 $message = '';
 $message_type = '';
 
-// Konfirmasi Pembayaran
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     $id_booking = (int)$_POST['id_booking'];
@@ -33,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Load booking pending
 $pendingBookings = $bookingClass->getBookingsByStatus('pending');
 
 $data = [
@@ -43,5 +41,5 @@ $data = [
     'message_type' => $message_type
 ];
 
-include '../../view/kasir/OnlineOrder.php';
+include '../../view/kasir/OnlineOrderEdit.php';
 ?>
