@@ -10,6 +10,9 @@ if (isset($_GET['logout'])) {
     exit();
 }
 require_once '../../class/Booking.php';
+require_once '../../class/Kasir.php';
+
+$kasirClass = new Kasir();
 
 $booking = new Booking();
 $message = '';
@@ -75,10 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$kasirData = $kasirClass->getKasirByUsername($_SESSION['username']);
+
 $data = [
     'username' => $_SESSION['username'],
-    'id_kasir' => 'KSR001',
-    'nama_kasir' => $_SESSION['username'],
+    'id_kasir' => $kasirData['id_kasir'] ?? 'N/A',  
+    'nama_kasir' => $kasirData['nama'] ?? $_SESSION['username'],
     'message' => $message,
     'message_type' => $message_type,
     'availableRooms' => $booking->getAvailableRooms(),

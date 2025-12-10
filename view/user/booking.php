@@ -70,10 +70,11 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
     </nav>
 
     <?php if ($data['message']): ?>
-    <div class="alert alert-<?php echo $data['message_type'] === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show m-3" role="alert">
-        <?php echo htmlspecialchars($data['message']); ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
+        <div class="alert alert-<?php echo $data['message_type'] === 'success' ? 'success' : 'danger'; ?> alert-dismissible fade show m-3"
+            role="alert">
+            <?php echo htmlspecialchars($data['message']); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     <?php endif; ?>
 
     <div class="detail-container">
@@ -83,9 +84,8 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
 
             <div class="gallery-container">
                 <div class="gallery-main">
-                    <img src="<?php echo $imagePath; ?>" 
-                         alt="<?php echo htmlspecialchars($tipeKamar['nama_tipe']); ?>"
-                         onerror="this.src='../../asset/image/col.jpg'">
+                    <img src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($tipeKamar['nama_tipe']); ?>"
+                        onerror="this.src='../../asset/image/col.jpg'">
                 </div>
             </div>
 
@@ -114,27 +114,32 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
                 <div class="review-score">
                     <span class="score-badge"><?php echo $avgRating; ?>/5</span>
                     <span class="score-text">
-                        <?php 
-                        if ($avgRating >= 4.5) echo 'Luar Biasa';
-                        elseif ($avgRating >= 4.0) echo 'Sangat Baik';
-                        elseif ($avgRating >= 3.5) echo 'Baik';
-                        elseif ($avgRating >= 3.0) echo 'Cukup';
-                        else echo 'Perlu Perbaikan';
-                        ?> 
+                        <?php
+                        if ($avgRating >= 4.5)
+                            echo 'Luar Biasa';
+                        elseif ($avgRating >= 4.0)
+                            echo 'Sangat Baik';
+                        elseif ($avgRating >= 3.5)
+                            echo 'Baik';
+                        elseif ($avgRating >= 3.0)
+                            echo 'Cukup';
+                        else
+                            echo 'Perlu Perbaikan';
+                        ?>
                         &middot; Dari <?php echo $totalReviews; ?> ulasan
                     </span>
                 </div>
 
                 <?php if (!empty($ratings)): ?>
                     <?php foreach (array_slice($ratings, 0, 3) as $rating): ?>
-                    <div class="review-card">
-                        <div class="reviewer-info">
-                            <strong><?php echo htmlspecialchars($rating['nama_lengkap']); ?></strong>
-                            <small><?php echo date('F Y', strtotime($rating['dibuat_pada'])); ?></small>
-                            <span class="ms-2">⭐ <?php echo $rating['rating']; ?>/5</span>
+                        <div class="review-card">
+                            <div class="reviewer-info">
+                                <strong><?php echo htmlspecialchars($rating['nama_lengkap']); ?></strong>
+                                <small><?php echo date('F Y', strtotime($rating['dibuat_pada'])); ?></small>
+                                <span class="ms-2">⭐ <?php echo $rating['rating']; ?>/5</span>
+                            </div>
+                            <p>"<?php echo htmlspecialchars($rating['deskripsi']); ?>"</p>
                         </div>
-                        <p>"<?php echo htmlspecialchars($rating['deskripsi']); ?>"</p>
-                    </div>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="text-muted">Belum ada ulasan untuk tipe kamar ini.</p>
@@ -146,7 +151,8 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
             <div class="booking-card">
                 <div class="price-header">
                     <span>Harga per malam</span>
-                    <span class="big-price">Rp <?php echo number_format($tipeKamar['harga_per_malam'], 0, ',', '.'); ?></span>
+                    <span class="big-price">Rp
+                        <?php echo number_format($tipeKamar['harga_per_malam'], 0, ',', '.'); ?></span>
                 </div>
 
                 <?php if (empty($availableRooms)): ?>
@@ -155,96 +161,86 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
                     </div>
                 <?php else: ?>
 
-                <form action="" method="POST" id="bookingForm">
-                    <input type="hidden" name="action" value="booking">
+                    <form action="" method="POST" id="bookingForm">
+                        <input type="hidden" name="action" value="booking">
 
-                    <div class="input-group-detail">
-                        <label>Nama Lengkap <span class="text-danger">*</span></label>
-                        <input type="text" name="nama" class="form-control-detail" 
-                               placeholder="Nama Pemesan" 
-                               value="<?php echo htmlspecialchars($data['username']); ?>" 
-                               required>
-                    </div>
-
-                    <div class="input-group-detail">
-                        <label>Nomor HP / WhatsApp <span class="text-danger">*</span></label>
-                        <input type="tel" name="hp" class="form-control-detail" 
-                               placeholder="08..." 
-                               pattern="[0-9]{10,13}" 
-                               required>
-                    </div>
-
-                    <div class="input-group-detail">
-                        <label>Pilih Nomor Kamar <span class="text-danger">*</span></label>
-                        <select name="id_kamar" class="form-control-detail" required>
-                            <option value="">-- Pilih Kamar --</option>
-                            <?php foreach ($availableRooms as $room): ?>
-                                <option value="<?php echo $room['id']; ?>">
-                                    Kamar <?php echo htmlspecialchars($room['nomor_kamar']); ?> - Lantai <?php echo $room['lantai']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="input-group-detail">
-                        <label>Check-in <span class="text-danger">*</span></label>
-                        <input type="date" name="checkin" class="form-control-detail" 
-                               min="<?php echo date('Y-m-d'); ?>" 
-                               id="checkinDate"
-                               required>
-                    </div>
-
-                    <div class="input-group-detail">
-                        <label>Check-out <span class="text-danger">*</span></label>
-                        <input type="date" name="checkout" class="form-control-detail" 
-                               min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" 
-                               id="checkoutDate"
-                               required>
-                    </div>
-
-                    <div class="input-group-detail">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="sarapan" id="sarapan">
-                            <label class="form-check-label" for="sarapan">
-                                Dengan Sarapan (+Rp <?php echo number_format($tipeKamar['harga_sarapan'], 0, ',', '.'); ?>/malam)
-                            </label>
+                        <div class="input-group-detail">
+                            <label>Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" name="nama" class="form-control-detail" placeholder="Nama Pemesan"
+                                value="<?php echo htmlspecialchars($data['username']); ?>" required>
                         </div>
-                    </div>
 
-                    <div class="input-group-detail">
-                        <label>Preferensi Khusus (Opsional)</label>
-                        <textarea name="preferensi" class="form-control-detail" 
-                                  rows="3" 
-                                  placeholder="Contoh: Non-smoking, Lantai atas, Dekat lift, dll"></textarea>
-                        <small class="text-muted">Kami akan berusaha memenuhi preferensi Anda</small>
-                    </div>
+                        <div class="input-group-detail">
+                            <label>Nomor HP / WhatsApp <span class="text-danger">*</span></label>
+                            <input type="tel" name="hp" class="form-control-detail" placeholder="08..."
+                                pattern="[0-9]{10,13}" required>
+                        </div>
 
-                    <div class="input-group-detail">
-                        <label>Kode Diskon (Opsional)</label>
-                        <div class="input-group">
-                            <input type="text" name="kode_diskon" class="form-control-detail" 
-                                   placeholder="Masukkan kode promo" 
-                                   id="kodeDiskon"
-                                   style="text-transform: uppercase;">
-                            <button type="button" class="btn btn-sm btn-outline-primary" 
-                                    onclick="checkDiskon()" 
+                        <div class="input-group-detail">
+                            <label>Pilih Nomor Kamar <span class="text-danger">*</span></label>
+                            <select name="id_kamar" class="form-control-detail" required>
+                                <option value="">-- Pilih Kamar --</option>
+                                <?php foreach ($availableRooms as $room): ?>
+                                    <option value="<?php echo $room['id']; ?>">
+                                        Kamar <?php echo htmlspecialchars($room['nomor_kamar']); ?> - Lantai
+                                        <?php echo $room['lantai']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="input-group-detail">
+                            <label>Check-in <span class="text-danger">*</span></label>
+                            <input type="date" name="checkin" class="form-control-detail" min="<?php echo date('Y-m-d'); ?>"
+                                id="checkinDate" required>
+                        </div>
+
+                        <div class="input-group-detail">
+                            <label>Check-out <span class="text-danger">*</span></label>
+                            <input type="date" name="checkout" class="form-control-detail"
+                                min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" id="checkoutDate" required>
+                        </div>
+
+                        <div class="input-group-detail">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="sarapan" id="sarapan">
+                                <label class="form-check-label" for="sarapan">
+                                    Dengan Sarapan (+Rp
+                                    <?php echo number_format($tipeKamar['harga_sarapan'], 0, ',', '.'); ?>/malam)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-group-detail">
+                            <label>Preferensi Khusus (Opsional)</label>
+                            <textarea name="preferensi" class="form-control-detail" rows="3"
+                                placeholder="Contoh: Non-smoking, Lantai atas, Dekat lift, dll"></textarea>
+                            <small class="text-muted">Kami akan berusaha memenuhi preferensi Anda</small>
+                        </div>
+
+                        <div class="input-group-detail">
+                            <label>Kode Diskon (Opsional)</label>
+                            <div class="input-group">
+                                <input type="text" name="kode_diskon" class="form-control-detail"
+                                    placeholder="Masukkan kode promo" id="kodeDiskon" style="text-transform: uppercase;">
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="checkDiskon()"
                                     style="margin-left: 5px; padding: 8px 15px;">
-                                Cek Kode
-                            </button>
+                                    Cek Kode
+                                </button>
+                            </div>
+                            <small class="text-muted">Contoh: PRM10, MEMBER50</small>
+                            <div id="diskonFeedback" class="mt-2"></div>
                         </div>
-                        <small class="text-muted">Contoh: PRM10, MEMBER50</small>
-                        <div id="diskonFeedback" class="mt-2"></div>
-                    </div>
 
-                    <div class="total-price mb-3">
-                        <strong>Estimasi Total:</strong>
-                        <span id="totalPrice">Rp 0</span>
-                    </div>
+                        <div class="total-price mb-3">
+                            <strong>Estimasi Total:</strong>
+                            <span id="totalPrice">Rp 0</span>
+                        </div>
 
-                    <button type="submit" class="btn-confirm">Konfirmasi Booking</button>
+                        <button type="submit" class="btn-confirm">Konfirmasi Booking</button>
 
-                    <p class="note-text">Anda akan diminta untuk melakukan pembayaran setelah konfirmasi.</p>
-                </form>
+                        <p class="note-text">Anda akan diminta untuk melakukan pembayaran setelah konfirmasi.</p>
+                    </form>
 
                 <?php endif; ?>
             </div>
@@ -270,24 +266,24 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
         function calculateTotal() {
             const checkin = new Date(checkinInput.value);
             const checkout = new Date(checkoutInput.value);
-            
+
             if (checkinInput.value && checkoutInput.value && checkout > checkin) {
                 const diffTime = Math.abs(checkout - checkin);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
+
                 let total = hargaPerMalam * diffDays;
-                
+
                 if (sarapanCheckbox.checked) {
                     total += hargaSarapan * diffDays;
                 }
-                
+
                 totalPriceEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
             } else {
                 totalPriceEl.textContent = 'Rp 0';
             }
         }
 
-        checkinInput.addEventListener('change', function() {
+        checkinInput.addEventListener('change', function () {
             const nextDay = new Date(this.value);
             nextDay.setDate(nextDay.getDate() + 1);
             checkoutInput.min = nextDay.toISOString().split('T')[0];
@@ -297,10 +293,10 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
         checkoutInput.addEventListener('change', calculateTotal);
         sarapanCheckbox.addEventListener('change', calculateTotal);
 
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
             const checkin = new Date(checkinInput.value);
             const checkout = new Date(checkoutInput.value);
-            
+
             if (checkout <= checkin) {
                 e.preventDefault();
                 alert('Tanggal check-out harus lebih dari tanggal check-in!');

@@ -6,36 +6,38 @@ if (!isset($data)) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kasir Page - Hotel</title>
     <link rel="stylesheet" href="../../asset/css/kasir.css">
-    
+
 </head>
+
 <body>
     <sidebar>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Hotel Kasir</h3>
-        </div>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Hotel Kasir</h3>
+            </div>
 
-        <div class="sidebar-nav">
-            <p>NAVIGASI</p>
-            <ul class="sidebar-menu">
-                <li><a href="../../controller/kasir/DashboardController.php" class="active">DASHBOARD</a></li>
-                <li><a href="../../controller/kasir/OnlineOrderController.php">ONLINE ORDER</a></li>
-                <li><a href="../../controller/kasir/OtsOrderController.php">OTS ORDER</a></li>
-                <li><a href="../../controller/kasir/OccupancyController.php">OCCUPANCY</a></li>
-                <li><a href="../../controller/kasir/DashboardController.php?logout=true">Logout</a></li>
-            </ul>
-        </div>
+            <div class="sidebar-nav">
+                <p>NAVIGASI</p>
+                <ul class="sidebar-menu">
+                    <li><a href="../../controller/kasir/DashboardController.php" class="active">DASHBOARD</a></li>
+                    <li><a href="../../controller/kasir/OnlineOrderController.php">ONLINE ORDER</a></li>
+                    <li><a href="../../controller/kasir/OtsOrderController.php">OTS ORDER</a></li>
+                    <li><a href="../../controller/kasir/OccupancyController.php">OCCUPANCY</a></li>
+                    <li><a href="../../controller/kasir/DashboardController.php?logout=true">Logout</a></li>
+                </ul>
+            </div>
 
-        <div class="sidebar-footer">
-            <p>Logged in as:</p>
-            <span><?php echo $data['username']; ?></span>
+            <div class="sidebar-footer">
+                <p>Logged in as:</p>
+                <span><?php echo $data['username']; ?></span>
+            </div>
         </div>
-    </div>
     </sidebar>
     <div class="main-content">
         <h1>Dashboard</h1>
@@ -94,4 +96,5 @@ if (!isset($data)) {
         </footer>
     </div>
 </body>
+
 </html>

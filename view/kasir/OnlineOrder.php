@@ -117,24 +117,21 @@ if (!isset($data)) {
 
         <div class="section-title">PENDING BOOKINGS</div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Kode Booking</th>
-                    <th>Kamar</th>
-                    <th>Tipe</th>
-                    <th>Check-in</th>
-                    <th>Check-out</th>
-                    <th>Total Bayar</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($data['pendingBookings'])): ?>
+        <div class="form-container" style="padding: 0; overflow: hidden;">
+
+            <table class="table table-striped" style="margin-bottom: 0; box-shadow: none; border-radius: 8;">
+                <thead>
                     <tr>
-                        <td colspan="8" class="text-center">Tidak ada booking online yang perlu dikonfirmasi</td>
+                        <th>Kode Booking</th>
+                        <th>Kamar</th>
+                        <th>Tipe</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Total Bayar</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
+<<<<<<< HEAD
                 <?php else: ?>
                     <?php foreach ($data['pendingBookings'] as $booking): ?>
                     <tr>
@@ -182,24 +179,103 @@ if (!isset($data)) {
                                                 <option value="debit">Kartu Debit</option>
                                                 <option value="kredit">Kartu Kredit</option>
                                             </select>
+=======
+                </thead>
+                <tbody>
+                    <?php if (empty($data['pendingBookings'])): ?>
+                        <tr>
+                            <td colspan="8" class="text-center">Tidak ada booking online yang perlu dikonfirmasi</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($data['pendingBookings'] as $booking): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($booking['kode_booking']); ?></td>
+                                <td><?php echo htmlspecialchars($booking['nomor_kamar'] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($booking['nama_tipe']); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($booking['tgl_check_in'])); ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($booking['tgl_check_out'])); ?></td>
+                                <td>Rp <?php echo number_format($booking['total_harga'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <span class="badge bg-warning">PENDING</span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#modalBayar<?php echo $booking['id']; ?>">
+                                        Konfirmasi
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="modalBayar<?php echo $booking['id']; ?>" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Konfirmasi Pembayaran</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+>>>>>>> refs/remotes/origin/main
                                         </div>
+
+                                        <form method="POST">
+                                            <div class="modal-body">
+
+                                                <input type="hidden" name="action" value="konfirmasi_bayar">
+                                                <input type="hidden" name="id_booking" value="<?php echo $booking['id']; ?>">
+
+                                                <div class="info-block">
+                                                    <div class="info-row">
+                                                        <span class="info-label">Kode Booking</span>
+                                                        <span class="info-value"><?php echo $booking['kode_booking']; ?></span>
+                                                    </div>
+
+                                                    <div class="info-row">
+                                                        <span class="info-label">Nama Tamu</span>
+                                                        <span class="info-value"><?php echo $booking['nama_lengkap']; ?></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="total-box">
+                                                    <div class="total-label">Total Pembayaran</div>
+                                                    <div class="total-value">
+                                                        Rp <?php echo number_format($booking['total_harga'], 0, ',', '.'); ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-3" style="margin-top: 18px;">
+                                                    <label class="form-label">Metode Pembayaran</label>
+                                                    <select name="metode_bayar" class="form-select" required>
+                                                        <option value="">-- Pilih Metode --</option>
+                                                        <option value="tunai">Tunai</option>
+                                                        <option value="transfer">Transfer Bank</option>
+                                                        <option value="qris">QRIS</option>
+                                                        <option value="debit">Kartu Debit</option>
+                                                        <option value="kredit">Kartu Kredit</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                            </div>
+                                        </form>
+
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-success">Konfirmasi</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
         <footer>
             Copyright &copy; Ivory Palace <?php echo date('Y'); ?>
         </footer>
     </div>
 </body>
+
 </html>

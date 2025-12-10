@@ -14,6 +14,7 @@ if (isset($_GET['logout'])) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,41 +24,42 @@ if (isset($_GET['logout'])) {
 
 <body>
     <sidebar>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>Admin</h3>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Admin</h3>
+            </div>
+            <div class="sidebar-nav">
+                <p>NAVIGASI</p>
+                <ul class="sidebar-menu">
+                    <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
+                    <li><a href="../../controller/admin/adminTamu.php">TAMU</a></li>
+                    <li><a href="../../controller/admin/adminKasir.php" class="active">KASIR</a></li>
+                    <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
+                    <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
+                    <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <p>Logged in as:</p>
+                <span><?php echo $_SESSION['username']; ?></span>
+            </div>
         </div>
-        <div class="sidebar-nav">
-            <p>NAVIGASI</p>
-            <ul class="sidebar-menu">
-                <li><a href="../../controller/admin/adminPage.php">DASHBOARD</a></li>
-                <li><a href="../../controller/admin/adminTamu.php">TAMU</a></li>
-                <li><a href="../../controller/admin/adminKasir.php" class="active">KASIR</a></li>
-                <li><a href="../../controller/admin/adminKamar.php">KAMAR</a></li>
-                <li><a href="../../controller/admin/adminLaporan.php">LAPORAN</a></li>
-                <li><a href="../../controller/admin/adminSetting.php">SETTING</a></li>
-                <li><a href="../../controller/admin/adminPage.php?logout=true">Logout</a></li>
-            </ul>
-        </div>
-        <div class="sidebar-footer">
-            <p>Logged in as:</p>
-            <span><?php echo $_SESSION['username']; ?></span>
-        </div>
-    </div>
     </sidebar>
     <div class="main-content">
         <h1>Edit Data Kasir</h1>
-        
+
         <div class="card" style="max-width: 600px;">
             <form method="POST" action="">
                 <div class="form-group">
                     <label>ID Kasir</label>
-                    <input type="text" name="id_kasir" value="<?= $dataKasir['id_kasir']; ?>" class="form-control" readonly style="background-color: #e2e8f0;">
+                    <input type="text" name="id_kasir" value="<?= $dataKasir['id_kasir']; ?>" class="form-control"
+                        readonly style="background-color: #e2e8f0;">
                 </div>
 
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" value="<?= $dataKasir['username']; ?>" class="form-control" required>
+                    <input type="text" name="username" value="<?= $dataKasir['username']; ?>" class="form-control"
+                        required>
                 </div>
 
                 <div class="form-group">
@@ -80,11 +82,12 @@ if (isset($_GET['logout'])) {
                 <br>
 
                 <button type="submit" name="update_kasir" class="btn btn-primary">Simpan Perubahan</button>
-                
+
                 <a href="adminKasir.php" class="btn btn-secondary">Batal</a>
-                
+
             </form>
         </div>
     </div>
 </body>
+
 </html>

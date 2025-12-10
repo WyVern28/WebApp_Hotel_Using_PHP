@@ -44,8 +44,8 @@ h1 {
 .wrap{
     display: flex;
     flex-direction: column;
-    align-items: center;   /* h1 dan container ke tengah */
-    gap: 20px;             /* jarak antara h1 dan container */
+    align-items: center;   
+    gap: 20px;            
     width: 100%;
     padding-top: 50px;
     padding-bottom: 70px;
