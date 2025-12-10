@@ -2,6 +2,76 @@
 require_once 'Database.php';
 
 class Kasir extends Database {
+    
+    public function getKasirByUsername($username) {
+        try {
+            $query = $this->db->prepare("SELECT * FROM kasir WHERE username = :username");
+            $query->bindParam(':username', $username);
+            $query->execute();
+            return $query->fetch();
+        } catch (PDOException $e) {
+            error_log("Get kasir by username error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function addKasir($username, $nama, $password) {
+        try {
+            $this->db->beginTransaction();
+            
+            // Cek apakah username sudah ada
+            $cekUser = $this->db->prepare("SELECT username FROM user WHERE username = :username");
+            $cekUser->bindParam(':username', $username);
+            $cekUser->execute();
+            
+            if ($cekUser->fetch()) {
+                $this->db->rollBack();
+                return false; // Username sudah ada
+            }
+            
+            // Hash password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            // Insert ke tabel user
+            $insertUser = $this->db->prepare(
+                "INSERT INTO user (username, password, role, dibuat_pada) 
+                 VALUES (:username, :password, 'kasir', NOW())"
+            );
+            $insertUser->bindParam(':username', $username);
+            $insertUser->bindParam(':password', $hashed_password);
+            $insertUser->execute();
+            
+            // Insert ke tabel kasir
+            $insertKasir = $this->db->prepare(
+                "INSERT INTO kasir (username, nama, status) 
+                 VALUES (:username, :nama, 1)"
+            );
+            $insertKasir->bindParam(':username', $username);
+            $insertKasir->bindParam(':nama', $nama);
+            $insertKasir->execute();
+            
+            $this->db->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Add kasir error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function rubahStatus($id_kasir, $status_baru) {
+        try {
+            $query = $this->db->prepare("UPDATE kasir SET status = :status WHERE id_kasir = :id");
+            $query->bindParam(':status', $status_baru);
+            $query->bindParam(':id', $id_kasir);
+            return $query->execute();
+        } catch (PDOException $e) {
+            error_log("Rubah status error: " . $e->getMessage());
+            return false;
+        }
+    }
+    
     public function toggleStatus($id_kasir) {
         try {
             $query = "UPDATE kasir 
@@ -16,6 +86,7 @@ class Kasir extends Database {
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
+    
     public function setStatus($id_kasir, $status) {
         try {
             $query = "UPDATE kasir 
@@ -30,6 +101,7 @@ class Kasir extends Database {
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
+    
     public function getAllKasir($search = null) {
         $sql = "SELECT * FROM kasir";
         if ($search) {
@@ -80,26 +152,31 @@ class Kasir extends Database {
                     return -1;
                 }
 
-                $updateUser = $this->db->prepare("UPDATE user SET username = :new WHERE username = :old");
-                $updateUser->bindParam(':new', $new_username);
-                $updateUser->bindParam(':old', $old_username);
-                $updateUser->execute();
+                $upUser = $this->db->prepare("UPDATE user SET username = :new WHERE username = :old AND role='kasir'");
+                $upUser->bindParam(':new', $new_username);
+                $upUser->bindParam(':old', $old_username);
+                $upUser->execute();
+
                 $target_username = $new_username;
             }
 
-            $qUpdateKasir = $this->db->prepare("UPDATE kasir SET nama = :nama, status = :status WHERE id_kasir = :id");
-            $qUpdateKasir->bindParam(':nama', $nama);
-            $qUpdateKasir->bindParam(':status', $status);
-            $qUpdateKasir->bindParam(':id', $id_kasir);
-            $qUpdateKasir->execute();
+            if ($reset_password) {
+                $hashed_password = password_hash($reset_password, PASSWORD_DEFAULT);
+                $upPass = $this->db->prepare("UPDATE user SET password = :pass WHERE username = :usr");
+                $upPass->bindParam(':pass', $hashed_password);
+                $upPass->bindParam(':usr', $target_username);
+                $upPass->execute();
+            }
 
-            //buat reset pake username yh wil
-            if ($reset_password) { 
-                $password_default = password_hash($new_username, PASSWORD_DEFAULT); 
-                $qReset = $this->db->prepare("UPDATE user SET password = :p WHERE username = :u");
-                $qReset->bindParam(':u', $target_username);
-                $qReset->bindParam(':p', $password_default);
-                $qReset->execute();
+            $qKasir = $this->db->prepare("UPDATE kasir SET username=:username, nama=:nama, status=:st WHERE id_kasir=:id");
+            $qKasir->bindParam(':username', $target_username);
+            $qKasir->bindParam(':nama', $nama);
+            $qKasir->bindParam(':st', $status);
+            $qKasir->bindParam(':id', $id_kasir);
+
+            if (!$qKasir->execute()) {
+                $this->db->rollBack();
+                return 0;
             }
 
             $this->db->commit();
@@ -107,47 +184,43 @@ class Kasir extends Database {
 
         } catch (PDOException $e) {
             $this->db->rollBack();
-            error_log("Update Kasir Error: " . $e->getMessage());
-            return -3;
+            error_log("Update kasir error: " . $e->getMessage());
+            return 0;
         }
     }
 
-    public function addKasir($username, $name, $password){
+    public function deleteKasir($id_kasir) {
         try {
-            $cekKasir = $this->db->prepare("SELECT username FROM kasir WHERE username = :u");
-            $cekKasir->bindParam(':u', $username);
-            $cekKasir->execute();
-            if ($cekKasir->rowCount() > 0) {
-                return false;
-            }
-
             $this->db->beginTransaction();
 
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            $qUser = $this->db->prepare("INSERT INTO user (username, password, role) VALUES (:u, :p, 'kasir')");
-            $qUser->bindParam(':u', $username);
-            $qUser->bindParam(':p', $password);
-            $qUser->execute();
+            $getUsername = $this->db->prepare("SELECT username FROM kasir WHERE id_kasir = :id");
+            $getUsername->bindParam(':id', $id_kasir);
+            $getUsername->execute();
+            $result = $getUsername->fetch();
 
-            $qKasir = $this->db->prepare("INSERT INTO kasir (username, nama, status) VALUES (:u, :n, 1)");
-            $qKasir->bindParam(':u', $username);
-            $qKasir->bindParam(':n', $name);
-            $qKasir->execute();
+            if (!$result) {
+                $this->db->rollBack();
+                return 0;
+            }
+
+            $username = $result['username'];
+
+            $delKasir = $this->db->prepare("DELETE FROM kasir WHERE id_kasir = :id");
+            $delKasir->bindParam(':id', $id_kasir);
+            $delKasir->execute();
+
+            $delUser = $this->db->prepare("DELETE FROM user WHERE username = :usr AND role='kasir'");
+            $delUser->bindParam(':usr', $username);
+            $delUser->execute();
 
             $this->db->commit();
-            return true;
+            return 1;
 
         } catch (PDOException $e) {
             $this->db->rollBack();
-            return false;
+            error_log("Delete kasir error: " . $e->getMessage());
+            return 0;
         }
-    }
-
-    public function rubahStatus($id_kasir, $status) {
-        $query = $this->db->prepare("UPDATE kasir SET status = :status WHERE id_kasir = :id_kasir");
-        $query->bindParam(':status', $status);
-        $query->bindParam(':id_kasir', $id_kasir);
-        return $query->execute();
     }
 }
 ?>

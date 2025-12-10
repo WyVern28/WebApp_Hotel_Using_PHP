@@ -71,8 +71,6 @@ class Booking extends Database {
     public function createBooking($tamuData, $bookingData, $pembayaranData) {
         try {
             $this->db->beginTransaction();
-
-            // Insert Tamu dengan no_ktp (untuk walk-in guest)
             $queryTamu = $this->db->prepare(
                 "INSERT INTO tamu (username, nama_lengkap, no_ktp, no_hp, status)
                  VALUES (NULL, :nama_lengkap, :no_ktp, :no_hp, 1)"
@@ -87,11 +85,9 @@ class Booking extends Database {
 
             $idTamu = $this->db->lastInsertId();
 
-            // Generate kode booking
             $kodeBooking = 'BKG' . date('YmdHis');
             $status = 'dibayar';
 
-            // Dapatkan id_tipe_kamar dari kamar yang dipilih
             $queryGetTipe = $this->db->prepare("SELECT id_tipe_kamar FROM kamar WHERE id = :id_kamar");
             $queryGetTipe->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
             $queryGetTipe->execute();
@@ -103,7 +99,6 @@ class Booking extends Database {
             
             $id_tipe_kamar = $kamarInfo['id_tipe_kamar'];
 
-            // Insert Booking (DENGAN id_tipe_kamar)
             $queryBooking = $this->db->prepare(
                 "INSERT INTO booking (kode_booking, id_tamu, id_tipe_kamar, id_kamar, tgl_check_in, tgl_check_out, total_harga, status)
                  VALUES (:kode_booking, :id_tamu, :id_tipe_kamar, :id_kamar, :tgl_check_in, :tgl_check_out, :total_harga, :status)"
@@ -123,7 +118,6 @@ class Booking extends Database {
 
             $idBooking = $this->db->lastInsertId();
 
-            // Insert Pembayaran
             $statusPembayaran = 'berhasil';
 
             $queryPembayaran = $this->db->prepare(
@@ -139,7 +133,6 @@ class Booking extends Database {
                 throw new Exception("Gagal insert pembayaran: " . print_r($queryPembayaran->errorInfo(), true));
             }
 
-            // Update status kamar
             $queryKamar = $this->db->prepare("UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar");
             $queryKamar->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
             
@@ -153,7 +146,6 @@ class Booking extends Database {
 
         } catch (Exception $e) {
             $this->db->rollBack();
-            // Simpan error message di session untuk ditampilkan
             $_SESSION['booking_error_detail'] = $e->getMessage();
             return false;
         }
@@ -189,7 +181,6 @@ class Booking extends Database {
             
             $idBooking = $this->db->lastInsertId();
             
-            // Update status kamar jika dipilih
             if ($bookingData['id_kamar']) {
                 $queryUpdateKamar = $this->db->prepare(
                     "UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar"
@@ -197,7 +188,6 @@ class Booking extends Database {
                 $queryUpdateKamar->execute([':id_kamar' => $bookingData['id_kamar']]);
             }
             
-            // Insert pembayaran dengan status pending
             $queryPembayaran = $this->db->prepare(
                 "INSERT INTO pembayaran (id_booking, metode_bayar, jumlah_bayar, status_pembayaran)
                  VALUES (:id_booking, '', :jumlah_bayar, 'pending')"
@@ -295,7 +285,7 @@ class Booking extends Database {
             $this->db->beginTransaction();
 
             $oldBooking = $this->getBookingById($id);
-            if (!$oldBooking) {
+            if (!$oldBooking || $oldBooking === null) {
                 throw new Exception("Booking tidak ditemukan");
             }
 
@@ -319,17 +309,21 @@ class Booking extends Database {
             }
 
             if ($oldBooking['id_kamar'] != $bookingData['id_kamar']) {
-                $queryOldKamar = $this->db->prepare(
-                    "UPDATE kamar SET `status_kamar` = 'tersedia' WHERE id = :id_kamar"
-                );
-                $queryOldKamar->bindParam(":id_kamar", $oldBooking['id_kamar'], PDO::PARAM_INT);
-                $queryOldKamar->execute();
+                if ($oldBooking['id_kamar']) {
+                    $queryOldKamar = $this->db->prepare(
+                        "UPDATE kamar SET `status_kamar` = 'tersedia' WHERE id = :id_kamar"
+                    );
+                    $queryOldKamar->bindParam(":id_kamar", $oldBooking['id_kamar'], PDO::PARAM_INT);
+                    $queryOldKamar->execute();
+                }
 
-                $queryNewKamar = $this->db->prepare(
-                    "UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar"
-                );
-                $queryNewKamar->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
-                $queryNewKamar->execute();
+                if ($bookingData['id_kamar']) {
+                    $queryNewKamar = $this->db->prepare(
+                        "UPDATE kamar SET `status_kamar` = 'terisi' WHERE id = :id_kamar"
+                    );
+                    $queryNewKamar->bindParam(":id_kamar", $bookingData['id_kamar'], PDO::PARAM_INT);
+                    $queryNewKamar->execute();
+                }
             }
 
             if ($oldBooking['total_harga'] != $bookingData['total_harga']) {
@@ -349,6 +343,99 @@ class Booking extends Database {
         } catch (Exception $e) {
             $this->db->rollBack();
             error_log("Update booking error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getBookingsByStatus($status) {
+        try {
+            $query = $this->db->prepare(
+                "SELECT b.*, t.nama_lengkap, t.no_hp, k.nomor_kamar, tk.nama_tipe, 
+                        p.status_pembayaran, p.metode_bayar, p.jumlah_bayar
+                 FROM booking b
+                 JOIN tamu t ON b.id_tamu = t.id
+                 LEFT JOIN kamar k ON b.id_kamar = k.id
+                 JOIN tipe_kamar tk ON b.id_tipe_kamar = tk.id
+                 LEFT JOIN pembayaran p ON b.id = p.id_booking
+                 WHERE b.status = :status
+                 ORDER BY b.dibuat_pada DESC"
+            );
+            $query->bindParam(":status", $status);
+            $query->execute();
+            return $query->fetchAll();
+        } catch (PDOException $e) {
+            error_log("Get bookings by status error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function konfirmasiBayar($id_booking, $metode_bayar) {
+        try {
+            $this->db->beginTransaction();
+            
+            $queryBooking = $this->db->prepare(
+                "UPDATE booking SET `status` = 'dibayar' WHERE id = :id_booking"
+            );
+            $queryBooking->execute([':id_booking' => $id_booking]);
+            
+            $queryPembayaran = $this->db->prepare(
+                "UPDATE pembayaran 
+                 SET status_pembayaran = 'berhasil', 
+                     metode_bayar = :metode_bayar,
+                     tgl_bayar = NOW()
+                 WHERE id_booking = :id_booking"
+            );
+            $queryPembayaran->execute([
+                ':id_booking' => $id_booking,
+                ':metode_bayar' => $metode_bayar
+            ]);
+            
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Konfirmasi bayar error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function checkIn($id_booking) {
+        try {
+            $query = $this->db->prepare(
+                "UPDATE booking SET `status` = 'check_in' WHERE id = :id_booking AND `status` = 'dibayar'"
+            );
+            $query->execute([':id_booking' => $id_booking]);
+            return $query->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Check-in error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function checkOut($id_booking) {
+        try {
+            $this->db->beginTransaction();
+            $queryBooking = $this->db->prepare(
+                "UPDATE booking SET `status` = 'selesai' WHERE id = :id_booking AND `status` = 'check_in'"
+            );
+            $queryBooking->execute([':id_booking' => $id_booking]);
+            $queryGetKamar = $this->db->prepare(
+                "SELECT id_kamar FROM booking WHERE id = :id_booking"
+            );
+            $queryGetKamar->execute([':id_booking' => $id_booking]);
+            $result = $queryGetKamar->fetch();
+            if ($result && $result['id_kamar']) {
+                $queryKamar = $this->db->prepare(
+                    "UPDATE kamar SET status_kamar = 'tersedia' WHERE id = :id_kamar"
+                );
+                $queryKamar->execute([':id_kamar' => $result['id_kamar']]);
+            }
+            
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Check-out error: " . $e->getMessage());
             return false;
         }
     }

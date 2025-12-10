@@ -24,14 +24,12 @@ $ratings = $data['ratings'];
 $avgRating = $data['avgRating'];
 $totalReviews = $data['totalReviews'];
 
-// Mapping foto fallback
 $imageMapping = [
     'std.jpg' => 'hemat.jpg',
     'dlx.jpg' => 'luas.jpg',
     'suite.jpg' => 'fam.jpg'
 ];
 
-// Get image dengan fallback
 $foto = $tipeKamar['foto'] ?? 'col.jpg';
 if (isset($imageMapping[$foto])) {
     $foto = $imageMapping[$foto];
@@ -223,10 +221,19 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
 
                     <div class="input-group-detail">
                         <label>Kode Diskon (Opsional)</label>
-                        <input type="text" name="kode_diskon" class="form-control-detail" 
-                               placeholder="Masukkan kode promo" 
-                               id="kodeDiskon">
-                        <small class="text-muted">Jika memiliki kode diskon, masukkan di sini</small>
+                        <div class="input-group">
+                            <input type="text" name="kode_diskon" class="form-control-detail" 
+                                   placeholder="Masukkan kode promo" 
+                                   id="kodeDiskon"
+                                   style="text-transform: uppercase;">
+                            <button type="button" class="btn btn-sm btn-outline-primary" 
+                                    onclick="checkDiskon()" 
+                                    style="margin-left: 5px; padding: 8px 15px;">
+                                Cek Kode
+                            </button>
+                        </div>
+                        <small class="text-muted">Contoh: PRM10, MEMBER50</small>
+                        <div id="diskonFeedback" class="mt-2"></div>
                     </div>
 
                     <div class="total-price mb-3">
@@ -253,7 +260,6 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
         crossorigin="anonymous"></script>
 
     <script>
-        // Auto-calculate total price
         const hargaPerMalam = <?php echo $tipeKamar['harga_per_malam']; ?>;
         const hargaSarapan = <?php echo $tipeKamar['harga_sarapan']; ?>;
         const checkinInput = document.getElementById('checkinDate');
@@ -282,7 +288,6 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
         }
 
         checkinInput.addEventListener('change', function() {
-            // Update minimum checkout date
             const nextDay = new Date(this.value);
             nextDay.setDate(nextDay.getDate() + 1);
             checkoutInput.min = nextDay.toISOString().split('T')[0];
@@ -292,7 +297,6 @@ $imagePath = "../../asset/image/" . htmlspecialchars($foto);
         checkoutInput.addEventListener('change', calculateTotal);
         sarapanCheckbox.addEventListener('change', calculateTotal);
 
-        // Form validation
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             const checkin = new Date(checkinInput.value);
             const checkout = new Date(checkoutInput.value);

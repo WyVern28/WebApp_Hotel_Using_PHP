@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dengan_sarapan = isset($_POST['sarapan']) ? 1 : 0;
         $id_kamar = isset($_POST['id_kamar']) ? (int)$_POST['id_kamar'] : null;
         $preferensi = trim($_POST['preferensi'] ?? '');
-        $kode_diskon = trim($_POST['kode_diskon'] ?? '');
+        $kode_diskon = strtoupper(trim($_POST['kode_diskon'] ?? ''));
         
         // Validasi tanggal
         $date1 = new DateTime($tgl_check_in);
@@ -91,43 +91,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Cek diskon jika ada
             $id_diskon = null;
+            $diskon_info = '';
             if (!empty($kode_diskon)) {
                 $diskon = $diskonClass->getDiskonByCode($kode_diskon);
                 if ($diskon && $diskon['status_aktif'] == 1) {
                     $id_diskon = $diskon['id'];
                     $potongan = ($total_harga * $diskon['persentase']) / 100;
                     $total_harga -= $potongan;
+                    $diskon_info = " (Diskon {$diskon['persentase']}% - Hemat Rp " . number_format($potongan, 0, ',', '.') . ")";
+                } else {
+                    $message = "Kode diskon tidak valid atau sudah tidak aktif!";
+                    $message_type = "error";
                 }
             }
             
-            // Ambil profile tamu
-            $profileTamu = $tamuClass->getProfileByUsername($_SESSION['username']);
-            
-            if (!$profileTamu) {
-                $message = "Profile tamu tidak ditemukan!";
-                $message_type = "error";
-            } else {
-                $bookingData = [
-                    'id_tamu' => $profileTamu['id'],
-                    'id_tipe_kamar' => $id_tipe,
-                    'id_kamar' => $id_kamar,
-                    'tgl_check_in' => $tgl_check_in,
-                    'tgl_check_out' => $tgl_check_out,
-                    'dengan_sarapan' => $dengan_sarapan,
-                    'preferensi' => $preferensi,
-                    'id_diskon' => $id_diskon,
-                    'total_harga' => $total_harga
-                ];
+            // Jika tidak ada error diskon, lanjutkan booking
+            if (empty($message)) {
+                // Ambil profile tamu
+                $profileTamu = $tamuClass->getProfileByUsername($_SESSION['username']);
                 
-                $result = $bookingClass->createBookingForRegisteredUser($bookingData);
-                
-                if ($result) {
-                    $_SESSION['success_booking'] = "Booking berhasil dibuat! Kode Booking: " . $result;
-                    header('Location: ProfileController.php');
-                    exit();
-                } else {
-                    $message = "Gagal membuat booking!";
+                if (!$profileTamu) {
+                    $message = "Profile tamu tidak ditemukan! Silakan lengkapi profile Anda terlebih dahulu.";
                     $message_type = "error";
+                } else {
+                    $bookingData = [
+                        'id_tamu' => $profileTamu['id'],
+                        'id_tipe_kamar' => $id_tipe,
+                        'id_kamar' => $id_kamar,
+                        'tgl_check_in' => $tgl_check_in,
+                        'tgl_check_out' => $tgl_check_out,
+                        'dengan_sarapan' => $dengan_sarapan,
+                        'preferensi' => $preferensi,
+                        'id_diskon' => $id_diskon,
+                        'total_harga' => $total_harga
+                    ];
+                    
+                    $result = $bookingClass->createBookingForRegisteredUser($bookingData);
+                    
+                    if ($result) {
+                        $success_msg = "Booking berhasil dibuat! Kode Booking: <strong>{$result}</strong>{$diskon_info}<br>";
+                        $success_msg .= "Total Pembayaran: <strong>Rp " . number_format($total_harga, 0, ',', '.') . "</strong><br>";
+                        $success_msg .= "Silakan lakukan pembayaran untuk mengkonfirmasi booking Anda.";
+                        $_SESSION['success_booking'] = $success_msg;
+                        header('Location: ProfileController.php');
+                        exit();
+                    } else {
+                        $message = "Gagal membuat booking! Silakan coba lagi.";
+                        $message_type = "error";
+                    }
                 }
             }
         }

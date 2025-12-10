@@ -53,11 +53,11 @@ if (!isset($data)) {
             <table class="info-box-child">
                 <tr>
                     <th>ID KASIR</th>
-                    <td><?php echo $data['id_kasir']; ?></td>
+                    <td><?php echo $data['id_kasir'] ?? 'N/A'; ?></td>
                 </tr>
                 <tr>
                     <th>NAMA KASIR</th>
-                    <td><?php echo $data['nama_kasir']; ?></td>
+                    <td><?php echo $data['nama_kasir'] ?? $_SESSION['username']; ?></td>
                 </tr>
                 <tr>
                     <th>STATUS</th>
@@ -111,6 +111,89 @@ if (!isset($data)) {
                     <tr>
                         <td colspan="7" style="text-align: center;">Belum ada online order</td>
                     </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <div class="section-title">PENDING BOOKINGS</div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Kode Booking</th>
+                    <th>Kamar</th>
+                    <th>Tipe</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Total Bayar</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($data['pendingBookings'])): ?>
+                    <tr>
+                        <td colspan="8" class="text-center">Tidak ada booking online yang perlu dikonfirmasi</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($data['pendingBookings'] as $booking): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($booking['kode_booking']); ?></td>
+                        <td><?php echo htmlspecialchars($booking['nomor_kamar'] ?? '-'); ?></td>
+                        <td><?php echo htmlspecialchars($booking['nama_tipe']); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($booking['tgl_check_in'])); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($booking['tgl_check_out'])); ?></td>
+                        <td>Rp <?php echo number_format($booking['total_harga'], 0, ',', '.'); ?></td>
+                        <td>
+                            <span class="badge bg-warning">PENDING</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalBayar<?php echo $booking['id']; ?>">
+                                Konfirmasi Bayar
+                            </button>
+                        </td>
+                    </tr>
+                    
+                    <!-- Modal Konfirmasi Bayar -->
+                    <div class="modal fade" id="modalBayar<?php echo $booking['id']; ?>" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Konfirmasi Pembayaran</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST">
+                                    <div class="modal-body">
+                                        <input type="hidden" name="action" value="konfirmasi_bayar">
+                                        <input type="hidden" name="id_booking" value="<?php echo $booking['id']; ?>">
+                                        
+                                        <p><strong>Kode Booking:</strong> <?php echo $booking['kode_booking']; ?></p>
+                                        <p><strong>Nama Tamu:</strong> <?php echo $booking['nama_lengkap']; ?></p>
+                                        <p><strong>Total:</strong> Rp <?php echo number_format($booking['total_harga'], 0, ',', '.'); ?></p>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Metode Pembayaran</label>
+                                            <select name="metode_bayar" class="form-select" required>
+                                                <option value="">-- Pilih Metode --</option>
+                                                <option value="tunai">Tunai</option>
+                                                <option value="transfer">Transfer Bank</option>
+                                                <option value="qris">QRIS</option>
+                                                <option value="debit">Kartu Debit</option>
+                                                <option value="kredit">Kartu Kredit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-success">Konfirmasi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
         </table>
