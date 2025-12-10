@@ -8,35 +8,51 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSI
 }
 
 require_once '../../class/Booking.php';
-require_once '../../class/Pembayaran.php';
 
 $bookingClass = new Booking();
 $message = '';
 $message_type = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $action = $_POST['action'];
-    $id_booking = (int)$_POST['id_booking'];
+// Ambil ID booking dari URL
+$id_booking = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if (!$id_booking) {
+    header('Location: ../../controller/kasir/OnlineOrderController.php');
+    exit();
+}
+
+// Ambil data booking
+$bookingData = $bookingClass->getBookingById($id_booking);
+
+if (!$bookingData) {
+    die('Data booking tidak ditemukan!');
+}
+
+// Proses UPDATE booking
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_booking'])) {
+    $updateData = [
+        'id_kamar' => (int)$_POST['id_kamar'],
+        'tgl_check_in' => $_POST['tgl_check_in'],
+        'tgl_check_out' => $_POST['tgl_check_out'],
+        'total_harga' => (float)$_POST['total_harga']
+    ];
     
-    if ($action === 'konfirmasi_bayar') {
-        $metode_bayar = $_POST['metode_bayar'];
-        $result = $bookingClass->konfirmasiBayar($id_booking, $metode_bayar);
-        
-        if ($result) {
-            $message = "Pembayaran berhasil dikonfirmasi!";
-            $message_type = "success";
-        } else {
-            $message = "Gagal konfirmasi pembayaran!";
-            $message_type = "error";
-        }
+    if ($bookingClass->updateBooking($id_booking, $updateData)) {
+        header('Location: ../../controller/kasir/OnlineOrderController.php?msg=updated');
+        exit();
+    } else {
+        $message = "Gagal mengupdate booking!";
+        $message_type = "error";
     }
 }
 
-$pendingBookings = $bookingClass->getBookingsByStatus('pending');
+// Ambil kamar tersedia
+$availableRooms = $bookingClass->getAvailableRooms();
 
 $data = [
     'username' => $_SESSION['username'],
-    'pendingBookings' => $pendingBookings,
+    'bookingData' => $bookingData,
+    'availableRooms' => $availableRooms,
     'message' => $message,
     'message_type' => $message_type
 ];

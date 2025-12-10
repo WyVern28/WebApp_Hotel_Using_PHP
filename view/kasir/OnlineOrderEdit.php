@@ -192,7 +192,6 @@ if (!isset($data)) {
                         </td>
                     </tr>
                 </table>
-\\
                 <br>
 
                 <button type="submit" name="update_booking" class="btn btn-primary">Simpan Perubahan</button>
